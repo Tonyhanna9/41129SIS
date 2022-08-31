@@ -17,13 +17,13 @@ import Loading from "../screens/utils/Loading";
 
 // Better put your these secret keys in .env file
 const firebaseConfig = {
-  apiKey: "",
-  authDomain: "",
-  databaseURL: "",
-  projectId: "",
-  storageBucket: "",
-  messagingSenderId: "",
-  appId: "",
+  apiKey: "AIzaSyB9j6gnZXdqnqZ-yfNyQQT77G4HtjKa2TA",
+  authDomain: "firearm-6356c.firebaseapp.com",
+  projectId: "firearm-6356c",
+  storageBucket: "firearm-6356c.appspot.com",
+  messagingSenderId: "838288196431",
+  appId: "1:838288196431:web:0084cadefa7a7b076e7b3a",
+  measurementId: "G-NGKWLCEYL9"
 };
 if (getApps().length === 0) {
   initializeApp(firebaseConfig);
