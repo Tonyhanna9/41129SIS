@@ -72,7 +72,7 @@ export default function ({ navigation }) {
           >
             <Text
               fontWeight="bold"
-              size="h3"
+              size="h2"
               style={{
                 alignSelf: "center",
                 padding: 30,
@@ -80,7 +80,31 @@ export default function ({ navigation }) {
             >
               Register
             </Text>
-            <Text>Email</Text>
+            <Text>Full name</Text>
+            <TextInput
+              containerStyle={{ marginTop: 15 }}
+              placeholder="Enter your full name"
+              //value={email}
+              autoCapitalize="none"
+              autoCompleteType="off"
+              autoCorrect={false}
+              keyboardType="email-address"
+              //onChangeText={(text) => setEmail(text)}
+            />
+
+            <Text style={{ marginTop: 15 }}>Phone</Text>
+            <TextInput
+              containerStyle={{ marginTop: 15 }}
+              placeholder="Enter your phone number"
+              //value={password}
+              autoCapitalize="none"
+              autoCompleteType="off"
+              autoCorrect={false}
+              //keyboardType="phone"
+              //onChangeText={(text) => setPassword(text)}
+            />
+
+            <Text style={{ marginTop: 15 }}>Email</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
               placeholder="Enter your email"
@@ -88,6 +112,7 @@ export default function ({ navigation }) {
               autoCapitalize="none"
               autoCompleteType="off"
               autoCorrect={false}
+              //secureTextEntry={true}
               keyboardType="email-address"
               onChangeText={(text) => setEmail(text)}
             />
@@ -103,8 +128,43 @@ export default function ({ navigation }) {
               secureTextEntry={true}
               onChangeText={(text) => setPassword(text)}
             />
+
+            <Text
+              fontWeight="bold"
+              size="h3"
+              style={{
+                //alignSelf: "center",
+                paddingTop: 30,
+              }}
+            >
+              Emergency contact
+            </Text>
+
+            <Text style={{ marginTop: 15 }}>Name</Text>
+            <TextInput
+              containerStyle={{ marginTop: 15 }}
+              placeholder="Enter an emergency contact name"
+              //value={password}
+              autoCapitalize="none"
+              autoCompleteType="off"
+              autoCorrect={false}
+              // onChangeText={(text) => setPassword(text)}
+            />
+
+            <Text style={{ marginTop: 15 }}>Phone</Text>
+            <TextInput
+              containerStyle={{ marginTop: 15 }}
+              placeholder="Enter an emergency contact number"
+              //value={password}
+              autoCapitalize="none"
+              autoCompleteType="off"
+              autoCorrect={false}
+              //onChangeText={(text) => setPassword(text)}
+            />
+
             <Button
               text={loading ? "Loading" : "Create an account"}
+              status="danger"
               onPress={() => {
                 register();
               }}
@@ -133,6 +193,7 @@ export default function ({ navigation }) {
                   fontWeight="bold"
                   style={{
                     marginLeft: 5,
+                    color: "#ff4500",
                   }}
                 >
                   Login here
