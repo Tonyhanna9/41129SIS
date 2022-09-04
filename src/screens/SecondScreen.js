@@ -47,6 +47,7 @@ export default function ({ navigation }) {
       >
         {/* This text using ubuntu font */}
         <Text fontWeight="bold">This is the second screen</Text>
+        <Text fontWeight="bold">user</Text>
       </View>
     </Layout>
   );
