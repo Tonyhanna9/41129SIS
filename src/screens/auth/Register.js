@@ -54,7 +54,7 @@ export default function ({ navigation }) {
             }}
           >
             <Image
-              resizeMode="contain"
+              resizeMode="cover"
               style={{
                 height: 220,
                 width: 220,
