@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import firebase from 'react-native-firebase';
 import {
   ScrollView,
   TouchableOpacity,
