@@ -15,6 +15,7 @@ import {
   useTheme,
   themeColor,
 } from "react-native-rapi-ui";
+import firebase from 'react-native-firebase';
 
 export default function ({ navigation }) {
   const { isDarkmode, setTheme } = useTheme();
@@ -23,11 +24,27 @@ export default function ({ navigation }) {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
+  this.state = {
+    emergencyphonenumber: '',
+  };
+
+  handleSetEmergencyLocalState = (emergencyphonenumber) => {
+    this.setState({
+      emergencyphonenumber,
+    });
+  }
+
   async function register() {
     setLoading(true);
-    await createUserWithEmailAndPassword(auth, email, password).then(cred => {
-      return db.collection('users').doc(cred.user.uid).set({
-        //Need to figure out how to call data from emergency phone number text field
+    const {
+      emergencyphonenumber,
+    } = this.state;
+    await createUserWithEmailAndPassword(auth, email, password).then(user => {
+      const fbRootRefFS = firebase.firestore();
+      const userID = user.uid;
+      const userRef = fbRootRefFS.collection('users').doc(userID);
+      userRef.set({
+        emergencyphonenumber,
       })
     })
     .catch(function (
@@ -114,11 +131,11 @@ export default function ({ navigation }) {
 
               containerStyle={{ marginTop: 15 }}
               placeholder="Enter your Emergency Phone Number"
-              //value={number}
               autoCapitalize="none"
               autoCompleteType="off"
               autoCorrect={false}
               secureTextEntry={true}
+              onChangeText={this.handleSetEmergencyLocalState}
               
             />
             <Button

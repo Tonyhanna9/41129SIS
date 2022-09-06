@@ -1,5 +1,6 @@
 import React from "react";
 import { View } from "react-native";
+
 import {
   Layout,
   TopNav,
@@ -44,7 +45,7 @@ export default function ({ navigation }) {
           alignItems: "center",
           justifyContent: "center",
         }}
-      >
+      > 
         {/* This text using ubuntu font */}
         <Text fontWeight="bold">This is the second screen</Text>
         <Text fontWeight="bold">user</Text>
