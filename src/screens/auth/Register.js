@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import firebase from 'react-native-firebase';
 import {
   ScrollView,
   TouchableOpacity,
@@ -23,9 +24,10 @@ export default function ({ navigation }) {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  this.state = {
-    emergencyphonenumber: '',
-  };
+    this.state = {
+      emergencyphonenumber: '',
+    };
+  
 
   handleSetEmergencyLocalState = (emergencyphonenumber) => {
     this.setState({
