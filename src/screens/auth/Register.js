@@ -25,7 +25,12 @@ export default function ({ navigation }) {
 
   async function register() {
     setLoading(true);
-    await createUserWithEmailAndPassword(auth, email, password).catch(function (
+    await createUserWithEmailAndPassword(auth, email, password).then(cred => {
+      return db.collection('users').doc(cred.user.uid).set({
+        //Need to figure out how to call data from emergency phone number text field
+      })
+    })
+    .catch(function (
       error
     ) {
       // Handle Errors here.
@@ -102,6 +107,19 @@ export default function ({ navigation }) {
               autoCorrect={false}
               secureTextEntry={true}
               onChangeText={(text) => setPassword(text)}
+            />
+
+            <Text style={{ marginTop: 15 }}>Emergency Phone Number</Text>
+            <TextInput
+
+              containerStyle={{ marginTop: 15 }}
+              placeholder="Enter your Emergency Phone Number"
+              //value={number}
+              autoCapitalize="none"
+              autoCompleteType="off"
+              autoCorrect={false}
+              secureTextEntry={true}
+              
             />
             <Button
               text={loading ? "Loading" : "Create an account"}
