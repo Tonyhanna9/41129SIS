@@ -15,7 +15,6 @@ import {
   useTheme,
   themeColor,
 } from "react-native-rapi-ui";
-import firebase from 'react-native-firebase';
 
 export default function ({ navigation }) {
   const { isDarkmode, setTheme } = useTheme();
