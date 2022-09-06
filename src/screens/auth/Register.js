@@ -23,15 +23,17 @@ export default function ({ navigation }) {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-    this.state = {
+    /*this.state = {
       emergencyphonenumber: '',
-    };
+    };*/
+    const [emergencyphonenumber, setemergencyphonenumber] = useState("");
   
 
   handleSetEmergencyLocalState = (emergencyphonenumber) => {
-    this.setState({
+    /*this.setState({
       emergencyphonenumber,
-    });
+    });*/
+    setemergencyphonenumber(emergencyphonenumber);
   }
 
   async function register() {
