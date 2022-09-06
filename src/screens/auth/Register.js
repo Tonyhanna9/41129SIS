@@ -56,6 +56,7 @@ export default function ({ navigation }) {
       // ...
       setLoading(false);
       alert(errorMessage);
+      throw error;
     });
   }
 
