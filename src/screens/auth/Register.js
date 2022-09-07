@@ -15,50 +15,60 @@ import {
   useTheme,
   themeColor,
 } from "react-native-rapi-ui";
+import { db } from "../../config/firebase";
 
 export default function ({ navigation }) {
   const { isDarkmode, setTheme } = useTheme();
   const auth = getAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-    /*this.state = {
-      emergencyphonenumber: '',
-    };*/
-    const [emergencyphonenumber, setemergencyphonenumber] = useState("");
-  
+  const [userInfo, setUserInfo] = useState({
+    full_name: "",
+    phone: "",
+    email: "",
+    password: "",
+    emergency_name: "",
+    emergency_phone: "",
+  });
 
-  handleSetEmergencyLocalState = (emergencyphonenumber) => {
-    /*this.setState({
-      emergencyphonenumber,
-    });*/
-    setemergencyphonenumber(emergencyphonenumber);
-  }
+  const handleInput = (name, value) => {
+    setUserInfo({ ...userInfo, [name]: value });
+  };
 
   async function register() {
-    setLoading(true);
-    const {
-      emergencyphonenumber,
-    } = this.state;
-    await createUserWithEmailAndPassword(auth, email, password).then(user => {
-      const fbRootRefFS = firebase.firestore();
-      const userID = user.uid;
-      const userRef = fbRootRefFS.collection('users').doc(userID);
-      userRef.set({
-        emergencyphonenumber
-      })
-    })
-    .catch((error) => {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // ...
+    try {
+      await createUserWithEmailAndPassword(
+        auth,
+        userInfo.email,
+        userInfo.password
+      ).then(async (authUser) => {
+        await db
+          .collection("users")
+          .add({
+            id: authUser?.user?.uid,
+            full_name: userInfo.full_name,
+            email: userInfo.email,
+            password: userInfo.password,
+            emergency_name: userInfo.emergency_name,
+            emergency_phone: userInfo.emergency_phone,
+          })
+          .then(() => {
+            setLoading(false);
+          })
+          .catch((error) => {
+            console.log("error...", error.message);
+            setLoading(false);
+            alert(error.message);
+          });
+      });
+    } catch (error) {
       setLoading(false);
-      alert(errorMessage);
-      throw error;
-    });
+      console.log("error...", error.message);
+      alert(error.message);
+    }
   }
+
+  console.log("userInfo.....", userInfo);
 
   return (
     <KeyboardAvoidingView behavior="height" enabled style={{ flex: 1 }}>
@@ -77,7 +87,7 @@ export default function ({ navigation }) {
             }}
           >
             <Image
-              resizeMode="contain"
+              resizeMode="cover"
               style={{
                 height: 220,
                 width: 220,
@@ -95,7 +105,7 @@ export default function ({ navigation }) {
           >
             <Text
               fontWeight="bold"
-              size="h3"
+              size="h2"
               style={{
                 alignSelf: "center",
                 padding: 30,
@@ -103,46 +113,91 @@ export default function ({ navigation }) {
             >
               Register
             </Text>
-            <Text>Email</Text>
+            <Text>Full name</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
-              placeholder="Enter your email"
-              value={email}
+              placeholder="Enter your full name"
               autoCapitalize="none"
               autoCompleteType="off"
               autoCorrect={false}
               keyboardType="email-address"
-              onChangeText={(text) => setEmail(text)}
+              value={userInfo.full_name}
+              onChangeText={(value) => handleInput("full_name", value)}
+            />
+
+            <Text style={{ marginTop: 15 }}>Phone</Text>
+            <TextInput
+              containerStyle={{ marginTop: 15 }}
+              placeholder="Enter your phone number"
+              autoCapitalize="none"
+              autoCompleteType="off"
+              autoCorrect={false}
+              value={userInfo.phone}
+              onChangeText={(value) => handleInput("phone", value)}
+            />
+
+            <Text style={{ marginTop: 15 }}>Email</Text>
+            <TextInput
+              containerStyle={{ marginTop: 15 }}
+              placeholder="Enter your email"
+              autoCapitalize="none"
+              autoCompleteType="off"
+              autoCorrect={false}
+              //secureTextEntry={true}
+              keyboardType="email-address"
+              value={userInfo.email}
+              onChangeText={(value) => handleInput("email", value)}
             />
 
             <Text style={{ marginTop: 15 }}>Password</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
               placeholder="Enter your password"
-              value={password}
               autoCapitalize="none"
               autoCompleteType="off"
               autoCorrect={false}
               secureTextEntry={true}
-              onChangeText={(text) => setPassword(text)}
+              value={userInfo.password}
+              onChangeText={(value) => handleInput("password", value)}
             />
 
-            <Text style={{ marginTop: 15 }}>Emergency Phone Number</Text>
+            <Text
+              fontWeight="bold"
+              size="h3"
+              style={{
+                //alignSelf: "center",
+                paddingTop: 30,
+              }}
+            >
+              Emergency contact
+            </Text>
+
+            <Text style={{ marginTop: 15 }}>Name</Text>
             <TextInput
-
               containerStyle={{ marginTop: 15 }}
-              placeholder="Enter your Emergency Phone Number"
+              placeholder="Enter an emergency contact name"
               autoCapitalize="none"
               autoCompleteType="off"
               autoCorrect={false}
-              secureTextEntry={true}
-              onChangeText={this.handleSetEmergencyLocalState}
-              
+              value={userInfo.emergency_name}
+              onChangeText={(value) => handleInput("emergency_name", value)}
             />
+
+            <Text style={{ marginTop: 15 }}>Phone</Text>
+            <TextInput
+              containerStyle={{ marginTop: 15 }}
+              placeholder="Enter an emergency contact number"
+              autoCapitalize="none"
+              autoCompleteType="off"
+              autoCorrect={false}
+              value={userInfo.emergency_phone}
+              onChangeText={(value) => handleInput("emergency_phone", value)}
+            />
+
             <Button
               text={loading ? "Loading" : "Create an account"}
+              status="danger"
               onPress={() => {
-                this.handleSetEmergencyLocalState;
                 register();
               }}
               style={{
@@ -170,6 +225,7 @@ export default function ({ navigation }) {
                   fontWeight="bold"
                   style={{
                     marginLeft: 5,
+                    color: "#ff4500",
                   }}
                 >
                   Login here
