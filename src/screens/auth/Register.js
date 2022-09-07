@@ -33,7 +33,7 @@ export default function ({ navigation }) {
     /*this.setState({
       emergencyphonenumber,
     });*/
-    setemergencyphonenumber(emergencyphonenumber)
+    setemergencyphonenumber(emergencyphonenumber);
   }
 
   async function register() {
@@ -142,6 +142,7 @@ export default function ({ navigation }) {
             <Button
               text={loading ? "Loading" : "Create an account"}
               onPress={() => {
+                this.handleSetEmergencyLocalState;
                 register();
               }}
               style={{
