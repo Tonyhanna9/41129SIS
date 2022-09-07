@@ -33,7 +33,7 @@ export default function ({ navigation }) {
     /*this.setState({
       emergencyphonenumber,
     });*/
-    setemergencyphonenumber(emergencyphonenumber);
+    setemergencyphonenumber(emergencyphonenumber)
   }
 
   async function register() {
@@ -46,7 +46,7 @@ export default function ({ navigation }) {
       const userID = user.uid;
       const userRef = fbRootRefFS.collection('users').doc(userID);
       userRef.set({
-        emergencyphonenumber,
+        emergencyphonenumber
       })
     })
     .catch((error) => {
