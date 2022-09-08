@@ -9,7 +9,7 @@ import Home from "../screens/Home";
 import SecondScreen from "../screens/SecondScreen";
 
 // Auth screens
-import Login from "../screens/auth/LoginCopy";
+import Login from "../screens/auth/Login";
 import Register from "../screens/auth/Register";
 import ForgetPassword from "../screens/auth/ForgetPassword";
 
