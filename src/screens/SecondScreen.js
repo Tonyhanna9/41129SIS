@@ -11,7 +11,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import * as ImagePicker from "expo-image-picker";
-// import uuid from "react-native-uuid"
+import * as uuid from "uuid";
 
 export default function ({ navigation }) {
   const { isDarkmode, setTheme } = useTheme();
@@ -74,9 +74,7 @@ export default function ({ navigation }) {
       xhr.send(null);
     });
   
-    // Example uses uuid.v4() to create a unique name. The uuid and
-    // react-native-uuid packages have compile issues. 
-    const fileRef = ref(getStorage(), "images/Temp.png");
+    const fileRef = ref(getStorage(), "images/" + uuid.v4() + ".png");
     const result = await uploadBytes(fileRef, blob);
 
     blob.close();
