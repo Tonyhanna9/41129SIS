@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { MaterialIcons } from '@expo/vector-icons';
 import {
   ScrollView,
   TouchableOpacity,
@@ -12,6 +13,7 @@ import {
   Button,
   useTheme,
   themeColor,
+  Section,
 } from "react-native-rapi-ui";
 
 export default function ({ navigation }) {
@@ -24,6 +26,7 @@ export default function ({ navigation }) {
         <ScrollView
           contentContainerStyle={{
             flexGrow: 1,
+            backgroundColor: isDarkmode ? "#17171E" : themeColor.danger600,
           }}
         >
            <View
@@ -31,7 +34,7 @@ export default function ({ navigation }) {
               flex: 1,
               justifyContent: "center",
               alignItems: "center",
-              backgroundColor: isDarkmode ? "#17171E" : themeColor.danger600,
+              backgroundColor: isDarkmode ? "#17171E" : themeColor.white,
             }}
           >
             <Image
@@ -40,45 +43,63 @@ export default function ({ navigation }) {
                 height: 220,
                 width: 220,
               }}
-              source={require("../../../assets/FireArm.png")}
+              source={require("../../../assets/firelogo.png")}
             />
           </View>
+      
           <View
             style={{
               flex: 3,
               paddingHorizontal: 20,
-              paddingBottom: 20,
               backgroundColor: isDarkmode ? themeColor.dark : themeColor.white,
-              borderRadius: 25
+              borderRadius: 25,
+              marginLeft: 25,
+              marginRight: 25,
+              marginBottom: 25,
+              marginTop: 25 
             }}
           >
+            
             <Text
               fontWeight="bold"
               style={{
                 alignSelf: "center",
-                padding: 30,
+                paddingLeft: 30,
+                paddingRight: 30,
+                paddingTop: 30,
+                paddingBottom: 20
               }}
               size="h2"
             >
-              Fire Emergency
+              Fire Emergency?
             </Text>
             <Text
             style={{
               alignSelf: "center",
             }}
-            >Click below to take a snapshot and report to authorities instantly</Text>
+            >Click below to take a snapshot & </Text>
+            <Text
+            style={{
+              alignSelf: "center",
+            }}
+            >report to authorities instantly</Text>
             <Text></Text>
             <Text></Text>
             <Button
-              text={"REPORT NOW!"}
-              status="danger"
+              text={"REPORT NOW"}
+              rightContent={
+                <MaterialIcons name="report" size={24} color={themeColor.white} />
+            }
+              // status="danger"
+              color={themeColor.danger600}
+              size="lg"
             />
-
+         
             <View
               style={{
-                flexDirection: "row",
+                // flexDirection: "row",
                 alignItems: "center",
-                marginTop: 15,
+                marginTop: 30,
                 justifyContent: "center",
               }}
             >
@@ -86,8 +107,18 @@ export default function ({ navigation }) {
               style={{
                 alignSelf: "center",
               }}
-              >Create an account to send your details along with the report and see real-time updates on fires near you</Text>
-              
+              >Create an account to send your details along</Text>
+            <Text size="md"
+              style={{
+                alignSelf: "center",
+              }}
+              >with the report & see real-time updates</Text>
+               <Text size="md"
+              style={{
+                alignSelf: "center",
+              }}
+              >on fires near you</Text>
+           
             </View>
 
             <View
