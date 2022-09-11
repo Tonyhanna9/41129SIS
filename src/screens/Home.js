@@ -16,6 +16,7 @@ import { Ionicons } from "@expo/vector-icons";
 export default function ({ navigation }) {
   const { isDarkmode, setTheme } = useTheme();
   const auth = getAuth();
+  console.log("Auth", auth);
   return (
     <Layout>
       <TopNav
