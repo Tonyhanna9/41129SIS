@@ -12,7 +12,7 @@ import SecondScreen from "../screens/SecondScreen";
 import Login from "../screens/auth/Login";
 import Register from "../screens/auth/Register";
 import ForgetPassword from "../screens/auth/ForgetPassword";
-import editprofile from "../screens/auth/editprofile";
+import EditProfile from "../screens/auth/EditProfile";
 
 import Loading from "../screens/utils/Loading";
 
@@ -42,7 +42,7 @@ const Auth = () => {
       <AuthStack.Screen name="Login" component={Login} />
       <AuthStack.Screen name="Register" component={Register} />
       <AuthStack.Screen name="ForgetPassword" component={ForgetPassword} />
-      <AuthStack.Screen name="EditProfile" component={editprofile} />
+      <AuthStack.Screen name="EditProfile" component={EditProfile} />
     </AuthStack.Navigator>
   );
 };
