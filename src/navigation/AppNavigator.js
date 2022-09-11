@@ -68,6 +68,7 @@ export default () => {
       {user == null && <Loading />}
       {user == false && <Auth />}
       {user == true && <Main />}
-    </NavigationContainer>
+      <Text>user</Text>
+    </NavigationContainer> 
   );
 };
