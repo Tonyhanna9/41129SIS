@@ -30,17 +30,18 @@ export default function ({ navigation }) {
         <ScrollView
           contentContainerStyle={{
             flexGrow: 1,
-            backgroundColor: isDarkmode ? "#17171E" : themeColor.white,
+            backgroundColor: isDarkmode ? "#17171E" : themeColor.danger600,
           }}
         >
            
        <TopNav
-        leftContent={<Ionicons name="chevron-back" size={24} color="white" />}
+        leftContent={<Ionicons name="chevron-back" size={24} color="black" />}
         // rightContent={<Ionicons name="ellipsis-vertical" size={20} color={theme.black} /> }
         // leftAction={() => console.log('back icon pressed')}
         middleContent="Submission Confirmation"
-        backgroundColor={themeColor.danger600}
-        borderColor={themeColor.white}
+        backgroundColor={themeColor.white}
+        borderColor={themeColor.black}
+
     />
   <View
             style={{
@@ -56,8 +57,8 @@ export default function ({ navigation }) {
                 alignSelf: "center",
                 paddingLeft: 30,
                 paddingRight: 30,
-                paddingTop: 30,
-                paddingBottom: 20
+                paddingTop: 10,
+                paddingBottom: 10
               }}
             >
              <FontAwesome5 name="check-circle" size={90} color="red" />
@@ -69,7 +70,7 @@ export default function ({ navigation }) {
                 paddingLeft: 30,
                 paddingRight: 30,
                 paddingTop: 10,
-                paddingBottom: 5
+                paddingBottom: 15
               }}
               size="xl"
             >
