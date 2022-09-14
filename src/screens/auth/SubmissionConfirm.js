@@ -121,7 +121,7 @@ export default function ({ navigation }) {
                 paddingLeft: 30,
                 paddingRight: 30,
                 paddingTop: 30,
-                paddingBottom: 5
+                paddingBottom: 10
               }}
               size="h3"
             >
