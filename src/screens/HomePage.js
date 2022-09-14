@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { MaterialIcons } from '@expo/vector-icons';
 import {
   ScrollView,
   TouchableOpacity,
@@ -6,51 +7,34 @@ import {
   KeyboardAvoidingView,
   Image,
 } from "react-native";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import {
   Layout,
   Text,
-  TextInput,
   Button,
   useTheme,
   themeColor,
+  Section,
 } from "react-native-rapi-ui";
 
 export default function ({ navigation }) {
   const { isDarkmode, setTheme } = useTheme();
-  const auth = getAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  async function login() {
-    setLoading(true);
-    await signInWithEmailAndPassword(auth, email, password).catch(function (
-      error
-    ) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // ...
-      setLoading(false);
-      alert(errorMessage);
-    });
-  }
 
   return (
     <KeyboardAvoidingView behavior="height" enabled style={{ flex: 1 }}>
-      <Layout>
+      <Layout
+        >
         <ScrollView
           contentContainerStyle={{
             flexGrow: 1,
+            backgroundColor: isDarkmode ? "#17171E" : themeColor.danger600,
           }}
         >
-          <View
+           <View
             style={{
               flex: 1,
               justifyContent: "center",
               alignItems: "center",
-              backgroundColor: isDarkmode ? "#17171E" : themeColor.white100,
+              backgroundColor: isDarkmode ? "#17171E" : themeColor.white,
             }}
           >
             <Image
@@ -59,61 +43,83 @@ export default function ({ navigation }) {
                 height: 220,
                 width: 220,
               }}
-              source={require("../../../assets/login.png")}
+              source={require("../../../assets/firelogo.png")}
             />
           </View>
+      
           <View
             style={{
               flex: 3,
               paddingHorizontal: 20,
-              paddingBottom: 20,
               backgroundColor: isDarkmode ? themeColor.dark : themeColor.white,
+              borderRadius: 25,
+              marginLeft: 25,
+              marginRight: 25,
+              marginBottom: 25,
+              marginTop: 25 
             }}
           >
+            
             <Text
               fontWeight="bold"
               style={{
                 alignSelf: "center",
-                padding: 30,
+                paddingLeft: 30,
+                paddingRight: 30,
+                paddingTop: 30,
+                paddingBottom: 20
               }}
               size="h2"
             >
-              Login
+              Fire Emergency?
             </Text>
-            <Text>Email</Text>
-            <TextInput
-              containerStyle={{ marginTop: 15 }}
-              placeholder="Enter your email"
-              value={email}
-              autoCapitalize="none"
-              autoCompleteType="off"
-              autoCorrect={false}
-              keyboardType="email-address"
-              onChangeText={(text) => setEmail(text)}
-            />
-
-            <Text style={{ marginTop: 15 }}>Password</Text>
-            <TextInput
-              containerStyle={{ marginTop: 15 }}
-              placeholder="Enter your password"
-              value={password}
-              autoCapitalize="none"
-              autoCompleteType="off"
-              autoCorrect={false}
-              secureTextEntry={true}
-              onChangeText={(text) => setPassword(text)}
-            />
+            <Text
+            style={{
+              alignSelf: "center",
+            }}
+            >Click below to take a snapshot & </Text>
+            <Text
+            style={{
+              alignSelf: "center",
+            }}
+            >report to authorities instantly</Text>
+            <Text></Text>
+            <Text></Text>
             <Button
-              text={loading ? "Loading" : "Continue"}
-              status="danger"
-              onPress={() => {
-                login();
-              }}
-              style={{
-                marginTop: 20,
-              }}
-              disabled={loading}
+              text={"REPORT NOW"}
+              rightContent={
+                <MaterialIcons name="report" size={24} color={themeColor.white} />
+            }
+              // status="danger"
+              color={themeColor.danger600}
+              size="lg"
             />
+         
+            <View
+              style={{
+                // flexDirection: "row",
+                alignItems: "center",
+                marginTop: 30,
+                justifyContent: "center",
+              }}
+            >
+              <Text size="md"
+              style={{
+                alignSelf: "center",
+              }}
+              >Create an account to send your details along</Text>
+            <Text size="md"
+              style={{
+                alignSelf: "center",
+              }}
+              >with the report & see real-time updates</Text>
+               <Text size="md"
+              style={{
+                alignSelf: "center",
+              }}
+              >on fires near you</Text>
+           
+            </View>
 
             <View
               style={{
@@ -123,7 +129,6 @@ export default function ({ navigation }) {
                 justifyContent: "center",
               }}
             >
-              <Text size="md">Don't have an account?</Text>
               <TouchableOpacity
                 onPress={() => {
                   navigation.navigate("Register");
@@ -137,28 +142,36 @@ export default function ({ navigation }) {
                     color: "#ff4500",
                   }}
                 >
-                  Register here
+                  Create an account
                 </Text>
               </TouchableOpacity>
             </View>
-            {/* <View
+            <View
               style={{
                 flexDirection: "row",
                 alignItems: "center",
-                marginTop: 10,
+                marginTop: 15,
                 justifyContent: "center",
               }}
             >
+              <Text size="md">Already have an account?</Text>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate("ForgetPassword");
+                  navigation.navigate("Login");
                 }}
               >
-                <Text size="md" fontWeight="bold">
-                  Forget password
+                <Text
+                  size="md"
+                  fontWeight="bold"
+                  style={{
+                    marginLeft: 5,
+                    color: "#ff4500",
+                  }}
+                >
+                  Login
                 </Text>
               </TouchableOpacity>
-            </View> */}
+            </View>
             <View
               style={{
                 flexDirection: "row",
