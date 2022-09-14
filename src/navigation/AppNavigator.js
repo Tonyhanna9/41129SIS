@@ -39,7 +39,6 @@ const Auth = () => {
         headerShown: false,
       }}
     >
-      <AuthStack.Screen name="ReportFire" component={ReportFire} />
       <AuthStack.Screen name="Login" component={Login} />
       <AuthStack.Screen name="Register" component={Register} />
       <AuthStack.Screen name="ForgetPassword" component={ForgetPassword} />
