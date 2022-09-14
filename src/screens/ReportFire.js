@@ -1,16 +1,22 @@
-import { React, useEffect, useRef, useState }  from "react";
-import { StyleSheet, View, SafeAreaView, Image } from "react-native";
+import { React, useEffect, useRef, useState } from "react";
+import {
+  StyleSheet,
+  View,
+  SafeAreaView,
+  Button,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import {
   Layout,
   TopNav,
   Text,
   themeColor,
   useTheme,
-  Button
 } from "react-native-rapi-ui";
 import { Ionicons } from "@expo/vector-icons";
-import { Camera } from 'expo-camera';
- import * as MediaLibrary from 'expo-media-library';
+import { Camera } from "expo-camera";
+import * as MediaLibrary from "expo-media-library";
 
 export default function ({ navigation }) {
   const { isDarkmode, setTheme } = useTheme();
@@ -22,23 +28,28 @@ export default function ({ navigation }) {
   useEffect(() => {
     (async () => {
       const cameraPermission = await Camera.requestCameraPermissionsAsync();
-      const mediaLibraryPermission = await MediaLibrary.requestPermissionsAsync();
+      const mediaLibraryPermission =
+        await MediaLibrary.requestPermissionsAsync();
       setHasCameraPermission(cameraPermission.status === "granted");
       setHasMediaLibraryPermission(mediaLibraryPermission.status === "granted");
     })();
   }, []);
 
   if (hasCameraPermission === undefined) {
-    return <Text>Requesting permissions...</Text>
+    return <Text>Requesting permissions...</Text>;
   } else if (!hasCameraPermission) {
-    return <Text>Permission for camera not granted. Please change this in settings.</Text>
+    return (
+      <Text>
+        Permission for camera not granted. Please change this in settings.
+      </Text>
+    );
   }
 
   let takePic = async () => {
     let options = {
       quality: 1,
       base64: true,
-      exif: false
+      exif: false,
     };
 
     let newPhoto = await cameraRef.current.takePictureAsync(options);
@@ -46,12 +57,6 @@ export default function ({ navigation }) {
   };
 
   if (photo) {
-    // let sharePic = () => {
-    //   shareAsync(photo.uri).then(() => {
-    //     setPhoto(undefined);
-    //   });
-    // };
-
     let savePhoto = () => {
       MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
         setPhoto(undefined);
@@ -59,10 +64,17 @@ export default function ({ navigation }) {
     };
 
     return (
-      <SafeAreaView style={styles.container}>
-        <Image style={styles.preview} source={{ uri: "data:image/jpg;base64," + photo.base64 }} />
-        {/* <Button title="Share" onPress={sharePic} /> */}
-        {hasMediaLibraryPermission ? <Button title="Send" onPress={savePhoto} /> : undefined}
+      <SafeAreaView
+        style={isDarkmode ? styles.containerDark : styles.containerLight}
+      >
+        <Image
+          style={styles.preview}
+          source={{ uri: "data:image/jpg;base64," + photo.base64 }}
+        />
+        {hasMediaLibraryPermission ? (
+          <Button color="#FF4500" title="Send" onPress={savePhoto} />
+        ) : undefined}
+
         <Button title="Retry" onPress={() => setPhoto(undefined)} />
       </SafeAreaView>
     );
@@ -95,40 +107,41 @@ export default function ({ navigation }) {
           }
         }}
       />
-      {/* <View
-        style={{
-          flex: 1,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-      
-        <Text fontWeight="bold">This is the second screen</Text>
-      </View> */}
 
-        <Camera style={styles.container} ref={cameraRef}>
-       <View style={styles.buttonContainer}>
-         <Button title="Take Pic" onPress={takePic} />
-       </View>
-       </Camera>
+      <Camera style={styles.containerLight} ref={cameraRef}>
+        <TouchableOpacity onPress={takePic}>
+          <View style={styles.buttonContainer}>
+            <Ionicons
+              name="ellipse-outline"
+              size={90}
+              color={themeColor.white100}
+            ></Ionicons>
+          </View>
+        </TouchableOpacity>
+      </Camera>
     </Layout>
   );
 }
 
-
 const styles = StyleSheet.create({
-  container: {
+  containerLight: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  containerDark: {
+    flex: 1,
+    backgroundColor: "#000000",
+    alignItems: "center",
+    justifyContent: "center",
   },
   buttonContainer: {
-    backgroundColor: '#fff',
-    alignSelf: 'flex-end'
+    flex: 1,
+    justifyContent: "flex-end",
   },
   preview: {
-    alignSelf: 'stretch',
-    flex: 1
-  }
+    alignSelf: "stretch",
+    flex: 1,
+  },
 });
