@@ -42,7 +42,7 @@ const Auth = () => {
       <AuthStack.Screen name="Login" component={Login} />
       <AuthStack.Screen name="Register" component={Register} />
       <AuthStack.Screen name="ForgetPassword" component={ForgetPassword} />
-      <AuthStack.Screen name="EditProfile" component={EditProfile} />
+      
     </AuthStack.Navigator>
   );
 };
@@ -58,6 +58,7 @@ const Main = () => {
     >
       <MainStack.Screen name="Home" component={Home} />
       <MainStack.Screen name="SecondScreen" component={SecondScreen} />
+      <MainStack.Screen name="EditProfile" component={EditProfile} />
     </MainStack.Navigator>
   );
 };

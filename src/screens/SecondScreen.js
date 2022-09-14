@@ -1,14 +1,21 @@
 import React from "react";
-import { View } from "react-native";
-
+import { 
+  View,
+  Linking,  
+  ScrollView,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Image, } from "react-native";
 import {
   Layout,
-  TopNav,
+  Button,
   Text,
-  themeColor,
+  TopNav,
   useTheme,
+  themeColor,
 } from "react-native-rapi-ui";
 import { Ionicons } from "@expo/vector-icons";
+import EditProfile from "../screens/auth/EditProfile";
 
 export default function ({ navigation }) {
   const { isDarkmode, setTheme } = useTheme();
@@ -49,6 +56,22 @@ export default function ({ navigation }) {
         {/* This text using ubuntu font */}
         <Text fontWeight="bold">This is the second screen</Text>
         <Text fontWeight="bold">user</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("EditProfile");
+                }}
+              >
+                <Text
+                  size="md"
+                  fontWeight="bold"
+                  style={{
+                    marginLeft: 5,
+                    color: "#ff4500",
+                  }}
+                >
+                  Profile here
+                </Text>
+              </TouchableOpacity>
       </View>
     </Layout>
   );
