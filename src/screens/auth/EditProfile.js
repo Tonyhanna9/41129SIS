@@ -6,7 +6,7 @@ import {
   KeyboardAvoidingView,
   Image,
 } from "react-native";
-import { getAuth } from "firebase/auth";
+import { getAuth , onAuthStateChanged} from "firebase/auth";
 import {
     Layout,
     Text,
@@ -20,35 +20,19 @@ import {
     const { isDarkmode, setTheme } = useTheme();
     const [loading, setLoading] = useState(false);
     const auth = getAuth();
+    const user = auth.currentUser;
+    if (user !== null) {
+      console.log(user.uid);
+    }
+
     db.collection("users")
-    .where("id", "==", "pZGHthioD1SvXNBdzdIZb0905z72") //Need to work on passing user id 
+    .where("id", "==", user.uid)
     .get()
     .then(snap => { 
       snap.forEach(doc => {
         console.log(doc.data());
       });
     });
-    /*firebase.auth().onAuthStateChanged(user => {
-      if (user){
-        getUserData(user.uid)
-      }
-    })
-    function getUserData(uid){
-      firebase.database().ref('users/' + uid).once("value", snap => {
-        console.log(snap.val())
-      })
-    }
-    const auth = getAuth();
-    const userId = db.auth().currentUser.uid;
-    const userDocument = db
-    .collection('Users')
-    .doc(userId)
-    .then(docSnapshot => {
-        if (docSnapshot.exists) {
-            const userData = docSnapshot.data()
-            console.log(userData)
-        }
-    })*/
   
   return (
     <KeyboardAvoidingView behavior="height" enabled style={{ flex: 1 }}>
