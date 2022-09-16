@@ -48,6 +48,7 @@ export default function ({ navigation }) {
             id: authUser?.user?.uid,
             full_name: userInfo.full_name,
             email: userInfo.email,
+            phone: userInfo.phone,
             //password: userInfo.password,
             emergency_name: userInfo.emergency_name,
             emergency_phone: userInfo.emergency_phone,

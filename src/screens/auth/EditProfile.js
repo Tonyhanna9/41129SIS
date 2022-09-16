@@ -16,23 +16,50 @@ import {
     themeColor,
   } from "react-native-rapi-ui";
   import { db } from "../../config/firebase";
+  import {updateDoc} from "firebase/firestore";
   export default function ({ navigation }) {
     const { isDarkmode, setTheme } = useTheme();
     const [loading, setLoading] = useState(false);
     const auth = getAuth();
+    const [updateUserInfo, setUserInfo] = useState({
+      full_name: "",
+      phone: "",
+      email: "",
+      password: "",
+      emergency_name: "",
+      emergency_phone: "",
+    });
+    var currentdocid = "";
+    var currentuserid = "";
+    const handleInput = (name, value) => {
+      setUserInfo({ ...updateUserInfo, [name]: value });
+    };
     const user = auth.currentUser;
     if (user !== null) {
-      console.log(user.uid);
+      currentuserid = user.uid;
     }
-
     db.collection("users")
-    .where("id", "==", user.uid)
+    .where("id", "==", currentuserid)
     .get()
     .then(snap => { 
       snap.forEach(doc => {
         console.log(doc.data());
+        console.log(doc.id);
+        currentdocid = doc.id;
       });
     });
+    async function editprofile() {
+      const profileUpdate = db.collection("users")
+      .doc(currentdocid)
+      .update({
+        full_name: updateUserInfo.full_name,
+        email: updateUserInfo.email,
+        phone: updateUserInfo.phone,
+        emergency_name: updateUserInfo.emergency_name,
+        emergency_phone: updateUserInfo.emergency_phone,
+      });
+    }
+
   
   return (
     <KeyboardAvoidingView behavior="height" enabled style={{ flex: 1 }}>
@@ -69,16 +96,15 @@ import {
             >
               View Profile
             </Text>
-            <Text>Email</Text>
+            <Text>Name</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
               placeholder="Email"
-              //value={email}
               autoCapitalize="none"
               autoCompleteType="off"
               autoCorrect={false}
-              keyboardType="email-address"
-              onChangeText={(text) => setEmail(text)}
+              value={updateUserInfo.full_name}
+              onChangeText={(value) => handleInput("full_name", value)}
             />
 
             <Text style={{ marginTop: 15 }}>Password</Text>
@@ -93,58 +119,59 @@ import {
               onChangeText={(text) => setPassword(text)}
             />
 
-            <Text style={{ marginTop: 15 }}>Name</Text>
+            <Text style={{ marginTop: 15 }}>Email</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
-              placeholder="Name"
-              //value={password}
+              placeholder="Email"
               autoCapitalize="none"
               autoCompleteType="off"
               autoCorrect={false}
               secureTextEntry={true}
-              onChangeText={(text) => setPassword(text)}
+              keyboardType="email-address"
+              value={updateUserInfo.email}
+              onChangeText={(value) => handleInput("email", value)}
             />
 
             <Text style={{ marginTop: 15 }}>Phone Number</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
               placeholder="Phone Number"
-              //value={password}
               autoCapitalize="none"
               autoCompleteType="off"
               autoCorrect={false}
               secureTextEntry={true}
-              onChangeText={(text) => setPassword(text)}
+              value={updateUserInfo.phone}
+              onChangeText={(value) => handleInput("phone", value)}
             />
 
             <Text style={{ marginTop: 15 }}>Emergency Name</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
               placeholder="Emergency Name"
-              //value={password}
               autoCapitalize="none"
               autoCompleteType="off"
               autoCorrect={false}
               secureTextEntry={true}
-              onChangeText={(text) => setPassword(text)}
+              value={updateUserInfo.emergency_name}
+              onChangeText={(value) => handleInput("emergency_name", value)}
             />
 
             <Text style={{ marginTop: 15 }}>Emergency Phone</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
               placeholder="Emergency Phone"
-              //value={password}
               autoCapitalize="none"
               autoCompleteType="off"
               autoCorrect={false}
               secureTextEntry={true}
-              onChangeText={(text) => setPassword(text)}
+              value={updateUserInfo.emergency_phone}
+              onChangeText={(value) => handleInput("emergency_phone", value)}
             />
 
             <Button
               text={loading ? "Loading" : "Continue"}
               onPress={() => {
-                //login();
+                editprofile();
               }}
               style={{
                 marginTop: 20,
