@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { View } from "react-native";
 import {
   Layout,
   TopNav,
   Text,
+  Button,
   themeColor,
   useTheme,
 } from "react-native-rapi-ui";
 import { Ionicons } from "@expo/vector-icons";
+import { useCamera, useFile } from "./utils/FBStorage";
 
 export default function ({ navigation }) {
   const { isDarkmode, setTheme } = useTheme();
+
   return (
     <Layout>
       <TopNav
@@ -45,8 +48,8 @@ export default function ({ navigation }) {
           justifyContent: "center",
         }}
       >
-        {/* This text using ubuntu font */}
-        <Text fontWeight="bold">This is the second screen</Text>
+        <Button text="1" onPress={useFile} />
+        <Button text="2" onPress={useCamera} />
       </View>
     </Layout>
   );
