@@ -5,8 +5,9 @@ import {
   View,
   KeyboardAvoidingView,
   Image,
+  ActivityIndicatorComponent,
 } from "react-native";
-import { getAuth , onAuthStateChanged} from "firebase/auth";
+import { getAuth , onAuthStateChanged, updateEmail, updatePassword, reauthenticateWithCredential, EmailAuthProvider} from "firebase/auth";
 import {
     Layout,
     Text,
@@ -21,34 +22,61 @@ import {
     const { isDarkmode, setTheme } = useTheme();
     const [loading, setLoading] = useState(false);
     const auth = getAuth();
-    const [updateUserInfo, setUserInfo] = useState({
-      full_name: "",
-      phone: "",
-      email: "",
-      password: "",
-      emergency_name: "",
-      emergency_phone: "",
-    });
     var currentdocid = "";
     var currentuserid = "";
-    const handleInput = (name, value) => {
-      setUserInfo({ ...updateUserInfo, [name]: value });
-    };
+
     const user = auth.currentUser;
     if (user !== null) {
       currentuserid = user.uid;
     }
+
+    const [updateUserInfo, setUserInfo] = useState({
+      full_name: "",
+      phone: "",
+      email: "",
+      emergency_name: "",
+      emergency_phone: "",
+    });
+
+    const handleInput = (name, value) => {
+      setUserInfo({ ...updateUserInfo, [name]: value });
+    };
+
+    var name = "full_name";
+    var email = "email";
+    var phone = "phone";
+    var emergencyname = "emergency_name";
+    var emergencyphone = "emergency_phone";
+    var nameid = "id";
     db.collection("users")
     .where("id", "==", currentuserid)
     .get()
     .then(snap => { 
       snap.forEach(doc => {
         console.log(doc.data());
+        const Userdata = doc.data();
+        updateUserInfo.full_name = Userdata[name];
+        updateUserInfo.email = Userdata[email];
+        updateUserInfo.phone = Userdata[phone];
+        updateUserInfo.emergency_name = Userdata[emergencyname];
+        updateUserInfo.emergency_phone = Userdata[emergencyphone];
         console.log(doc.id);
         currentdocid = doc.id;
       });
     });
+
     async function editprofile() {
+      /*var credential = EmailAuthProvider.credential(
+        auth.currentUser.email,
+        userProvidedPassword
+      );
+      const credential = promptForCredentials();
+      reauthenticateWithCredential(user, credential).then(() => {
+        console.log("User re-authenticated");
+      }).catch(function(error){
+        console.log("User re-authenticated error")
+      });*/
+      console.log(updateUserInfo.emergency_phone);
       const profileUpdate = db.collection("users")
       .doc(currentdocid)
       .update({
@@ -58,6 +86,19 @@ import {
         emergency_name: updateUserInfo.emergency_name,
         emergency_phone: updateUserInfo.emergency_phone,
       });
+  
+      updateEmail(user, updateUserInfo.email).then(() => {
+        console.log("Email Updated");
+      }).catch((error) => {
+        console.log("Email Update Error");
+      });
+
+    /*  const newPassword = updateUserInfo.password;
+      updatePassword(newPassword).then(() => {
+        console.log("Password Updated");
+      }).catch((error) => {
+        console.log("Password Update Error");
+      });*/
     }
 
   
@@ -99,24 +140,12 @@ import {
             <Text>Name</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
-              placeholder="Email"
+              placeholder="Name"
               autoCapitalize="none"
               autoCompleteType="off"
               autoCorrect={false}
               value={updateUserInfo.full_name}
               onChangeText={(value) => handleInput("full_name", value)}
-            />
-
-            <Text style={{ marginTop: 15 }}>Password</Text>
-            <TextInput
-              containerStyle={{ marginTop: 15 }}
-              placeholder="Password"
-              //value={password}
-              autoCapitalize="none"
-              autoCompleteType="off"
-              autoCorrect={false}
-              secureTextEntry={true}
-              onChangeText={(text) => setPassword(text)}
             />
 
             <Text style={{ marginTop: 15 }}>Email</Text>
@@ -126,7 +155,6 @@ import {
               autoCapitalize="none"
               autoCompleteType="off"
               autoCorrect={false}
-              secureTextEntry={true}
               keyboardType="email-address"
               value={updateUserInfo.email}
               onChangeText={(value) => handleInput("email", value)}
@@ -139,7 +167,6 @@ import {
               autoCapitalize="none"
               autoCompleteType="off"
               autoCorrect={false}
-              secureTextEntry={true}
               value={updateUserInfo.phone}
               onChangeText={(value) => handleInput("phone", value)}
             />
@@ -151,7 +178,6 @@ import {
               autoCapitalize="none"
               autoCompleteType="off"
               autoCorrect={false}
-              secureTextEntry={true}
               value={updateUserInfo.emergency_name}
               onChangeText={(value) => handleInput("emergency_name", value)}
             />
@@ -163,7 +189,6 @@ import {
               autoCapitalize="none"
               autoCompleteType="off"
               autoCorrect={false}
-              secureTextEntry={true}
               value={updateUserInfo.emergency_phone}
               onChangeText={(value) => handleInput("emergency_phone", value)}
             />
