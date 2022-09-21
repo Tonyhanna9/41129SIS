@@ -17,6 +17,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
+import { saveImageFB } from "./utils/FBStorage";
 
 export default function ({ navigation }) {
   const { isDarkmode, setTheme } = useTheme();
@@ -58,7 +59,7 @@ export default function ({ navigation }) {
 
   if (photo) {
     let savePhoto = () => {
-      MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
+      saveImageFB(photo.uri).then(() => {
         setPhoto(undefined);
       });
     };
