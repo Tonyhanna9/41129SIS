@@ -3,7 +3,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import * as ImagePicker from "expo-image-picker";
 import * as uuid from "uuid";
 
-export { useCamera, useFile }
+export { useCamera, useFile, saveImageFB }
 
 
 async function useCamera() {
