@@ -48,22 +48,33 @@ import {
     var emergencyname = "emergency_name";
     var emergencyphone = "emergency_phone";
     var nameid = "id";
+
     db.collection("users")
     .where("id", "==", currentuserid)
     .get()
     .then(snap => { 
       snap.forEach(doc => {
-        console.log(doc.data());
-        const Userdata = doc.data();
-        updateUserInfo.full_name = Userdata[name];
-        updateUserInfo.email = Userdata[email];
-        updateUserInfo.phone = Userdata[phone];
-        updateUserInfo.emergency_name = Userdata[emergencyname];
-        updateUserInfo.emergency_phone = Userdata[emergencyphone];
-        console.log(doc.id);
         currentdocid = doc.id;
       });
+      });
+
+    async function viewprofile() {
+    db.collection("users")
+    .where("id", "==", currentuserid)
+    .get()
+    .then(snap => { 
+      snap.forEach(doc => {
+        currentdocid = doc.id;
+        const Userdata = doc.data();
+        updateUserInfo.full_name = Userdata[name];
+          updateUserInfo.email = Userdata[email];
+          updateUserInfo.phone = Userdata[phone];
+          updateUserInfo.emergency_name = Userdata[emergencyname];
+          updateUserInfo.emergency_phone = Userdata[emergencyphone];
+      });
     });
+    }
+
 
     async function editprofile() {
       /*var credential = EmailAuthProvider.credential(
@@ -76,7 +87,6 @@ import {
       }).catch(function(error){
         console.log("User re-authenticated error")
       });*/
-      console.log(updateUserInfo.emergency_phone);
       const profileUpdate = db.collection("users")
       .doc(currentdocid)
       .update({
@@ -191,6 +201,16 @@ import {
               autoCorrect={false}
               value={updateUserInfo.emergency_phone}
               onChangeText={(value) => handleInput("emergency_phone", value)}
+            />
+
+            <Button
+              text="View Profile"
+              onPress={() => {
+                viewprofile();
+              }}
+              style={{
+                marginTop: 20,
+              }}
             />
 
             <Button
