@@ -7,7 +7,7 @@ import {
   Image,
   ActivityIndicatorComponent,
 } from "react-native";
-import { getAuth , onAuthStateChanged, updateEmail, updatePassword, reauthenticateWithCredential, EmailAuthProvider} from "firebase/auth";
+import { getAuth , updateEmail } from "firebase/auth";
 import {
     Layout,
     Text,
@@ -15,15 +15,15 @@ import {
     Button,
     useTheme,
     themeColor,
+    TopNav,
   } from "react-native-rapi-ui";
   import { db } from "../../config/firebase";
-  import {updateDoc} from "firebase/firestore";
-  const[refreshPage, setRefreshPage] = useState("");
+  import { Ionicons } from "@expo/vector-icons";
   export default function ({ navigation }) {
+
     const { isDarkmode, setTheme } = useTheme();
     const [loading, setLoading] = useState(false);
     const auth = getAuth();
-    var currentdocid = "";
     var currentuserid = "";
 
     const user = auth.currentUser;
@@ -38,84 +38,87 @@ import {
       emergency_name: "",
       emergency_phone: "",
     });
+    const[currentdocid, setcurrentdocid] = useState("")
 
     const handleInput = (name, value) => {
       setUserInfo({ ...updateUserInfo, [name]: value });
     };
 
-    var name = "full_name";
-    var email = "email";
-    var phone = "phone";
-    var emergencyname = "emergency_name";
-    var emergencyphone = "emergency_phone";
-    var nameid = "id";
-
-    db.collection("users")
+   function viewprofile() {
+      db.collection("users")
     .where("id", "==", currentuserid)
     .get()
     .then(snap => { 
       snap.forEach(doc => {
-        currentdocid = doc.id;
-      });
-      });
-
-    async function viewprofile() {
-    db.collection("users")
-    .where("id", "==", currentuserid)
-    .get()
-    .then(snap => { 
-      snap.forEach(doc => {
-        currentdocid = doc.id;
+        setcurrentdocid(doc.id);
         const Userdata = doc.data();
-        updateUserInfo.full_name = Userdata[name];
-          updateUserInfo.email = Userdata[email];
-          updateUserInfo.phone = Userdata[phone];
-          updateUserInfo.emergency_name = Userdata[emergencyname];
-          updateUserInfo.emergency_phone = Userdata[emergencyphone];
+        setUserInfo(Userdata);
+
+        // Userdata["full_name"], Userdata["email"], Userdata["phone"], Userdata["emergency_name"], Userdata["emergency_phone"]
+
+        // updateUserInfo.full_name = Userdata["full_name"];
+        // updateUserInfo.email = Userdata["email"];
+        // updateUserInfo.phone = Userdata["phone"];
+        // updateUserInfo.emergency_name = Userdata["emergency_name"];
+        // updateUserInfo.emergency_phone = Userdata["emergency_phone"];
       });
+
     });
     }
 
-
     async function editprofile() {
-      /*var credential = EmailAuthProvider.credential(
-        auth.currentUser.email,
-        userProvidedPassword
-      );
-      const credential = promptForCredentials();
-      reauthenticateWithCredential(user, credential).then(() => {
-        console.log("User re-authenticated");
-      }).catch(function(error){
-        console.log("User re-authenticated error")
-      });*/
       const profileUpdate = db.collection("users")
       .doc(currentdocid)
       .update({
-        full_name: updateUserInfo.full_name,
-        email: updateUserInfo.email,
-        phone: updateUserInfo.phone,
-        emergency_name: updateUserInfo.emergency_name,
-        emergency_phone: updateUserInfo.emergency_phone,
+      full_name: updateUserInfo.full_name,
+      email: updateUserInfo.email,
+      phone: updateUserInfo.phone,
+      emergency_name: updateUserInfo.emergency_name,
+      emergency_phone: updateUserInfo.emergency_phone,
       });
-  
+              
       updateEmail(user, updateUserInfo.email).then(() => {
-        //console.log("Email Updated");
+        console.log("Email Updated");
       }).catch((error) => {
         console.log("Email Update Error");
       });
-
-    /*  const newPassword = updateUserInfo.password;
-      updatePassword(newPassword).then(() => {
-        console.log("Password Updated");
-      }).catch((error) => {
-        console.log("Password Update Error");
-      });*/
+      
     }
 
-  
+    const [temp, setTemp] = useState(true);
+    if (temp) { 
+      viewprofile();
+      setTemp(false);
+    }
+
   return (
     <KeyboardAvoidingView behavior="height" enabled style={{ flex: 1 }}>
       <Layout>
+      <TopNav
+        middleContent="View Profile"
+        leftContent={
+          <Ionicons
+            name="chevron-back"
+            size={20}
+            color={isDarkmode ? themeColor.white100 : themeColor.dark}
+          />
+        }
+        leftAction={() => navigation.goBack()}
+        rightContent={
+          <Ionicons
+            name={isDarkmode ? "sunny" : "moon"}
+            size={20}
+            color={isDarkmode ? themeColor.white100 : themeColor.dark}
+          />
+        }
+        rightAction={() => {
+          if (isDarkmode) {
+            setTheme("light");
+          } else {
+            setTheme("dark");
+          }
+        }}
+      />
         <ScrollView
           contentContainerStyle={{
             flexGrow: 1,
@@ -138,16 +141,6 @@ import {
               backgroundColor: isDarkmode ? themeColor.dark : themeColor.white,
             }}
           >
-            <Text
-              fontWeight="bold"
-              style={{
-                alignSelf: "center",
-                padding: 30,
-              }}
-              size="h3"
-            >
-              View Profile
-            </Text>
             <Text>Name</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
@@ -205,35 +198,14 @@ import {
             />
 
             <Button
-              text="View Profile"
-              onPress={() => {
-                viewprofile();
-                setRefreshPage("refresh");
-              }}
-              style={{
-                marginTop: 20,
-              }}
-            />
-
-            <Button
               text={loading ? "Loading" : "Update"}
               onPress={() => {
                 editprofile();
-              }}cd
+              }}
               style={{
                 marginTop: 20,
               }}
               disabled={loading}
-            />
-
-            <Button
-              text="Go Back"
-              onPress={() => {
-                navigation.goBack();
-              }}
-              style={{
-                marginTop: 20,
-              }}
             />
 
             <View
@@ -244,21 +216,6 @@ import {
                 justifyContent: "center",
               }}
             >
-              <TouchableOpacity
-                onPress={() => {
-                  isDarkmode ? setTheme("light") : setTheme("dark");
-                }}
-              >
-                <Text
-                  size="md"
-                  fontWeight="bold"
-                  style={{
-                    marginLeft: 5,
-                  }}
-                >
-                  {isDarkmode ? "☀️ light theme" : "🌑 dark theme"}
-                </Text>
-              </TouchableOpacity>
             </View>
           </View>
         </ScrollView>
