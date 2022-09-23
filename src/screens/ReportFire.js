@@ -48,7 +48,7 @@ export default function ({ navigation }) {
 
   let takePic = async () => {
     let options = {
-      quality: 1,
+      quality: 0.25,
       base64: true,
       exif: false,
     };
