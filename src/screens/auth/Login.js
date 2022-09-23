@@ -22,8 +22,57 @@ export default function ({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [validEmail, setvalidEmail] = useState(false);
+  const [validPassword, setvalidPassword] = useState(false);
+
+  const handleEmail = (text) => {
+    let re = /\S+@\S+\.\S+/;
+    let regex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+
+    setEmail(text);
+    if (re.test(text) || regex.test(text)) {
+      setvalidEmail(false);
+    } else {
+      setvalidEmail(true);
+    }
+  };
+
+  const checkPasswordValidity = (value) => {
+    const isNonWhiteSpace = /^\S*$/;
+    if (!isNonWhiteSpace.test(value)) {
+      return "Password must not contain Whitespaces.";
+    }
+
+    const isContainsUppercase = /^(?=.*[A-Z]).*$/;
+    if (!isContainsUppercase.test(value)) {
+      return "Password must have at least one Uppercase Character.";
+    }
+
+    const isContainsLowercase = /^(?=.*[a-z]).*$/;
+    if (!isContainsLowercase.test(value)) {
+      return "Password must have at least one Lowercase Character.";
+    }
+
+    const isContainsNumber = /^(?=.*[0-9]).*$/;
+    if (!isContainsNumber.test(value)) {
+      return "Password must contain at least one Digit.";
+    }
+
+    const isValidLength = /^.{8,16}$/;
+    if (!isValidLength.test(value)) {
+      return "Password must be 8-16 Characters Long.";
+    }
+
+    return null;
+  };
 
   async function login() {
+    const checkPassword = checkPasswordValidity(password);
+    if (!checkPassword) {
+      alert("login successful!");
+    } else {
+      alert(checkPassword);
+    }
     setLoading(true);
     await signInWithEmailAndPassword(auth, email, password).catch(function (
       error
@@ -89,8 +138,16 @@ export default function ({ navigation }) {
               autoCompleteType="off"
               autoCorrect={false}
               keyboardType="email-address"
-              onChangeText={(text) => setEmail(text)}
+              onChangeText={(text) => handleEmail(text)}
             />
+
+            {validEmail ? (
+              <Text status="danger" size="sm" style={{ marginTop: 10 }}>
+                Wrong email, try again!
+              </Text>
+            ) : (
+              <Text> </Text>
+            )}
 
             <Text style={{ marginTop: 15 }}>Password</Text>
             <TextInput
@@ -103,6 +160,14 @@ export default function ({ navigation }) {
               secureTextEntry={true}
               onChangeText={(text) => setPassword(text)}
             />
+            {validPassword ? (
+              <Text status="danger" size="sm" style={{ marginTop: 10 }}>
+                Wrong password, try again!
+              </Text>
+            ) : (
+              <Text> </Text>
+            )}
+
             <Button
               text={loading ? "Loading" : "Continue"}
               status="danger"
