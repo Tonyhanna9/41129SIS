@@ -18,6 +18,7 @@ import {
   } from "react-native-rapi-ui";
   import { db } from "../../config/firebase";
   import {updateDoc} from "firebase/firestore";
+  const[refreshPage, setRefreshPage] = useState("");
   export default function ({ navigation }) {
     const { isDarkmode, setTheme } = useTheme();
     const [loading, setLoading] = useState(false);
@@ -98,7 +99,7 @@ import {
       });
   
       updateEmail(user, updateUserInfo.email).then(() => {
-        console.log("Email Updated");
+        //console.log("Email Updated");
       }).catch((error) => {
         console.log("Email Update Error");
       });
@@ -207,6 +208,7 @@ import {
               text="View Profile"
               onPress={() => {
                 viewprofile();
+                setRefreshPage("refresh");
               }}
               style={{
                 marginTop: 20,
@@ -214,14 +216,24 @@ import {
             />
 
             <Button
-              text={loading ? "Loading" : "Continue"}
+              text={loading ? "Loading" : "Update"}
               onPress={() => {
                 editprofile();
-              }}
+              }}cd
               style={{
                 marginTop: 20,
               }}
               disabled={loading}
+            />
+
+            <Button
+              text="Go Back"
+              onPress={() => {
+                navigation.goBack();
+              }}
+              style={{
+                marginTop: 20,
+              }}
             />
 
             <View
