@@ -36,14 +36,9 @@ import * as SplashScreen from 'expo-splash-screen';
 SplashScreen.preventAutoHideAsync()
   .then(result => console.log(`SplashScreen.preventAutoHideAsync() succeeded: ${result}`))
   .catch(console.warn); // it's good to explicitly catch and inspect any error
-
-      // Ignore firebase v9 AsyncStorage warning
-      React.useEffect(() => {
-        LogBox.ignoreLogs([
+  LogBox.ignoreLogs([
           "AsyncStorage has been extracted from react-native core and will be removed in a future release. It can now be installed and imported from '@react-native-async-storage/async-storage' instead of 'react-native'. See https://github.com/react-native-async-storage/async-storage",
         ]);
-      }, []);
-      
 export default class App extends React.Component {
   componentDidMount() {
     // Hides native splash screen after 2s
