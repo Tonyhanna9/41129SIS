@@ -59,9 +59,9 @@ export default function ({ navigation }) {
       return "Password must contain at least one Digit.";
     }
 
-    const isValidLength = /^.{8,16}$/;
+    const isValidLength = /^.{6,16}$/;
     if (!isValidLength.test(value)) {
-      return "Password must be 8-16 Characters Long.";
+      return "Password must be 6-16 Characters Long.";
     }
 
     return null;
@@ -173,7 +173,7 @@ export default function ({ navigation }) {
               secureTextEntry={true}
               onChangeText={(text) => setPassword(text)}
             />
-            {checkPassword ? (
+            {!validEmail && checkPassword ? (
               <Text status="danger" size="sm" style={{ marginTop: 10 }}>
                 {checkPassword}
               </Text>
@@ -181,17 +181,30 @@ export default function ({ navigation }) {
               <Text></Text>
             )}
 
-            <Button
-              text={loading ? "Loading" : "Continue"}
-              status="danger"
-              onPress={() => {
-                login();
-              }}
-              style={{
-                marginTop: 20,
-              }}
-              disabled={loading}
-            />
+            {email == "" || password == "" || validEmail ? (
+              <Button
+                text={loading ? "Loading" : "Continue"}
+                status="danger"
+                disabled="true"
+                onPress={() => {
+                  login();
+                }}
+                style={{
+                  marginTop: 20,
+                }}
+              />
+            ) : (
+              <Button
+                text={loading ? "Loading" : "Continue"}
+                status="danger"
+                onPress={() => {
+                  login();
+                }}
+                style={{
+                  marginTop: 20,
+                }}
+              />
+            )}
 
             <View
               style={{
