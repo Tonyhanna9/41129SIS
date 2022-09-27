@@ -5,6 +5,7 @@ import {
   View,
   KeyboardAvoidingView,
   Image,
+  Alert,
 } from "react-native";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import {
@@ -23,7 +24,7 @@ export default function ({ navigation }) {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [validEmail, setvalidEmail] = useState(false);
-  const [validPassword, setvalidPassword] = useState(false);
+  const [checkPassword, setcheckPassword] = useState("");
 
   const handleEmail = (text) => {
     let re = /\S+@\S+\.\S+/;
@@ -36,7 +37,7 @@ export default function ({ navigation }) {
       setvalidEmail(true);
     }
   };
-
+  //we might remove this password check and move it into registration. I think it might make more sense there or we can keep it in both places.
   const checkPasswordValidity = (value) => {
     const isNonWhiteSpace = /^\S*$/;
     if (!isNonWhiteSpace.test(value)) {
@@ -67,22 +68,34 @@ export default function ({ navigation }) {
   };
 
   async function login() {
-    const checkPassword = checkPasswordValidity(password);
-    if (!checkPassword) {
-      alert("login successful!");
-    } else {
-      alert(checkPassword);
-    }
+    setcheckPassword(checkPasswordValidity(password));
     setLoading(true);
     await signInWithEmailAndPassword(auth, email, password).catch(function (
       error
     ) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // ...
       setLoading(false);
-      alert(errorMessage);
+      switch (error.code) {
+        case "auth/invalid-email":
+          Alert.alert("Login failed ⚠️", "Invalid email, try again!");
+          break;
+
+        case "auth/invalid-password":
+          Alert.alert("Login failed ⚠️", "Incorrect password, try again!");
+          break;
+
+        case "auth/invalid-credential":
+          Alert.alert(
+            "Login failed ⚠️",
+            "Incorrect username or password, try again!"
+          );
+          break;
+
+        default:
+          Alert.alert(
+            "Login failed ⚠️",
+            "Please use an existing email and password"
+          );
+      }
     });
   }
 
@@ -143,7 +156,7 @@ export default function ({ navigation }) {
 
             {validEmail ? (
               <Text status="danger" size="sm" style={{ marginTop: 10 }}>
-                Wrong email, try again!
+                Please enter a valid email!
               </Text>
             ) : (
               <Text> </Text>
@@ -160,12 +173,12 @@ export default function ({ navigation }) {
               secureTextEntry={true}
               onChangeText={(text) => setPassword(text)}
             />
-            {validPassword ? (
+            {checkPassword ? (
               <Text status="danger" size="sm" style={{ marginTop: 10 }}>
-                Wrong password, try again!
+                {checkPassword}
               </Text>
             ) : (
-              <Text> </Text>
+              <Text></Text>
             )}
 
             <Button
