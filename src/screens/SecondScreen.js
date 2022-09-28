@@ -12,12 +12,10 @@ import {
   Text,
   TopNav,
   useTheme,
-  Button,
   themeColor,
 } from "react-native-rapi-ui";
 import { Ionicons } from "@expo/vector-icons";
 import { useCamera, useFile } from "./utils/FBStorage";
-import EditProfile from "../screens/auth/EditProfile";
 
 export default function ({ navigation }) {
   const { isDarkmode, setTheme } = useTheme();
