@@ -144,6 +144,7 @@ export default function ({ navigation }) {
               autoCompleteType="off"
               autoCorrect={false}
               //secureTextEntry={true}
+              //secureTextEntry={true}
               keyboardType="email-address"
               value={userInfo.email}
               onChangeText={(value) => handleInput("email", value)}
@@ -197,6 +198,7 @@ export default function ({ navigation }) {
             <Button
               text={loading ? "Loading" : "Create an account"}
               status="danger"
+              status="danger"
               onPress={() => {
                 register();
               }}
@@ -225,6 +227,7 @@ export default function ({ navigation }) {
                   fontWeight="bold"
                   style={{
                     marginLeft: 5,
+                    color: "#ff4500",
                     color: "#ff4500",
                   }}
                 >

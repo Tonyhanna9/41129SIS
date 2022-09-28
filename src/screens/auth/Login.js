@@ -54,7 +54,7 @@ export default function ({ navigation }) {
             }}
           >
             <Image
-              resizeMode="contain"
+              resizeMode="cover"
               style={{
                 height: 220,
                 width: 220,
@@ -76,7 +76,7 @@ export default function ({ navigation }) {
                 alignSelf: "center",
                 padding: 30,
               }}
-              size="h3"
+              size="h2"
             >
               Login
             </Text>
@@ -105,6 +105,7 @@ export default function ({ navigation }) {
             />
             <Button
               text={loading ? "Loading" : "Continue"}
+              status="danger"
               onPress={() => {
                 login();
               }}
@@ -133,13 +134,14 @@ export default function ({ navigation }) {
                   fontWeight="bold"
                   style={{
                     marginLeft: 5,
+                    color: "#ff4500",
                   }}
                 >
                   Register here
                 </Text>
               </TouchableOpacity>
             </View>
-            <View
+            {/* <View
               style={{
                 flexDirection: "row",
                 alignItems: "center",
@@ -156,7 +158,7 @@ export default function ({ navigation }) {
                   Forget password
                 </Text>
               </TouchableOpacity>
-            </View>
+            </View> */}
             <View
               style={{
                 flexDirection: "row",

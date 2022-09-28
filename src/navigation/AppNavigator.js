@@ -7,6 +7,7 @@ import { AuthContext } from "../provider/AuthProvider";
 // Main
 import Home from "../screens/Home";
 import SecondScreen from "../screens/SecondScreen";
+import ReportFire from "../screens/ReportFire";
 
 // Auth screens
 import Login from "../screens/auth/Login";
