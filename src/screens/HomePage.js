@@ -43,7 +43,7 @@ export default function ({ navigation }) {
                 height: 220,
                 width: 220,
               }}
-              source={require("../../../assets/firelogo.png")}
+              source={require("../../assets/firelogo.png")}
             />
           </View>
       
@@ -93,6 +93,9 @@ export default function ({ navigation }) {
               // status="danger"
               color={themeColor.danger600}
               size="lg"
+              onPress={() => {
+                navigation.navigate("ReportFire");
+              }}
             />
          
             <View

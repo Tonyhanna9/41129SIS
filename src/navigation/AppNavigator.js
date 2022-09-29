@@ -8,6 +8,7 @@ import { AuthContext } from "../provider/AuthProvider";
 import Home from "../screens/Home";
 import SecondScreen from "../screens/SecondScreen";
 import ReportFire from "../screens/ReportFire";
+import HomePage from "../screens/HomePage";
 
 // Auth screens
 import Login from "../screens/auth/Login";
@@ -55,8 +56,9 @@ const Main = () => {
         headerShown: false,
       }}
     >
-      <MainStack.Screen name="Home" component={Home} />
-      <MainStack.Screen name="SecondScreen" component={SecondScreen} />
+      <MainStack.Screen name="HomePage" component={HomePage} />
+      <AuthStack.Screen name="ReportFire" component={ReportFire} />
+      {/* <MainStack.Screen name="SecondScreen" component={SecondScreen} /> */}
     </MainStack.Navigator>
   );
 };
@@ -67,8 +69,8 @@ export default () => {
   return (
     <NavigationContainer>
       {user == null && <Loading />}
-      {user == false && <Auth />}
-      {user == true && <Main />}
+      {/* {user == false && <Auth />} */}
+      {user == false && <Main />}
     </NavigationContainer>
   );
 };
