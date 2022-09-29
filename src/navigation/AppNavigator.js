@@ -57,7 +57,7 @@ const Main = () => {
       }}
     >
       <MainStack.Screen name="HomePage" component={HomePage} />
-      <AuthStack.Screen name="ReportFire" component={ReportFire} />
+      <MainStack.Screen name="ReportFire" component={ReportFire} />
       {/* <MainStack.Screen name="SecondScreen" component={SecondScreen} /> */}
     </MainStack.Navigator>
   );
