@@ -23,14 +23,18 @@ import {
 
     const { isDarkmode, setTheme } = useTheme();
     const [loading, setLoading] = useState(false);
+
+    //Initialising Variables
     const auth = getAuth();
     var currentuserid = "";
-
     const user = auth.currentUser;
+
+    //Gets the current user's id
     if (user !== null) {
       currentuserid = user.uid;
     }
 
+    //Create Object called "updateUserInfo" to store new data 
     const [updateUserInfo, setUserInfo] = useState({
       full_name: "",
       phone: "",
@@ -38,12 +42,16 @@ import {
       emergency_name: "",
       emergency_phone: "",
     });
+
+    //Create Object called "currentdocid" to store docid used for referencing to firestore
     const[currentdocid, setcurrentdocid] = useState("")
 
+    //HandleInput to handle and update the "updateUserInfo" object
     const handleInput = (name, value) => {
       setUserInfo({ ...updateUserInfo, [name]: value });
     };
 
+    //Return function to load current user data 
    function viewprofile() {
       db.collection("users")
     .where("id", "==", currentuserid)
@@ -53,19 +61,12 @@ import {
         setcurrentdocid(doc.id);
         const Userdata = doc.data();
         setUserInfo(Userdata);
-
-        // Userdata["full_name"], Userdata["email"], Userdata["phone"], Userdata["emergency_name"], Userdata["emergency_phone"]
-
-        // updateUserInfo.full_name = Userdata["full_name"];
-        // updateUserInfo.email = Userdata["email"];
-        // updateUserInfo.phone = Userdata["phone"];
-        // updateUserInfo.emergency_name = Userdata["emergency_name"];
-        // updateUserInfo.emergency_phone = Userdata["emergency_phone"];
       });
 
     });
     }
 
+    //Function which updates firestore with new data 
     async function editprofile() {
       const profileUpdate = db.collection("users")
       .doc(currentdocid)
@@ -85,6 +86,7 @@ import {
       
     }
 
+    //Condition which guarentee the "viewprofile" will only run once
     const [temp, setTemp] = useState(true);
     if (temp) { 
       viewprofile();
