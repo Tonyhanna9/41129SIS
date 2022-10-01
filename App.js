@@ -44,7 +44,7 @@ export default class App extends React.Component {
     // Hides native splash screen after 2s
     setTimeout(async () => {
       await SplashScreen.hideAsync();
-    }, 2000);
+    }, 500);
   }
 
  
