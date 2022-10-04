@@ -15,27 +15,60 @@ import {
   useTheme,
   themeColor,
 } from "react-native-rapi-ui";
+import { db } from "../../config/firebase";
 
 export default function ({ navigation }) {
   const { isDarkmode, setTheme } = useTheme();
   const auth = getAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const [userInfo, setUserInfo] = useState({
+    full_name: "",
+    phone: "",
+    email: "",
+    password: "",
+    emergency_name: "",
+    emergency_phone: "",
+  });
+
+  const handleInput = (name, value) => {
+    setUserInfo({ ...userInfo, [name]: value });
+  };
+
   async function register() {
-    setLoading(true);
-    await createUserWithEmailAndPassword(auth, email, password).catch(function (
-      error
-    ) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // ...
+    try {
+      await createUserWithEmailAndPassword(
+        auth,
+        userInfo.email,
+        userInfo.password
+      ).then(async (authUser) => {
+        await db
+          .collection("users")
+          .add({
+            id: authUser?.user?.uid,
+            full_name: userInfo.full_name,
+            email: userInfo.email,
+            phone: userInfo.phone,
+            emergency_name: userInfo.emergency_name,
+            emergency_phone: userInfo.emergency_phone,
+          })
+          .then(() => {
+            setLoading(false);
+          })
+          .catch((error) => {
+            console.log("error...", error.message);
+            setLoading(false);
+            alert(error.message);
+          });
+      });
+    } catch (error) {
       setLoading(false);
-      alert(errorMessage);
-    });
+      console.log("error...", error.message);
+      alert(error.message);
+    }
   }
+
+  console.log("userInfo.....", userInfo);
 
   return (
     <KeyboardAvoidingView behavior="height" enabled style={{ flex: 1 }}>
@@ -84,49 +117,48 @@ export default function ({ navigation }) {
             <TextInput
               containerStyle={{ marginTop: 15 }}
               placeholder="Enter your full name"
-              //value={email}
               autoCapitalize="none"
               autoCompleteType="off"
               autoCorrect={false}
               keyboardType="email-address"
-              //onChangeText={(text) => setEmail(text)}
+              value={userInfo.full_name}
+              onChangeText={(value) => handleInput("full_name", value)}
             />
 
             <Text style={{ marginTop: 15 }}>Phone</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
               placeholder="Enter your phone number"
-              //value={password}
               autoCapitalize="none"
               autoCompleteType="off"
               autoCorrect={false}
-              //keyboardType="phone"
-              //onChangeText={(text) => setPassword(text)}
+              value={userInfo.phone}
+              onChangeText={(value) => handleInput("phone", value)}
             />
 
             <Text style={{ marginTop: 15 }}>Email</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
               placeholder="Enter your email"
-              value={email}
               autoCapitalize="none"
               autoCompleteType="off"
               autoCorrect={false}
               //secureTextEntry={true}
               keyboardType="email-address"
-              onChangeText={(text) => setEmail(text)}
+              value={userInfo.email}
+              onChangeText={(value) => handleInput("email", value)}
             />
 
             <Text style={{ marginTop: 15 }}>Password</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
               placeholder="Enter your password"
-              value={password}
               autoCapitalize="none"
               autoCompleteType="off"
               autoCorrect={false}
               secureTextEntry={true}
-              onChangeText={(text) => setPassword(text)}
+              value={userInfo.password}
+              onChangeText={(value) => handleInput("password", value)}
             />
 
             <Text
@@ -144,22 +176,22 @@ export default function ({ navigation }) {
             <TextInput
               containerStyle={{ marginTop: 15 }}
               placeholder="Enter an emergency contact name"
-              //value={password}
               autoCapitalize="none"
               autoCompleteType="off"
               autoCorrect={false}
-              // onChangeText={(text) => setPassword(text)}
+              value={userInfo.emergency_name}
+              onChangeText={(value) => handleInput("emergency_name", value)}
             />
 
             <Text style={{ marginTop: 15 }}>Phone</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
               placeholder="Enter an emergency contact number"
-              //value={password}
               autoCapitalize="none"
               autoCompleteType="off"
               autoCorrect={false}
-              //onChangeText={(text) => setPassword(text)}
+              value={userInfo.emergency_phone}
+              onChangeText={(value) => handleInput("emergency_phone", value)}
             />
 
             <Button

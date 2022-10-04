@@ -13,6 +13,7 @@ import ReportFire from "../screens/ReportFire";
 import Login from "../screens/auth/Login";
 import Register from "../screens/auth/Register";
 import ForgetPassword from "../screens/auth/ForgetPassword";
+import EditProfile from "../screens/auth/EditProfile";
 
 import Loading from "../screens/utils/Loading";
 
@@ -42,6 +43,7 @@ const Auth = () => {
       <AuthStack.Screen name="Login" component={Login} />
       <AuthStack.Screen name="Register" component={Register} />
       <AuthStack.Screen name="ForgetPassword" component={ForgetPassword} />
+      
     </AuthStack.Navigator>
   );
 };
@@ -57,6 +59,7 @@ const Main = () => {
     >
       <MainStack.Screen name="Home" component={Home} />
       <MainStack.Screen name="SecondScreen" component={SecondScreen} />
+      <MainStack.Screen name="EditProfile" component={EditProfile} />
     </MainStack.Navigator>
   );
 };
@@ -69,6 +72,6 @@ export default () => {
       {user == null && <Loading />}
       {user == false && <Auth />}
       {user == true && <Main />}
-    </NavigationContainer>
+    </NavigationContainer> 
   );
 };

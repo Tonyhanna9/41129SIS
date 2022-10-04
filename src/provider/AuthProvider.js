@@ -15,7 +15,7 @@ const AuthProvider = (props) => {
     onAuthStateChanged(auth, (u) => {
       if (u) {
         setUser(true);
-        // getUserData();
+        //getUserData(u);
       } else {
         setUser(false);
         // setUserData(null);
