@@ -7,6 +7,7 @@ import { AuthContext } from "../provider/AuthProvider";
 // Main
 import ReportFire from "../screens/ReportFire";
 import HomePage from "../screens/HomePage";
+import SubmissionConfirm from "../screens/SubmissionConfirm";
 
 // Auth screens
 import Login from "../screens/auth/Login";
@@ -58,6 +59,7 @@ function AppStackScreen() {
       }}>
       <AppStack.Screen name="HomePage" component={HomePage} />
       <AppStack.Screen name="ReportFire" component={ReportFire} />
+      <AppStack.Screen name="SubmissionConfirm" component={SubmissionConfirm} />
     </AppStack.Navigator>
   );
 }
