@@ -6,6 +6,8 @@ import {
   Button,
   Image,
   TouchableOpacity,
+  Modal,
+  Pressable,
 } from "react-native";
 import {
   Layout,
@@ -13,6 +15,7 @@ import {
   Text,
   themeColor,
   useTheme,
+  Button as B,
 } from "react-native-rapi-ui";
 import { Ionicons } from "@expo/vector-icons";
 import { Camera } from "expo-camera";
@@ -24,6 +27,7 @@ export default function ({ navigation }) {
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [photo, setPhoto] = useState();
+  const [IsphotoSaved, setIsphotoSaved] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -59,9 +63,61 @@ export default function ({ navigation }) {
   if (photo) {
     let savePhoto = () => {
       MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
-        setPhoto(undefined);
+        setIsphotoSaved(true);
       });
     };
+
+    if (IsphotoSaved) {
+      return (
+        <View style={isDarkmode ? styles.container : styles.container}>
+          <Image
+            style={styles.preview}
+            source={{ uri: "data:image/jpg;base64," + photo.base64 }}
+          />
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={IsphotoSaved}
+            // onRequestClose={() => {
+            //   Alert.alert("Modal has been closed.");
+            //   setModalVisible(!modalVisible);
+            // }}
+          >
+            <View style={styles.centeredView}>
+              <View
+                style={
+                  isDarkmode ? styles.modalViewDark : styles.modalViewLight
+                }
+              >
+                <Text
+                  style={{
+                    alignSelf: "center",
+                    paddingBottom: 15,
+                    color: "#ff4500",
+                  }}
+                  size="h2"
+                  fontWeight="medium"
+                >
+                  FIRE DETECTED!
+                </Text>
+
+                <Text
+                 size="md"
+                  style={
+                    isDarkmode ? styles.modelTextDark : styles.modelTextLight
+                  }
+                >
+                  Click Below to contact CCO
+                </Text>
+
+                <B text="REPORT NOW!" color="#ff4500" 
+                 />
+              </View>
+            </View>
+          </Modal>
+        </View>
+      );
+    }
 
     return (
       <SafeAreaView
@@ -130,6 +186,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+
+  container: {
+    flex: 1,
+    //backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   containerDark: {
     flex: 1,
     backgroundColor: "#000000",
@@ -143,5 +206,52 @@ const styles = StyleSheet.create({
   preview: {
     alignSelf: "stretch",
     flex: 1,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 2,
+  },
+  modalViewDark: {
+    margin: 20,
+    backgroundColor: "#000000",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+
+  modalViewLight: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modelTextDark: {
+    paddingBottom: 15,
+    color: "white",
+    opacity: 0.5,
+  },
+  modelTextLight: {
+    paddingBottom: 15,
+    color: "#000000",
+    opacity: 0.5,
   },
 });
