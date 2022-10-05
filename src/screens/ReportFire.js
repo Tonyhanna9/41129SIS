@@ -84,7 +84,11 @@ export default function ({ navigation }) {
             // }}
           >
             <View style={styles.centeredView}>
-              <View style={styles.modalView}>
+              <View
+                style={
+                  isDarkmode ? styles.modalViewDark : styles.modalViewLight
+                }
+              >
                 <Text
                   style={{
                     alignSelf: "center",
@@ -98,11 +102,9 @@ export default function ({ navigation }) {
                 </Text>
 
                 <Text
-                  style={{
-                    paddingBottom: 15,
-                    color: "#000000",
-                    opacity: 0.5,
-                  }}
+                  style={
+                    isDarkmode ? styles.modelTextDark : styles.modelTextLight
+                  }
                 >
                   Click Below to contact CCO
                 </Text>
@@ -111,8 +113,6 @@ export default function ({ navigation }) {
               </View>
             </View>
           </Modal>
-
-          {/* </View> */}
         </View>
       );
     }
@@ -211,7 +211,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 2,
   },
-  modalView: {
+  modalViewDark: {
+    margin: 20,
+    backgroundColor: "#000000",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+
+  modalViewLight: {
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
@@ -225,5 +241,15 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+  },
+  modelTextDark: {
+    paddingBottom: 15,
+    color: "white",
+    opacity: 0.5,
+  },
+  modelTextLight: {
+    paddingBottom: 15,
+    color: "#000000",
+    opacity: 0.5,
   },
 });
