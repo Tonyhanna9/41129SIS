@@ -101,16 +101,32 @@ export default function ({ navigation }) {
                 </Text>
 
                 <Text
-                 size="md"
+                  size="md"
                   style={
                     isDarkmode ? styles.modelTextDark : styles.modelTextLight
                   }
                 >
                   Click Below to contact CCO
                 </Text>
+                <View
+                  style={{
+                    paddingBottom: 9,
+                  }}
+                >
+                  <RapiButton text="REPORT NOW!" color="#ff4500" />
+                </View>
 
-                <RapiButton text="REPORT NOW!" color="#ff4500" 
-                 />
+                <Text
+                  size="sm"
+                  style={
+                    isDarkmode ? styles.modelTextDark : styles.modelTextLight
+                  }
+                >
+                  Do not wish to report through the app?{" "}
+                  <Text size="sm" style={{ textDecorationLine: "underline", color:"#3366FF" }}>
+                    Go back
+                  </Text>
+                </Text>
               </View>
             </View>
           </Modal>
@@ -215,7 +231,7 @@ const styles = StyleSheet.create({
     margin: 20,
     backgroundColor: "#000000",
     borderRadius: 20,
-    padding: 35,
+    padding: 20,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -231,7 +247,7 @@ const styles = StyleSheet.create({
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
-    padding: 35,
+    padding: 20,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
