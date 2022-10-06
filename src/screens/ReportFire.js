@@ -123,7 +123,13 @@ export default function ({ navigation }) {
                   }
                 >
                   Do not wish to report through the app?{" "}
-                  <Text size="sm" style={{ textDecorationLine: "underline", color:"#3366FF" }}>
+                  <Text
+                    size="sm"
+                    style={{
+                      textDecorationLine: "underline",
+                      color: "#3366FF",
+                    }}
+                  >
                     Go back
                   </Text>
                 </Text>
