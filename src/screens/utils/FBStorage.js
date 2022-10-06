@@ -2,6 +2,7 @@ import "react-native-get-random-values";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import * as ImagePicker from "expo-image-picker";
 import * as uuid from "uuid";
+import getLocation from "./getLocation";
 
 export { useCamera, useFile, saveImageFB }
 
@@ -9,9 +10,9 @@ export { useCamera, useFile, saveImageFB }
 async function useCamera() {
   let result = await ImagePicker.launchCameraAsync({
     allowsEditing: true,
-    aspect: [4, 3]
+    aspect: [4, 3],
   });
-  console.log("File is chosen using camera")
+  console.log("File is chosen using camera");
 
   manageUpload(result);
 }
@@ -19,21 +20,22 @@ async function useCamera() {
 async function useFile() {
   let result = await ImagePicker.launchImageLibraryAsync({
     allowsEditing: true,
-    aspect: [4, 3]
+    aspect: [4, 3],
   });
-  console.log("File is chosen using existing images")
+  console.log("File is chosen using existing images");
 
   manageUpload(result);
 }
 
 async function manageUpload(result) {
+  getLocation();
   try {
     if (!result.cancelled) {
       const imageURL = await saveImageFB(result.uri);
       console.log("Success");
     }
   } catch (e) {
-    console.log(e)
+    console.log(e);
 
     // TODO: Error message must show option to connect with CCO.
     alert("Error when uploading image");
