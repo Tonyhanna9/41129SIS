@@ -97,6 +97,9 @@ export default function ({ navigation }) {
           );
       }
     });
+
+    // Assume success
+    navigation.navigate('App', {screen: 'HomePage'});
   }
 
   return (
