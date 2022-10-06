@@ -43,6 +43,12 @@ async function manageUpload(result) {
 }
 
 async function saveImageFB(uri) {
+  try {
+    getLocation();
+  } catch (e) {
+    console.log("Error getting location: " + e);
+  }
+
   const blob = await new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.onload = function () {
