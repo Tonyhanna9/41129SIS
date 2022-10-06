@@ -107,14 +107,14 @@ export default function ({ navigation }) {
                     isDarkmode ? styles.modelTextDark : styles.modelTextLight
                   }
                 >
-                  Click Below to contact CCO
+                  Fire was detected and has been reported to 000. Click below to connect with a 000 call operator.
                 </Text>
                 <View
                   style={{
                     paddingBottom: 9,
                   }}
                 >
-                  <RapiButton text="REPORT NOW!" color="#ff4500" />
+                  <RapiButton text="Connect to 000" color="#ff4500" />
                 </View>
 
                 <Text
@@ -139,23 +139,25 @@ export default function ({ navigation }) {
           </Modal>
         </View>
       );
+    } else if (!isPhotoSaved) {
+      {savePhoto();}  // Photo is saved automatically. User interaction is no longer required,
+                      // so we can remove the below buttons.
+      return (
+        <SafeAreaView
+          style={isDarkmode ? styles.containerDark : styles.containerLight}
+        >
+          <Image
+            style={styles.preview}
+            source={{ uri: "data:image/jpg;base64," + photo.base64 }}
+          />
+          {hasMediaLibraryPermission ? (
+            <Button color="#FF4500" title="Send" onPress={savePhoto} />
+          ) : undefined}
+  
+          <Button title="Retry" onPress={() => setPhoto(undefined)} />
+        </SafeAreaView>
+      );
     }
-
-    return (
-      <SafeAreaView
-        style={isDarkmode ? styles.containerDark : styles.containerLight}
-      >
-        <Image
-          style={styles.preview}
-          source={{ uri: "data:image/jpg;base64," + photo.base64 }}
-        />
-        {hasMediaLibraryPermission ? (
-          <Button color="#FF4500" title="Send" onPress={savePhoto} />
-        ) : undefined}
-
-        <Button title="Retry" onPress={() => setPhoto(undefined)} />
-      </SafeAreaView>
-    );
   }
 
   return (
