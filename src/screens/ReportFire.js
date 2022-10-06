@@ -7,7 +7,6 @@ import {
   Image,
   TouchableOpacity,
   Modal,
-  Pressable,
 } from "react-native";
 import {
   Layout,
@@ -15,7 +14,7 @@ import {
   Text,
   themeColor,
   useTheme,
-  Button as B,
+  Button as RapiButton,
 } from "react-native-rapi-ui";
 import { Ionicons } from "@expo/vector-icons";
 import { Camera } from "expo-camera";
@@ -27,7 +26,7 @@ export default function ({ navigation }) {
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [photo, setPhoto] = useState();
-  const [IsphotoSaved, setIsphotoSaved] = useState(false);
+  const [IsPhotoSaved, setIsPhotoSaved] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -63,11 +62,11 @@ export default function ({ navigation }) {
   if (photo) {
     let savePhoto = () => {
       MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
-        setIsphotoSaved(true);
+        setIsPhotoSaved(true);
       });
     };
 
-    if (IsphotoSaved) {
+    if (IsPhotoSaved) {
       return (
         <View style={isDarkmode ? styles.container : styles.container}>
           <Image
@@ -77,7 +76,7 @@ export default function ({ navigation }) {
           <Modal
             animationType="slide"
             transparent={true}
-            visible={IsphotoSaved}
+            visible={IsPhotoSaved}
             // onRequestClose={() => {
             //   Alert.alert("Modal has been closed.");
             //   setModalVisible(!modalVisible);
@@ -110,7 +109,7 @@ export default function ({ navigation }) {
                   Click Below to contact CCO
                 </Text>
 
-                <B text="REPORT NOW!" color="#ff4500" 
+                <RapiButton text="REPORT NOW!" color="#ff4500" 
                  />
               </View>
             </View>
@@ -189,7 +188,6 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    //backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },
