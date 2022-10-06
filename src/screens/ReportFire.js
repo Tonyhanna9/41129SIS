@@ -27,7 +27,7 @@ export default function ({ navigation }) {
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [photo, setPhoto] = useState();
-  const [IsPhotoSaved, setIsPhotoSaved] = useState(false);
+  const [isPhotoSaved, setIsPhotoSaved] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -60,15 +60,15 @@ export default function ({ navigation }) {
     setPhoto(newPhoto);
   };
 
-  if (photo) {
-    let savePhoto = () => {
-      saveImageFB(photo.uri).then(() => {
-        setIsPhotoSaved(true);
-        setPhoto(undefined);
-      });
-    };
+  let savePhoto = () => {
+    saveImageFB(photo.uri).then(() => {
+      setIsPhotoSaved(true);
+      setPhoto(undefined);
+    });
+  };
 
-    if (IsPhotoSaved) {
+  if (photo) {
+    if (isPhotoSaved) {
       return (
         <View style={isDarkmode ? styles.container : styles.container}>
           <Image
@@ -78,7 +78,7 @@ export default function ({ navigation }) {
           <Modal
             animationType="slide"
             transparent={true}
-            visible={IsPhotoSaved}
+            visible={isPhotoSaved}
             // onRequestClose={() => {
             //   Alert.alert("Modal has been closed.");
             //   setModalVisible(!modalVisible);
