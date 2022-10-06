@@ -5,9 +5,9 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { AuthContext } from "../provider/AuthProvider";
 
 // Main
-import Home from "../screens/Home";
-import SecondScreen from "../screens/SecondScreen";
 import ReportFire from "../screens/ReportFire";
+import HomePage from "../screens/HomePage";
+import SubmissionConfirm from "../screens/SubmissionConfirm";
 
 // Auth screens
 import Login from "../screens/auth/Login";
@@ -31,47 +31,116 @@ if (getApps().length === 0) {
   initializeApp(firebaseConfig);
 }
 
-const AuthStack = createNativeStackNavigator();
+// const HomeStack = createNativeStackNavigator();
+// function HomeStackScreen() {
+//   return (
+//     <HomeStack.Navigator headerMode="none">
+//       <HomeStack.Screen name="HomePage" component={HomePage} />
+//     </HomeStack.Navigator>
+//   );
+// }
 
-const Auth = () => {
+// ** AUTH ** //
+const AuthStack = createNativeStackNavigator();
+function AuthStackScreen() {
   return (
-    <AuthStack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
+    <AuthStack.Navigator headerMode="none">
       <AuthStack.Screen name="Login" component={Login} />
       <AuthStack.Screen name="Register" component={Register} />
-      <AuthStack.Screen name="ForgetPassword" component={ForgetPassword} />
-      
     </AuthStack.Navigator>
   );
-};
-
-const MainStack = createNativeStackNavigator();
-
-const Main = () => {
+}
+// ** APP ** //
+const AppStack = createNativeStackNavigator();
+function AppStackScreen() {
   return (
-    <MainStack.Navigator
+    <AppStack.Navigator name="mainApp"
       screenOptions={{
         headerShown: false,
-      }}
-    >
-      <MainStack.Screen name="Home" component={Home} />
-      <MainStack.Screen name="SecondScreen" component={SecondScreen} />
-      <MainStack.Screen name="EditProfile" component={EditProfile} />
-    </MainStack.Navigator>
+      }}>
+      <AppStack.Screen name="HomePage" component={HomePage} />
+      <AppStack.Screen name="ReportFire" component={ReportFire} />
+      <AppStack.Screen name="SubmissionConfirm" component={SubmissionConfirm} />
+    </AppStack.Navigator>
+  );
+}
+// ** ROOT ** //
+const RootStack = createNativeStackNavigator();
+const RootStackScreen = ({user}) => {
+  return (
+    <RootStack.Navigator screenOptions={{
+      headerShown: false,
+    }}>
+        <RootStack.Screen name="App" component={AppStackScreen} />
+        <RootStack.Screen name="Auth" component={AuthStackScreen} />
+        
+    </RootStack.Navigator>
   );
 };
 
-export default () => {
-  const auth = useContext(AuthContext);
+export default function AppNavigator() {
+    const auth = useContext(AuthContext);
   const user = auth.user;
+  // const [loading, setloading] = React.useState(true);
+  // const [userToken, setUserToken] = React.useState();
+
+  // React.useEffect(() => {
+  //   setTimeout(() => {
+  //     setloading(false);
+  //   }, 1000);
+  // });
+  // if (loading) {
+  //   return <SplashScreen />;
+  // }
+
+  // // })
   return (
     <NavigationContainer>
-      {user == null && <Loading />}
-      {user == false && <Auth />}
-      {user == true && <Main />}
-    </NavigationContainer> 
+      <RootStackScreen />
+    </NavigationContainer>
   );
-};
+}
+
+// const AuthStack = createNativeStackNavigator();
+
+// const Auth = () => {
+//   return (
+//     <AuthStack.Navigator
+//       screenOptions={{
+//         headerShown: false,
+//       }}
+//     >
+//       <AuthStack.Screen name="Login" component={Login} />
+//       <AuthStack.Screen name="Register" component={Register} />
+//       <AuthStack.Screen name="ForgetPassword" component={ForgetPassword} />
+//     </AuthStack.Navigator>
+//   );
+// };
+
+// const MainStack = createNativeStackNavigator();
+
+// const Main = () => {
+//   return (
+//     <MainStack.Navigator
+//       screenOptions={{
+//         headerShown: false,
+//       }}
+//     >
+//       <MainStack.Screen name="HomePage" component={HomePage} />
+//       <MainStack.Screen name="ReportFire" component={ReportFire} />
+//       <MainStack.Screen name="Login" component={Login} />
+//     </MainStack.Navigator>
+//   );
+// };
+
+// export default () => {
+//   const auth = useContext(AuthContext);
+//   const user = auth.user;
+//   return (
+//     <NavigationContainer>
+//       {user == null && <Loading />}
+//       {/* {user == true && <Auth />} */}
+//       {user == false && <Main />}
+//     </NavigationContainer>
+//   );
+// };
