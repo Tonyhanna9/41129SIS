@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FontAwesome } from '@expo/vector-icons';
 import {
   ScrollView,
   TouchableOpacity,
@@ -120,10 +121,13 @@ import {
             setTheme("dark");
           }
         }}
+        backgroundColor={themeColor.white}
+        borderColor={themeColor.white}
       />
         <ScrollView
           contentContainerStyle={{
             flexGrow: 1,
+            backgroundColor: themeColor.white
           }}
         >
           <View
@@ -131,21 +135,36 @@ import {
               flex: 1,
               justifyContent: "center",
               alignItems: "center",
-              backgroundColor: isDarkmode ? "#17171E" : themeColor.white100,
+              backgroundColor: isDarkmode ? "#17171E" : themeColor.white,
             }}
           >
+          </View>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: isDarkmode ? "#17171E" : themeColor.white,
+              paddingTop: 5,
+              paddingBottom: 20
+            }}
+          >
+            <FontAwesome name="user-circle" size={80} color={themeColor.danger600} />
           </View>
           <View
             style={{
               flex: 3,
               paddingHorizontal: 20,
               paddingBottom: 20,
-              backgroundColor: isDarkmode ? themeColor.dark : themeColor.white,
+              backgroundColor: isDarkmode ? themeColor.dark : themeColor.white200,
+              // borderRadius: 40,
+              borderTopLeftRadius: 35,
+              borderTopRightRadius: 35,
             }}
           >
-            <Text>Name</Text>
+            <Text style={{ marginTop: 15, marginLeft: 15, marginRight: 15 }}>Name</Text>
             <TextInput
-              containerStyle={{ marginTop: 15 }}
+              containerStyle={{ marginTop: 15, marginLeft: 15, marginRight: 15,}}
               placeholder="Name"
               autoCapitalize="none"
               autoCompleteType="off"
@@ -154,9 +173,9 @@ import {
               onChangeText={(value) => handleInput("full_name", value)}
             />
 
-            <Text style={{ marginTop: 15 }}>Email</Text>
+            <Text style={{ marginTop: 15, marginLeft: 15, marginRight: 15, }}>Email</Text>
             <TextInput
-              containerStyle={{ marginTop: 15 }}
+              containerStyle={{ marginTop: 15, marginLeft: 15, marginRight: 15 }}
               placeholder="Email"
               autoCapitalize="none"
               autoCompleteType="off"
@@ -166,9 +185,9 @@ import {
               onChangeText={(value) => handleInput("email", value)}
             />
 
-            <Text style={{ marginTop: 15 }}>Phone Number</Text>
+            <Text style={{ marginTop: 15, marginLeft: 15, marginRight: 15 }}>Phone Number</Text>
             <TextInput
-              containerStyle={{ marginTop: 15 }}
+              containerStyle={{ marginTop: 15, marginLeft: 15, marginRight: 15 }}
               placeholder="Phone Number"
               autoCapitalize="none"
               autoCompleteType="off"
@@ -177,9 +196,9 @@ import {
               onChangeText={(value) => handleInput("phone", value)}
             />
 
-            <Text style={{ marginTop: 15 }}>Emergency Name</Text>
+            <Text style={{ marginTop: 15, marginLeft: 15, marginRight: 15 }}>Emergency Name</Text>
             <TextInput
-              containerStyle={{ marginTop: 15 }}
+              containerStyle={{ marginTop: 15, marginLeft: 15, marginRight: 15 }}
               placeholder="Emergency Name"
               autoCapitalize="none"
               autoCompleteType="off"
@@ -188,9 +207,9 @@ import {
               onChangeText={(value) => handleInput("emergency_name", value)}
             />
 
-            <Text style={{ marginTop: 15 }}>Emergency Phone</Text>
+            <Text style={{ marginTop: 15, marginLeft: 15, marginRight: 15 }}>Emergency Phone</Text>
             <TextInput
-              containerStyle={{ marginTop: 15 }}
+              containerStyle={{ marginTop: 15, marginLeft: 15, marginRight: 15 }}
               placeholder="Emergency Phone"
               autoCapitalize="none"
               autoCompleteType="off"
@@ -204,8 +223,10 @@ import {
               onPress={() => {
                 editprofile();
               }}
+              color={themeColor.danger600}
               style={{
                 marginTop: 20,
+                marginLeft: 15, marginRight: 15
               }}
               disabled={loading}
             />
