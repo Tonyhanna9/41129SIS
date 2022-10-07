@@ -43,8 +43,8 @@ export default function ({ navigation }) {
         userInfo.password
       ).then(async (authUser) => {
         await db
-          .collection("users")
-          .add({
+          .collection("users").doc(authUser?.user?.uid)
+          .set({
             id: authUser?.user?.uid,
             full_name: userInfo.full_name,
             email: userInfo.email,
