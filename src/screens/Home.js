@@ -63,6 +63,16 @@ export default function ({ navigation }) {
               }}
             />
             <Button
+              text="Edit Profile"
+              onPress={() => {
+                navigation.navigate("EditProfile");
+              }}
+              style={{
+                marginTop: 10,
+              }}
+            />
+
+            <Button
               status="danger"
               text="Logout"
               onPress={() => {
