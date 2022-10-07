@@ -28,6 +28,7 @@ export default function ({ navigation }) {
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [photo, setPhoto] = useState();
   const [isPhotoSaved, setIsPhotoSaved] = useState(false);
+  const [isModalVisible, setisModalVisible] = useState(true);
 
   useEffect(() => {
     (async () => {
@@ -77,11 +78,7 @@ export default function ({ navigation }) {
           <Modal
             animationType="slide"
             transparent={true}
-            visible={isPhotoSaved}
-            // onRequestClose={() => {
-            //   Alert.alert("Modal has been closed.");
-            //   setModalVisible(!modalVisible);
-            // }}
+            visible={isModalVisible}
           >
             <View style={styles.centeredView}>
               <View
@@ -107,14 +104,23 @@ export default function ({ navigation }) {
                     isDarkmode ? styles.modelTextDark : styles.modelTextLight
                   }
                 >
-                  Fire was detected and has been reported to 000. Click below to connect with a 000 call operator.
+                  Click below to connect with a 000 call operator.
                 </Text>
                 <View
                   style={{
                     paddingBottom: 9,
                   }}
                 >
-                  <RapiButton text="Connect to 000" color="#ff4500" />
+                  <RapiButton
+                    onPress={() => {
+                      navigation.navigate("App", {
+                        screen: "SubmissionConfirm",
+                      });
+                      setisModalVisible(false);
+                    }}
+                    text="Connect to 000"
+                    color="#ff4500"
+                  />
                 </View>
 
                 <Text
@@ -124,15 +130,21 @@ export default function ({ navigation }) {
                   }
                 >
                   Do not wish to report through the app?{" "}
-                  <Text
-                    size="sm"
-                    style={{
-                      textDecorationLine: "underline",
-                      color: "#3366FF",
+                  <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate("App", { screen: "HomePage" });
                     }}
                   >
-                    Go back
-                  </Text>
+                    <Text
+                      size="sm"
+                      style={{
+                        textDecorationLine: "underline",
+                        color: "#3366FF",
+                      }}
+                    >
+                      Go back
+                    </Text>
+                  </TouchableOpacity>
                 </Text>
               </View>
             </View>
@@ -140,8 +152,10 @@ export default function ({ navigation }) {
         </View>
       );
     } else if (!isPhotoSaved) {
-      {savePhoto();}  // Photo is saved automatically. User interaction is no longer required,
-                      // so we can remove the below buttons.
+      {
+        savePhoto();
+      } // Photo is saved automatically. User interaction is no longer required,
+      // so we can remove the below buttons.
       return (
         <SafeAreaView
           style={isDarkmode ? styles.containerDark : styles.containerLight}
@@ -153,7 +167,7 @@ export default function ({ navigation }) {
           {hasMediaLibraryPermission ? (
             <Button color="#FF4500" title="Send" onPress={savePhoto} />
           ) : undefined}
-  
+
           <Button title="Retry" onPress={() => setPhoto(undefined)} />
         </SafeAreaView>
       );
