@@ -349,17 +349,41 @@ export default function ({ navigation }) {
               </Text>
             )}
 
-            <Button
-              text={loading ? "Loading" : "Create an account"}
-              status="danger"
-              onPress={() => {
-                register();
-              }}
-              style={{
-                marginTop: 20,
-              }}
-              disabled={!loading}
-            />
+            {isValiduserInfo.full_name &&
+            isValiduserInfo.phone == true &&
+            isValiduserInfo.email == true &&
+            isValiduserInfo.password == true &&
+            isValiduserInfo.emergency_name == true &&
+            isValiduserInfo.emergency_phone == true &&
+            !userInfo.full_name == "" &&
+            !userInfo.phone == "" &&
+            !userInfo.email == "" &&
+            !userInfo.password == "" &&
+            !userInfo.emergency_name == "" &&
+            !userInfo.emergency_phone == "" ? (
+              <Button
+                text={loading ? "Loading" : "Create an account"}
+                status="danger"
+                onPress={() => {
+                  register();
+                }}
+                style={{
+                  marginTop: 20,
+                }}
+              />
+            ) : (
+              <Button
+                text={loading ? "Loading" : "Create an account"}
+                status="danger"
+                disabled="true"
+                onPress={() => {
+                  register();
+                }}
+                style={{
+                  marginTop: 20,
+                }}
+              />
+            )}
 
             <View
               style={{
