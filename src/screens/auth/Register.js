@@ -31,8 +31,130 @@ export default function ({ navigation }) {
     emergency_phone: "",
   });
 
+  const [isValiduserInfo, setIsValidUserInfo] = useState({
+    full_name: Boolean,
+    phone: Boolean,
+    email: Boolean,
+    password: Boolean,
+    emergency_name: Boolean,
+    emergency_phone: Boolean,
+  });
   const handleInput = (name, value) => {
     setUserInfo({ ...userInfo, [name]: value });
+    handleValidation(name);
+  };
+
+  const handleValidation = (ref) => {
+    //email check
+    if (ref == "email") {
+      console.log("ooi");
+      let re = /\S+@\S+\.\S+/;
+      let regex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+
+      if (re.test(userInfo.email) || regex.test(userInfo.email)) {
+        setIsValidUserInfo({
+          full_name: true,
+          phone: true,
+          email: true,
+          password: true,
+          emergency_name: true,
+          emergency_phone: true,
+        });
+      } else {
+        setIsValidUserInfo({
+          full_name: true,
+          phone: true,
+          email: false,
+          password: true,
+          emergency_name: true,
+          emergency_phone: true,
+        });
+      }
+    }
+
+    //phone check
+    if (ref == "emergency_phone") {
+      let Pregex = /04[\d]{8}/g;
+      if (Pregex.test(userInfo.emergency_phone)) {
+        setIsValidUserInfo({
+          full_name: true,
+          phone: true,
+          email: true,
+          password: true,
+          emergency_name: true,
+          emergency_phone: true,
+        });
+      } else {
+        setIsValidUserInfo({
+          full_name: true,
+          phone: true,
+          email: true,
+          password: true,
+          emergency_name: true,
+          emergency_phone: false,
+        });
+      }
+    }
+    //name check
+    if (ref == "full_name") {
+      let Nregex = /^[a-zA-Z]+ [a-zA-Z]+$/;
+      if (Nregex.test(userInfo.full_name)) {
+        setIsValidUserInfo({
+          full_name: true,
+          phone: true,
+          email: true,
+          password: true,
+          emergency_name: true,
+          emergency_phone: true,
+        });
+      } else {
+        setIsValidUserInfo({
+          full_name: false,
+          phone: true,
+          email: true,
+          password: true,
+          emergency_name: true,
+          emergency_phone: true,
+        });
+      }
+    }
+    //password check
+    if (ref == "password") {
+      const isNonWhiteSpace = /^\S*$/;
+
+      const isContainsUppercase = /^(?=.*[A-Z]).*$/;
+
+      const isContainsLowercase = /^(?=.*[a-z]).*$/;
+
+      const isContainsNumber = /^(?=.*[0-9]).*$/;
+
+      const isValidLength = /^.{6,16}$/;
+      if (
+        isNonWhiteSpace.test(userInfo.password) &&
+        isContainsUppercase.test(userInfo.password) &&
+        isContainsLowercase.test(userInfo.password) &&
+        isContainsNumber.test(userInfo.password) &&
+        isValidLength.test(userInfo.password)
+      ) {
+        setIsValidUserInfo({
+          full_name: true,
+          phone: true,
+          email: true,
+          password: true,
+          emergency_name: true,
+          emergency_phone: true,
+        });
+      } else {
+        setIsValidUserInfo({
+          full_name: true,
+          phone: true,
+          email: true,
+          password: false,
+          emergency_name: true,
+          emergency_phone: true,
+        });
+      }
+    }
   };
 
   async function register() {
@@ -124,6 +246,14 @@ export default function ({ navigation }) {
               value={userInfo.full_name}
               onChangeText={(value) => handleInput("full_name", value)}
             />
+            {isValiduserInfo.full_name ? (
+              <Text status="danger" size="sm" style={{ marginTop: 10 }}></Text>
+            ) : (
+              <Text status="danger" size="sm" style={{ marginTop: 10 }}>
+                {" "}
+                Please enter a valid name!
+              </Text>
+            )}
 
             <Text style={{ marginTop: 15 }}>Phone</Text>
             <TextInput
@@ -148,6 +278,14 @@ export default function ({ navigation }) {
               value={userInfo.email}
               onChangeText={(value) => handleInput("email", value)}
             />
+            {isValiduserInfo.email ? (
+              <Text status="danger" size="sm" style={{ marginTop: 10 }}></Text>
+            ) : (
+              <Text status="danger" size="sm" style={{ marginTop: 10 }}>
+                {" "}
+                Please enter a valid email!
+              </Text>
+            )}
 
             <Text style={{ marginTop: 15 }}>Password</Text>
             <TextInput
@@ -160,6 +298,15 @@ export default function ({ navigation }) {
               value={userInfo.password}
               onChangeText={(value) => handleInput("password", value)}
             />
+
+            {isValiduserInfo.password ? (
+              <Text status="danger" size="sm" style={{ marginTop: 10 }}></Text>
+            ) : (
+              <Text status="danger" size="sm" style={{ marginTop: 10 }}>
+                Must have at least 6 Characters with 1 uppercase, lowercase and
+                a digit.
+              </Text>
+            )}
 
             <Text
               fontWeight="bold"
@@ -193,6 +340,14 @@ export default function ({ navigation }) {
               value={userInfo.emergency_phone}
               onChangeText={(value) => handleInput("emergency_phone", value)}
             />
+            {isValiduserInfo.emergency_phone ? (
+              <Text status="danger" size="sm" style={{ marginTop: 10 }}></Text>
+            ) : (
+              <Text status="danger" size="sm" style={{ marginTop: 10 }}>
+                {" "}
+                Please enter a valid phone number!
+              </Text>
+            )}
 
             <Button
               text={loading ? "Loading" : "Create an account"}
@@ -203,7 +358,7 @@ export default function ({ navigation }) {
               style={{
                 marginTop: 20,
               }}
-              disabled={loading}
+              disabled={!loading}
             />
 
             <View
