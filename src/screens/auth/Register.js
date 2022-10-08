@@ -54,6 +54,7 @@ export default function ({ navigation }) {
           })
           .then(() => {
             setLoading(false);
+            navigation.navigate('App', {screen: 'HomePage'});
           })
           .catch((error) => {
             console.log("error...", error.message);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { MaterialIcons } from '@expo/vector-icons';
 import {
   ScrollView,
@@ -15,9 +15,11 @@ import {
   themeColor,
   Section,
 } from "react-native-rapi-ui";
+import { AuthContext } from "../provider/AuthProvider";
 
 export default function ({ navigation }) {
   const { isDarkmode, setTheme } = useTheme();
+  const auth = useContext(AuthContext);
 
   return (
     <KeyboardAvoidingView behavior="height" enabled style={{ flex: 1 }}>
@@ -98,7 +100,7 @@ export default function ({ navigation }) {
               }}
             />
          
-            <View
+            {auth.user !== true && <View
               style={{
                 // flexDirection: "row",
                 alignItems: "center",
@@ -122,9 +124,9 @@ export default function ({ navigation }) {
               }}
               >on fires near you</Text>
            
-            </View>
+            </View>}
 
-            <View
+            {auth.user !== true && <View
               style={{
                 flexDirection: "row",
                 alignItems: "center",
@@ -148,8 +150,9 @@ export default function ({ navigation }) {
                   Create an account
                 </Text>
               </TouchableOpacity>
-            </View>
-            <View
+            </View>}
+
+            {auth.user !== true && <View
               style={{
                 flexDirection: "row",
                 alignItems: "center",
@@ -174,7 +177,8 @@ export default function ({ navigation }) {
                   Login
                 </Text>
               </TouchableOpacity>
-            </View>
+            </View>}
+            
             <View
               style={{
                 flexDirection: "row",
