@@ -43,7 +43,7 @@ export default function ({ navigation }) {
                 height: 220,
                 width: 220,
               }}
-              source={require("../../../assets/firelogo.png")}
+              source={require("../../assets/firelogo.png")}
             />
           </View>
       
@@ -93,6 +93,9 @@ export default function ({ navigation }) {
               // status="danger"
               color={themeColor.danger600}
               size="lg"
+              onPress={() => {
+                navigation.navigate("ReportFire");
+              }}
             />
          
             <View
@@ -130,9 +133,9 @@ export default function ({ navigation }) {
               }}
             >
               <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("Register");
-                }}
+               onPress={() => {
+                navigation.navigate('Auth', {screen: 'Register'});
+              }}
               >
                 <Text
                   size="md"
@@ -157,7 +160,7 @@ export default function ({ navigation }) {
               <Text size="md">Already have an account?</Text>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate("Login");
+                  navigation.navigate('Auth', {screen: 'Login'});
                 }}
               >
                 <Text

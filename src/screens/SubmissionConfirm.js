@@ -177,6 +177,9 @@ export default function ({ navigation }) {
               text={"Home Page"}
               color={themeColor.danger600}
               size="lg"
+              onPress={() => {
+                navigation.navigate("HomePage");
+              }}
             />
             <View
               style={{
