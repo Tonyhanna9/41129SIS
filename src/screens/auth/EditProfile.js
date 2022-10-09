@@ -196,10 +196,10 @@ import {
               onChangeText={(value) => handleInput("phone", value)}
             />
 
-            <Text style={{ marginTop: 15, marginLeft: 15, marginRight: 15 }}>Emergency Name</Text>
+            <Text style={{ marginTop: 15, marginLeft: 15, marginRight: 15 }}>Emergency Contact Name</Text>
             <TextInput
               containerStyle={{ marginTop: 15, marginLeft: 15, marginRight: 15 }}
-              placeholder="Emergency Name"
+              placeholder="Emergency Contact Name"
               autoCapitalize="none"
               autoCompleteType="off"
               autoCorrect={false}
@@ -207,10 +207,10 @@ import {
               onChangeText={(value) => handleInput("emergency_name", value)}
             />
 
-            <Text style={{ marginTop: 15, marginLeft: 15, marginRight: 15 }}>Emergency Phone</Text>
+            <Text style={{ marginTop: 15, marginLeft: 15, marginRight: 15 }}>Emergency Contact Number</Text>
             <TextInput
               containerStyle={{ marginTop: 15, marginLeft: 15, marginRight: 15 }}
-              placeholder="Emergency Phone"
+              placeholder="Emergency Contact Number"
               autoCapitalize="none"
               autoCompleteType="off"
               autoCorrect={false}
