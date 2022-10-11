@@ -198,6 +198,32 @@ export default function ({ navigation }) {
         }}
       />
         }
+        {auth.user !== true &&  <TopNav
+        middleContent="Report Fire 🔥"
+        leftContent={
+          <Ionicons
+            name="chevron-back"
+            size={20}
+            color={isDarkmode ? themeColor.white100 : themeColor.dark}
+          />
+        }
+        leftAction={() => navigation.goBack()}
+        rightContent={
+          <Ionicons
+            name={isDarkmode ? "sunny" : "moon"}
+            size={20}
+            color={isDarkmode ? themeColor.white100 : themeColor.dark}
+          />
+        }
+        rightAction={() => {
+          if (isDarkmode) {
+            setTheme("light");
+          } else {
+            setTheme("dark");
+          }
+        }}
+      />
+        }
       <Modal
         animationType="slide"
         transparent={true}
