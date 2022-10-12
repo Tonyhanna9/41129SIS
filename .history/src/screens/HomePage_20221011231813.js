@@ -1,18 +1,3 @@
-import React from "react";
-import { View, Linking } from "react-native";
-import { getAuth, signOut } from "firebase/auth";
-import {
-  Layout,
-  Button,
-  Text,
-  TopNav,
-  Section,
-  SectionContent,
-  useTheme,
-  themeColor,
-} from "react-native-rapi-ui";
-import { Ionicons } from "@expo/vector-icons";
-
 export default function ({ navigation }) {
   const { isDarkmode, setTheme } = useTheme();
   const auth = getAuth();
