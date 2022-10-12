@@ -3,6 +3,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
+import { getAuth, signOut } from "firebase/auth";
 import {
   ScrollView,
   TouchableOpacity,
@@ -22,6 +23,7 @@ import {
 } from "react-native-rapi-ui";
 
 export default function ({ navigation }) {
+  const auth = getAuth();
   const { isDarkmode, setTheme } = useTheme();
 
   return (
@@ -179,6 +181,23 @@ export default function ({ navigation }) {
               size="lg"
               onPress={() => {
                 navigation.navigate("HomePage");
+              }}
+            />
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                marginTop: 50,
+                justifyContent: "center",
+              }}
+            >
+            </View>
+            <Button
+              text={"Log Out"}
+              color={themeColor.danger600}
+              size="lg"
+              onPress={() => {
+                signOut(auth);
               }}
             />
             <View
