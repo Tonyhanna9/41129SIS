@@ -5,6 +5,7 @@ import {
   View,
   KeyboardAvoidingView,
   Image,
+  Alert,
 } from "react-native";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import {
@@ -22,18 +23,83 @@ export default function ({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [validEmail, setvalidEmail] = useState(false);
+  const [checkPassword, setcheckPassword] = useState("");
+
+  const handleEmail = (text) => {
+    let re = /\S+@\S+\.\S+/;
+    let regex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+
+    setEmail(text);
+    if (re.test(text) || regex.test(text)) {
+      setvalidEmail(false);
+    } else {
+      setvalidEmail(true);
+    }
+  };
+  //we might remove this password check and move it into registration. I think it might make more sense there or we can keep it in both places.
+  const checkPasswordValidity = (value) => {
+    const isNonWhiteSpace = /^\S*$/;
+    if (!isNonWhiteSpace.test(value)) {
+      return "Password must not contain Whitespaces.";
+    }
+
+    const isContainsUppercase = /^(?=.*[A-Z]).*$/;
+    if (!isContainsUppercase.test(value)) {
+      return "Password must have at least one Uppercase Character.";
+    }
+
+    const isContainsLowercase = /^(?=.*[a-z]).*$/;
+    if (!isContainsLowercase.test(value)) {
+      return "Password must have at least one Lowercase Character.";
+    }
+
+    const isContainsNumber = /^(?=.*[0-9]).*$/;
+    if (!isContainsNumber.test(value)) {
+      return "Password must contain at least one Digit.";
+    }
+
+    const isValidLength = /^.{6,16}$/;
+    if (!isValidLength.test(value)) {
+      return "Password must be 6-16 Characters Long.";
+    }
+
+    return null;
+  };
 
   async function login() {
+    setcheckPassword(checkPasswordValidity(password));
     setLoading(true);
-    await signInWithEmailAndPassword(auth, email, password).catch(function (
-      error
-    ) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // ...
+    await signInWithEmailAndPassword(auth, email, password).catch((error) => {
       setLoading(false);
-      alert(errorMessage);
+      switch (error.code) {
+        case "auth/invalid-email":
+          Alert.alert("Login failed ⚠️", "Invalid email, try again!");
+          break;
+
+        case "auth/invalid-password":
+          Alert.alert("Login failed ⚠️", "Incorrect password, try again!");
+          break;
+
+        case "auth/invalid-credential":
+          Alert.alert(
+            "Login failed ⚠️",
+            "Incorrect username or password, try again!"
+          );
+          break;
+
+        default:
+          Alert.alert(
+            "Login failed ⚠️",
+            "Please use an existing email and password"
+          );
+      }
+    }).then((userCredential) => {
+      setLoading(false);
+      
+      if (userCredential !== undefined) {
+        navigation.navigate('App', {screen: 'HomePage'});
+      }
     });
   }
 
@@ -89,8 +155,16 @@ export default function ({ navigation }) {
               autoCompleteType="off"
               autoCorrect={false}
               keyboardType="email-address"
-              onChangeText={(text) => setEmail(text)}
+              onChangeText={(text) => handleEmail(text)}
             />
+
+            {validEmail ? (
+              <Text status="danger" size="sm" style={{ marginTop: 10 }}>
+                Please enter a valid email!
+              </Text>
+            ) : (
+              <Text> </Text>
+            )}
 
             <Text style={{ marginTop: 15 }}>Password</Text>
             <TextInput
@@ -103,17 +177,38 @@ export default function ({ navigation }) {
               secureTextEntry={true}
               onChangeText={(text) => setPassword(text)}
             />
-            <Button
-              text={loading ? "Loading" : "Continue"}
-              status="danger"
-              onPress={() => {
-                login();
-              }}
-              style={{
-                marginTop: 20,
-              }}
-              disabled={loading}
-            />
+            {!validEmail && checkPassword ? (
+              <Text status="danger" size="sm" style={{ marginTop: 10 }}>
+                {checkPassword}
+              </Text>
+            ) : (
+              <Text></Text>
+            )}
+
+            {email == "" || password == "" || validEmail ? (
+              <Button
+                text={loading ? "Loading" : "Continue"}
+                status="danger"
+                disabled="true"
+                onPress={() => {
+                  login();
+                }}
+                style={{
+                  marginTop: 20,
+                }}
+              />
+            ) : (
+              <Button
+                text={loading ? "Loading" : "Continue"}
+                status="danger"
+                onPress={() => {
+                  login();
+                }}
+                style={{
+                  marginTop: 20,
+                }}
+              />
+            )}
 
             <View
               style={{

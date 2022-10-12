@@ -6,6 +6,7 @@ import {
   Button,
   Image,
   TouchableOpacity,
+  Modal,
 } from "react-native";
 import {
   Layout,
@@ -13,6 +14,7 @@ import {
   Text,
   themeColor,
   useTheme,
+  Button as RapiButton,
 } from "react-native-rapi-ui";
 import { Ionicons } from "@expo/vector-icons";
 import { Camera } from "expo-camera";
@@ -25,6 +27,8 @@ export default function ({ navigation }) {
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [photo, setPhoto] = useState();
+  const [isPhotoSaved, setIsPhotoSaved] = useState(false);
+  const [isModalVisible, setisModalVisible] = useState(true);
 
   useEffect(() => {
     (async () => {
@@ -57,28 +61,117 @@ export default function ({ navigation }) {
     setPhoto(newPhoto);
   };
 
+  let savePhoto = () => {
+    saveImageFB(photo.uri).then(() => {
+      setIsPhotoSaved(true);
+    });
+  };
+
   if (photo) {
-    let savePhoto = () => {
-      saveImageFB(photo.uri).then(() => {
-        setPhoto(undefined);
-      });
-    };
+    if (isPhotoSaved) {
+      return (
+        <View style={isDarkmode ? styles.container : styles.container}>
+          <Image
+            style={styles.preview}
+            source={{ uri: "data:image/jpg;base64," + photo.base64 }}
+          />
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={isModalVisible}
+          >
+            <View style={styles.centeredView}>
+              <View
+                style={
+                  isDarkmode ? styles.modalViewDark : styles.modalViewLight
+                }
+              >
+                <Text
+                  style={{
+                    alignSelf: "center",
+                    paddingBottom: 15,
+                    color: "#ff4500",
+                  }}
+                  size="h2"
+                  fontWeight="medium"
+                >
+                  FIRE DETECTED!
+                </Text>
 
-    return (
-      <SafeAreaView
-        style={isDarkmode ? styles.containerDark : styles.containerLight}
-      >
-        <Image
-          style={styles.preview}
-          source={{ uri: "data:image/jpg;base64," + photo.base64 }}
-        />
-        {hasMediaLibraryPermission ? (
-          <Button color="#FF4500" title="Send" onPress={savePhoto} />
-        ) : undefined}
+                <Text
+                  size="md"
+                  style={
+                    isDarkmode ? styles.modelTextDark : styles.modelTextLight
+                  }
+                >
+                  Click below to connect with a 000 call operator.
+                </Text>
+                <View
+                  style={{
+                    paddingBottom: 9,
+                  }}
+                >
+                  <RapiButton
+                    onPress={() => {
+                      navigation.navigate("App", {
+                        screen: "SubmissionConfirm",
+                      });
+                      setisModalVisible(false);
+                    }}
+                    text="Connect to 000"
+                    color="#ff4500"
+                  />
+                </View>
 
-        <Button title="Retry" onPress={() => setPhoto(undefined)} />
-      </SafeAreaView>
-    );
+                <Text
+                  size="sm"
+                  style={
+                    isDarkmode ? styles.modelTextDark : styles.modelTextLight
+                  }
+                >
+                  Do not wish to report through the app?{" "}
+                  <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate("App", { screen: "HomePage" });
+                    }}
+                  >
+                    <Text
+                      size="sm"
+                      style={{
+                        textDecorationLine: "underline",
+                        color: "#3366FF",
+                      }}
+                    >
+                      Go back
+                    </Text>
+                  </TouchableOpacity>
+                </Text>
+              </View>
+            </View>
+          </Modal>
+        </View>
+      );
+    } else if (!isPhotoSaved) {
+      {
+        savePhoto();
+      } // Photo is saved automatically. User interaction is no longer required,
+      // so we can remove the below buttons.
+      return (
+        <SafeAreaView
+          style={isDarkmode ? styles.containerDark : styles.containerLight}
+        >
+          <Image
+            style={styles.preview}
+            source={{ uri: "data:image/jpg;base64," + photo.base64 }}
+          />
+          {hasMediaLibraryPermission ? (
+            <Button color="#FF4500" title="Send" onPress={savePhoto} />
+          ) : undefined}
+
+          <Button title="Retry" onPress={() => setPhoto(undefined)} />
+        </SafeAreaView>
+      );
+    }
   }
 
   return (
@@ -131,6 +224,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   containerDark: {
     flex: 1,
     backgroundColor: "#000000",
@@ -144,5 +243,52 @@ const styles = StyleSheet.create({
   preview: {
     alignSelf: "stretch",
     flex: 1,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 2,
+  },
+  modalViewDark: {
+    margin: 20,
+    backgroundColor: "#000000",
+    borderRadius: 20,
+    padding: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+
+  modalViewLight: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modelTextDark: {
+    paddingBottom: 15,
+    color: "white",
+    opacity: 0.5,
+  },
+  modelTextLight: {
+    paddingBottom: 15,
+    color: "#000000",
+    opacity: 0.5,
   },
 });
