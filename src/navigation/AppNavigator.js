@@ -47,7 +47,6 @@ function AuthStackScreen() {
     <AuthStack.Navigator headerMode="none">
       <AuthStack.Screen name="Login" component={Login} />
       <AuthStack.Screen name="Register" component={Register} />
-      <AuthStack.Screen name="ForgetPassword" component={ForgetPassword} />
     </AuthStack.Navigator>
   );
 }
