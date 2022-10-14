@@ -45,7 +45,55 @@ export default function ({ navigation }) {
   };
 
   const handleValidation = (ref) => {
-    //email check
+    //Fullname check
+    if (ref == "full_name") {
+      let Nregex = /^[a-zA-Z]+ [a-zA-Z]+$/;
+      if (Nregex.test(userInfo.full_name)) {
+        setIsValidUserInfo({
+          full_name: true,
+          phone: true,
+          email: true,
+          password: true,
+          emergency_name: true,
+          emergency_phone: true,
+        });
+      } else {
+        setIsValidUserInfo({
+          full_name: false,
+          phone: true,
+          email: true,
+          password: true,
+          emergency_name: true,
+          emergency_phone: true,
+        });
+      }
+    }
+
+    //Phone check
+    if (ref == "phone") {
+      let Pregex = /04[\d]{8}/g;
+      if (Pregex.test(userInfo.phone)) {
+        setIsValidUserInfo({
+          full_name: true,
+          phone: true,
+          email: true,
+          password: true,
+          emergency_name: true,
+          emergency_phone: true,
+        });
+      } else {
+        setIsValidUserInfo({
+          full_name: true,
+          phone: false,
+          email: true,
+          password: true,
+          emergency_name: true,
+          emergency_phone: true,
+        });
+      }
+    }
+
+    //Email check
     if (ref == "email") {
       console.log("ooi");
       let re = /\S+@\S+\.\S+/;
@@ -72,53 +120,7 @@ export default function ({ navigation }) {
       }
     }
 
-    //phone check
-    if (ref == "emergency_phone") {
-      let Pregex = /04[\d]{8}/g;
-      if (Pregex.test(userInfo.emergency_phone)) {
-        setIsValidUserInfo({
-          full_name: true,
-          phone: true,
-          email: true,
-          password: true,
-          emergency_name: true,
-          emergency_phone: true,
-        });
-      } else {
-        setIsValidUserInfo({
-          full_name: true,
-          phone: true,
-          email: true,
-          password: true,
-          emergency_name: true,
-          emergency_phone: false,
-        });
-      }
-    }
-    //name check
-    if (ref == "full_name") {
-      let Nregex = /^[a-zA-Z]+ [a-zA-Z]+$/;
-      if (Nregex.test(userInfo.full_name)) {
-        setIsValidUserInfo({
-          full_name: true,
-          phone: true,
-          email: true,
-          password: true,
-          emergency_name: true,
-          emergency_phone: true,
-        });
-      } else {
-        setIsValidUserInfo({
-          full_name: false,
-          phone: true,
-          email: true,
-          password: true,
-          emergency_name: true,
-          emergency_phone: true,
-        });
-      }
-    }
-    //password check
+    //Password check
     if (ref == "password") {
       const isNonWhiteSpace = /^\S*$/;
 
@@ -155,6 +157,54 @@ export default function ({ navigation }) {
         });
       }
     }
+
+    //Emergency name check
+    if (ref == "emergency_name") {
+      let Nregex = /^[a-zA-Z]+ [a-zA-Z]+$/;
+      if (Nregex.test(userInfo.emergency_name)) {
+        setIsValidUserInfo({
+          full_name: true,
+          phone: true,
+          email: true,
+          password: true,
+          emergency_name: true,
+          emergency_phone: true,
+        });
+      } else {
+        setIsValidUserInfo({
+          full_name: true,
+          phone: true,
+          email: true,
+          password: true,
+          emergency_name: false,
+          emergency_phone: true,
+        });
+      }
+    }
+
+    //Emergency phone check
+    if (ref == "emergency_phone") {
+      let Pregex = /04[\d]{8}/g;
+      if (Pregex.test(userInfo.emergency_phone)) {
+        setIsValidUserInfo({
+          full_name: true,
+          phone: true,
+          email: true,
+          password: true,
+          emergency_name: true,
+          emergency_phone: true,
+        });
+      } else {
+        setIsValidUserInfo({
+          full_name: true,
+          phone: true,
+          email: true,
+          password: true,
+          emergency_name: true,
+          emergency_phone: false,
+        });
+      }
+    }
   };
 
   async function register() {
@@ -185,6 +235,28 @@ export default function ({ navigation }) {
       });
     } catch (error) {
       setLoading(false);
+      switch (error.code) {
+        case "auth/email-already-in-use":
+          Alert.alert("hehe");
+          break;
+
+        case "auth/invalid-password":
+          Alert.alert("Login failed", "Incorrect password, try again!");
+          break;
+
+        case "auth/invalid-credential":
+          Alert.alert(
+            "Login failed",
+            "Incorrect username or password, try again!"
+          );
+          break;
+
+        default:
+          Alert.alert(
+            "Login failed",
+            "Please use an existing email and password"
+          );
+      }
       console.log("error...", error.message);
       alert(error.message);
     }
@@ -247,11 +319,11 @@ export default function ({ navigation }) {
               onChangeText={(value) => handleInput("full_name", value)}
             />
             {isValiduserInfo.full_name ? (
-              <Text status="danger" size="sm" style={{ marginTop: 10 }}></Text>
+              <Text></Text>
             ) : (
               <Text status="danger" size="sm" style={{ marginTop: 10 }}>
                 {" "}
-                Please enter a valid name!
+                Please enter first name and last name.
               </Text>
             )}
 
@@ -265,7 +337,14 @@ export default function ({ navigation }) {
               value={userInfo.phone}
               onChangeText={(value) => handleInput("phone", value)}
             />
-
+            {isValiduserInfo.phone ? (
+              <Text ></Text>
+            ) : (
+              <Text status="danger" size="sm" style={{ marginTop: 10 }}>
+                {" "}
+                Please enter a valid phone number starting with 04.
+              </Text>
+            )}
             <Text style={{ marginTop: 15 }}>Email</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
@@ -283,7 +362,7 @@ export default function ({ navigation }) {
             ) : (
               <Text status="danger" size="sm" style={{ marginTop: 10 }}>
                 {" "}
-                Please enter a valid email!
+                Please enter a valid email.
               </Text>
             )}
 
@@ -319,6 +398,8 @@ export default function ({ navigation }) {
               Emergency contact
             </Text>
 
+
+
             <Text style={{ marginTop: 15 }}>Name</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
@@ -329,7 +410,14 @@ export default function ({ navigation }) {
               value={userInfo.emergency_name}
               onChangeText={(value) => handleInput("emergency_name", value)}
             />
-
+            {isValiduserInfo.emergency_name ? (
+              <Text ></Text>
+            ) : (
+              <Text status="danger" size="sm" style={{ marginTop: 10 }}>
+                {" "}
+                Please enter first name and last time.
+              </Text>
+            )}
             <Text style={{ marginTop: 15 }}>Phone</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
@@ -345,7 +433,7 @@ export default function ({ navigation }) {
             ) : (
               <Text status="danger" size="sm" style={{ marginTop: 10 }}>
                 {" "}
-                Please enter a valid phone number!
+                Please enter a valid phone number staring with 04.
               </Text>
             )}
 
