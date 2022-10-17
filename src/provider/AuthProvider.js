@@ -6,6 +6,7 @@ const AuthProvider = (props) => {
   const auth = getAuth();
   // user null = loading
   const [user, setUser] = useState(null);
+  const [userID, setUserID] = useState(null); // Better to store object but only need this for now.
 
   useEffect(() => {
     checkLogin();
@@ -15,9 +16,11 @@ const AuthProvider = (props) => {
     onAuthStateChanged(auth, (u) => {
       if (u) {
         setUser(true);
+        setUserID(u.uid);
         //getUserData(u);
       } else {
         setUser(false);
+        setUserID(null);
         // setUserData(null);
       }
     });
@@ -27,6 +30,7 @@ const AuthProvider = (props) => {
     <AuthContext.Provider
       value={{
         user,
+        userID
       }}
     >
       {props.children}
