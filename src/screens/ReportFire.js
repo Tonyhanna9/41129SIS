@@ -20,6 +20,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import { saveImageFB } from "./utils/FBStorage";
+import { getImageLabel } from "./utils/fireDetection";
 
 export default function ({ navigation }) {
   const { isDarkmode, setTheme } = useTheme();
@@ -58,6 +59,8 @@ export default function ({ navigation }) {
     };
 
     let newPhoto = await cameraRef.current.takePictureAsync(options);
+        result = await getImageLabel(newPhoto);
+        console.log('result ', result );
     setPhoto(newPhoto);
   };
 
