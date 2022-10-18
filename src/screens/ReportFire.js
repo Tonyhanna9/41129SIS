@@ -1,5 +1,5 @@
 import { React, useEffect, useRef, useState, useContext } from "react";
-import { FontAwesome5,MaterialIcons, Ionicons, Feather } from '@expo/vector-icons';
+import { FontAwesome5, MaterialIcons, Ionicons, Feather } from '@expo/vector-icons';
 import {
   StyleSheet,
   View,
@@ -180,7 +180,7 @@ export default function ({ navigation }) {
 
   return (
     <Layout>
-       {auth.user !== false &&  <TopNav
+       {auth.user === true &&  <TopNav
         middleContent="Report Fire 🔥"
         leftContent={
           <Ionicons
