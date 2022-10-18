@@ -103,39 +103,25 @@ import {
   return (
     <KeyboardAvoidingView behavior="height" enabled style={{ flex: 1 }}>
       <Layout>
-      <TopNav
-        middleContent="View Profile"
-        leftContent={
-          <Ionicons
-            name="chevron-back"
-            size={20}
-            color={isDarkmode ? themeColor.white100 : themeColor.dark}
-          />
-        }
-        leftAction={() => navigation.goBack()}
-        rightContent={
-          <Feather name="more-vertical" size={24} color={isDarkmode ? themeColor.white100 : themeColor.dark} />
-        }
-        rightAction={() => {
-          setisMenuVisible(true);
-        }}
-        // rightContent={
-        //   <Ionicons
-        //     name={isDarkmode ? "sunny" : "moon"}
-        //     size={20}
-        //     color={isDarkmode ? themeColor.white100 : themeColor.dark}
-        //   />
-        // }
-        // rightAction={() => {
-        //   if (isDarkmode) {
-        //     setTheme("light");
-        //   } else {
-        //     setTheme("dark");
-        //   }
-        // }}
-        backgroundColor={themeColor.white}
-        borderColor={themeColor.white}
-      />
+        <TopNav
+          middleContent="View Profile"
+          leftContent={
+            <Ionicons
+              name="chevron-back"
+              size={20}
+              color={isDarkmode ? themeColor.white100 : themeColor.dark}
+            />
+          }
+          leftAction={() => navigation.goBack()}
+          rightContent={
+            <Feather name="more-vertical" size={24} color={isDarkmode ? themeColor.white100 : themeColor.dark} />
+          }
+          rightAction={() => {
+            setisMenuVisible(true);
+          }}
+          backgroundColor={themeColor.white}
+          borderColor={themeColor.white}
+        />
         <ScrollView
           contentContainerStyle={{
             flexGrow: 1,
@@ -255,104 +241,84 @@ import {
           </View>
         </ScrollView>
         <Modal
-        animationType="slide"
-        transparent={true}
-        visible={isMenuVisible}
-      >
-        <View style={styles.centeredView}>
-          <View
-            style={
-            isDarkmode ? styles.modalViewDark : styles.modalViewLight
-            }
-          >
-                <View
-                  style={{
-                    paddingBottom: 9,
-                    width: 140
-                  }}
-                >
-                  <RapiButton
-                    onPress={() => {
-                      navigation.navigate("App", {
-                        screen: "HomePage",
-                      });
-                      setisMenuVisible(false);
-                    }}
-                    text="Home Page"
-                    leftContent={
-                      <FontAwesome5 name="home" size={24} color="white" />
-                  }
-                  color= {themeColor.danger600}
-                  />
-                </View>
-                <View
-                  style={{
-                    paddingBottom: 9,
-                    width: 140
-                  }}
-                >
-                  <RapiButton
-                 
-                    onPress={() => {
-                      navigation.navigate("App", {
-                        screen: "SubmissionConfirm",
-                      });
-                      setisMenuVisible(false);
-                    }}
-                    leftContent={
-                      <MaterialIcons name="logout" size={24} color="white" />
-                  }
-                    text="Logout"
-                    color= {themeColor.danger600}
-                  />
-                </View>
-                <View
-                  style={{
-                    paddingBottom: 9,
-
-                  }}
-                >
-                  <RapiButton
-                    onPress={() => {
-                      if (isDarkmode) {
-                        setTheme("light");
-                      } else {
-                        setTheme("dark");
-                      }
-                    }}
-                    leftContent={
-                       <Ionicons
-            name={isDarkmode ? "sunny" : "moon"}
-            size={20}
-            color={isDarkmode ? themeColor.white100 : themeColor.dark}
-          />
-                  }
-                    // text="Mode"
-                    color="white"
-                  />
-                  
-                </View>
-               
-                <View
-                  style={{
-                    paddingBottom: 9,
-                  }}
-                >
-                  <RapiButton
-                    onPress={() => {
-                      setisMenuVisible(false);
-                    }}
-                    text={
-                    <Ionicons name="ios-close" size={24} color="black" />}
-                    color="white"
-                  />
-                  
-                </View>
-              </View>
+          animationType="slide"
+          transparent={true}
+          visible={isMenuVisible}
+        >
+          <View style={styles.centeredView}>
+            <View
+              style={isDarkmode ? styles.modalViewDark : styles.modalViewLight}
+            >
+            <View
+              style={{
+                paddingBottom: 9,
+                width: 140
+              }}
+            >
+              <RapiButton
+                onPress={() => {
+                  navigation.navigate("App", {screen: "HomePage",});
+                  setisMenuVisible(false);
+                }}
+                text="Home Page"
+                leftContent={<FontAwesome5 name="home" size={24} color="white" />}
+                color= {themeColor.danger600}
+              />
             </View>
-          </Modal>
-      </Layout>
-    </KeyboardAvoidingView>
+            <View
+              style={{
+                paddingBottom: 9,
+                width: 140
+              }}
+            >
+              <RapiButton   
+                onPress={() => {
+                  navigation.navigate("App", {screen: "SubmissionConfirm",});
+                  setisMenuVisible(false);
+                }}
+                leftContent={
+                  <MaterialIcons name="logout" size={24} color="white" />
+                }
+                text="Logout"
+                color= {themeColor.danger600}
+              />
+            </View>
+            <View
+              style={{
+                paddingBottom: 9,
+              }}
+            >
+            <RapiButton
+              onPress={() => {
+                if (isDarkmode) {
+                  setTheme("light");
+                } else {
+                  setTheme("dark");
+                }
+              }}
+              leftContent={<Ionicons name={isDarkmode ? "sunny" : "moon"} size={20} color={isDarkmode ? themeColor.white100 : themeColor.dark}/>}
+              color="white"
+            />
+          </View>
+               
+          <View
+            style={{
+              paddingBottom: 9,
+            }}
+          >
+            <RapiButton
+              onPress={() => {
+                setisMenuVisible(false);
+              }}
+              text={<Ionicons name="ios-close" size={24} color="black" />}
+              color="white"
+            />
+          </View>
+        </View>
+      </View>
+    </Modal>
+  </Layout>
+</KeyboardAvoidingView>
   );
 }
 

@@ -235,92 +235,78 @@ export default function ({ navigation }) {
             isDarkmode ? styles.modalViewDark : styles.modalViewLight
             }
           >
-                <View
-                  style={{
-                    paddingBottom: 9,
-                    width: 140
-                  }}
-                >
-                  <RapiButton
-                    onPress={() => {
-                      navigation.navigate("Auth", {
-                        screen: "EditProfile",
-                      });
-                      setisMenuVisible(false);
-                    }}
-                    text="Edit Profile"
-                    leftContent={
-                      <FontAwesome5 name="user" size={24} color="white" />
-                  }
-                  color= {themeColor.danger600}
-                  />
-                </View>
-                <View
-                  style={{
-                    paddingBottom: 9,
-                    width: 140
-                  }}
-                >
-                  <RapiButton
-                 
-                    onPress={() => {
-                      navigation.navigate("App", {
-                        screen: "SubmissionConfirm",
-                      });
-                      setisMenuVisible(false);
-                    }}
-                    leftContent={
-                      <MaterialIcons name="logout" size={24} color="white" />
-                  }
-                    text="Logout"
-                    color= {themeColor.danger600}
-                  />
-                </View>
-                <View
-                  style={{
-                    paddingBottom: 9,
-
-                  }}
-                >
-                  <RapiButton
-                    onPress={() => {
-                      if (isDarkmode) {
-                        setTheme("light");
-                      } else {
-                        setTheme("dark");
-                      }
-                    }}
-                    leftContent={
-                       <Ionicons
-            name={isDarkmode ? "sunny" : "moon"}
-            size={20}
-            color={isDarkmode ? themeColor.white : themeColor.dark}
-          />
-                  }
-                    // text="Mode"
-                    color={isDarkmode ? themeColor.dark : themeColor.white}
-                  />
-                  
-                </View>
-               
-                <View
-                  style={{
-                    paddingBottom: 9,
-                  }}
-                >
-                  <RapiButton
-                    onPress={() => {
-                      setisMenuVisible(false);
-                    }}
-                    text={
-                    <Ionicons name="ios-close" size={24}  color={isDarkmode ? themeColor.white : themeColor.dark} />}
-                    color={isDarkmode ? themeColor.dark : themeColor.white}
-                  />
-                  
-                </View>
-              </View>
+            <View
+              style={{
+                paddingBottom: 9,
+                width: 140
+              }}
+            >
+              <RapiButton
+                onPress={() => {
+                  navigation.navigate("Auth", {screen: "EditProfile",});
+                  setisMenuVisible(false);
+                }}
+                text="Edit Profile"
+                leftContent={
+                  <FontAwesome5 name="user" size={24} color="white" />
+                }
+                color= {themeColor.danger600}
+              />
             </View>
-          </Modal>
+            <View
+              style={{
+                paddingBottom: 9,
+                width: 140
+              }}
+            >
+              <RapiButton
+                onPress={() => {
+                  navigation.navigate("App", {screen: "SubmissionConfirm",});
+                  setisMenuVisible(false);
+                }}
+                leftContent={
+                  <MaterialIcons name="logout" size={24} color="white" />
+                }
+                text="Logout"
+                color= {themeColor.danger600}
+              />
+            </View>
+            <View
+              style={{
+                paddingBottom: 9,
+              }}
+            >
+              <RapiButton
+                onPress={() => {
+                  if (isDarkmode) {
+                    setTheme("light");
+                  } else {
+                    setTheme("dark");
+                  }
+                }}
+                leftContent={
+                  <Ionicons name={isDarkmode ? "sunny" : "moon"} size={20} color={isDarkmode ? themeColor.white : themeColor.dark}/>
+                }
+                color={isDarkmode ? themeColor.dark : themeColor.white}
+              />
+            </View>   
+            <View
+              style={{
+                paddingBottom: 9,
+              }}
+            >
+              <RapiButton
+                onPress={() => {
+                  setisMenuVisible(false);
+                }}
+                text={
+                  <Ionicons name="ios-close" size={24}  color={isDarkmode ? themeColor.white : themeColor.dark} />}
+                color={isDarkmode ? themeColor.dark : themeColor.white}
+              />      
+            </View>
+          </View>
+        </View>
+      </Modal>
       <Camera style={styles.containerLight} ref={cameraRef}>
         <TouchableOpacity onPress={takePic}>
           <View style={styles.buttonContainer}>
@@ -330,7 +316,6 @@ export default function ({ navigation }) {
               color={themeColor.white100}
             ></Ionicons>
           </View>
-          
         </TouchableOpacity>
       </Camera>
     </Layout>
