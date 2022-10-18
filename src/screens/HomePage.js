@@ -16,6 +16,7 @@ import {
   Section,
 } from "react-native-rapi-ui";
 import { AuthContext } from "../provider/AuthProvider";
+import Header from "../screens/Header";
 
 export default function ({ navigation }) {
   const { isDarkmode, setTheme } = useTheme();
@@ -31,6 +32,7 @@ export default function ({ navigation }) {
             backgroundColor: isDarkmode ? "#17171E" : themeColor.danger600,
           }}
         >
+          <Header title="Report Fire 🔥" showBackButton={false}></Header>
            <View
             style={{
               flex: 1,
