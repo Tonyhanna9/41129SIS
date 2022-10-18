@@ -1,15 +1,19 @@
 import React, { useContext, useState } from "react";
-import { MaterialIcons } from '@expo/vector-icons';
+import { FontAwesome5, MaterialIcons, Ionicons, Feather } from '@expo/vector-icons';
 import {
   ScrollView,
+  StyleSheet,
   TouchableOpacity,
   View,
+  Modal,
   KeyboardAvoidingView,
   Image,
 } from "react-native";
 import {
   Layout,
+  TopNav,
   Text,
+  Button as RapiButton,
   Button,
   useTheme,
   themeColor,
@@ -20,11 +24,120 @@ import { AuthContext } from "../provider/AuthProvider";
 export default function ({ navigation }) {
   const { isDarkmode, setTheme } = useTheme();
   const auth = useContext(AuthContext);
+  const [isMenuVisible, setisMenuVisible] = useState(false);
 
   return (
     <KeyboardAvoidingView behavior="height" enabled style={{ flex: 1 }}>
       <Layout
         >
+          {auth.user === true &&  <TopNav
+        middleContent="Home Page"
+        leftAction={() => navigation.goBack()}
+        rightContent={
+          <Feather name="more-vertical" size={24} color={isDarkmode ? themeColor.white100 : themeColor.dark} />
+        }
+        rightAction={() => {
+          setisMenuVisible(true);
+        }}
+      />
+        }
+        <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isMenuVisible}
+      >
+        <View style={styles.centeredView}>
+          <View
+            style={
+            isDarkmode ? styles.modalViewDark : styles.modalViewLight
+            }
+          >
+                <View
+                  style={{
+                    paddingBottom: 9,
+                    width: 140
+                  }}
+                >
+                  <RapiButton
+                    onPress={() => {
+                      navigation.navigate("Auth", {
+                        screen: "EditProfile",
+                      });
+                      setisMenuVisible(false);
+                    }}
+                    text="Edit Profile"
+                    leftContent={
+                      <FontAwesome5 name="user" size={24} color="white" />
+                  }
+                  color= {themeColor.danger600}
+                  />
+                </View>
+                <View
+                  style={{
+                    paddingBottom: 9,
+                    width: 140
+                  }}
+                >
+                  <RapiButton
+                 
+                    onPress={() => {
+                      navigation.navigate("App", {
+                        screen: "SubmissionConfirm",
+                      });
+                      setisMenuVisible(false);
+                    }}
+                    leftContent={
+                      <MaterialIcons name="logout" size={24} color="white" />
+                  }
+                    text="Logout"
+                    color= {themeColor.danger600}
+                  />
+                </View>
+                <View
+                  style={{
+                    paddingBottom: 9,
+
+                  }}
+                >
+                  <RapiButton
+                    onPress={() => {
+                      if (isDarkmode) {
+                        setTheme("light");
+                      } else {
+                        setTheme("dark");
+                      }
+                    }}
+                    leftContent={
+                       <Ionicons
+            name={isDarkmode ? "sunny" : "moon"}
+            size={20}
+            color={isDarkmode ? themeColor.white : themeColor.dark}
+          />
+                  }
+                    // text="Mode"
+                    color={isDarkmode ? themeColor.dark : themeColor.white}
+                  />
+                  
+                </View>
+               
+                <View
+                  style={{
+                    paddingBottom: 9,
+                  }}
+                >
+                  <RapiButton
+                    onPress={() => {
+                      setisMenuVisible(false);
+                    }}
+                    text={
+                    <Ionicons name="ios-close" size={24}  color={isDarkmode ? themeColor.white : themeColor.dark} />}
+                    color={isDarkmode ? themeColor.dark : themeColor.white}
+                  />
+                  
+                </View>
+              </View>
+            </View>
+          </Modal>
         <ScrollView
           contentContainerStyle={{
             flexGrow: 1,
@@ -209,3 +322,79 @@ export default function ({ navigation }) {
     </KeyboardAvoidingView>
   );
 }
+
+const styles = StyleSheet.create({
+  containerLight: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  containerDark: {
+    flex: 1,
+    backgroundColor: "#000000",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  buttonContainer: {
+    flex: 1,
+    justifyContent: "flex-end",
+  },
+  preview: {
+    alignSelf: "stretch",
+    flex: 1,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 2,
+  },
+  modalViewDark: {
+    margin: 20,
+    backgroundColor: "#000000",
+    borderRadius: 20,
+    padding: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+
+  modalViewLight: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modelTextDark: {
+    paddingBottom: 15,
+    color: "white",
+    opacity: 0.5,
+  },
+  modelTextLight: {
+    paddingBottom: 15,
+    color: "#000000",
+    opacity: 0.5,
+  },
+});

@@ -282,7 +282,7 @@ import {
                     leftContent={
                       <FontAwesome5 name="home" size={24} color="white" />
                   }
-                    color="#ff4500"
+                  color= {themeColor.danger600}
                   />
                 </View>
                 <View
@@ -303,7 +303,7 @@ import {
                       <MaterialIcons name="logout" size={24} color="white" />
                   }
                     text="Logout"
-                    color="#ff4500"
+                    color= {themeColor.danger600}
                   />
                 </View>
                 <View

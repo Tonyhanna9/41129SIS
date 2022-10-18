@@ -122,7 +122,7 @@ export default function ({ navigation }) {
                       setisModalVisible(false);
                     }}
                     text="Connect to 000"
-                    color="#ff4500"
+                    color= {themeColor.danger600}
                   />
                 </View>
 
@@ -252,7 +252,7 @@ export default function ({ navigation }) {
                     leftContent={
                       <FontAwesome5 name="user" size={24} color="white" />
                   }
-                    color="#ff4500"
+                  color= {themeColor.danger600}
                   />
                 </View>
                 <View
@@ -273,7 +273,7 @@ export default function ({ navigation }) {
                       <MaterialIcons name="logout" size={24} color="white" />
                   }
                     text="Logout"
-                    color="#ff4500"
+                    color= {themeColor.danger600}
                   />
                 </View>
                 <View
@@ -294,11 +294,11 @@ export default function ({ navigation }) {
                        <Ionicons
             name={isDarkmode ? "sunny" : "moon"}
             size={20}
-            color={isDarkmode ? themeColor.white100 : themeColor.dark}
+            color={isDarkmode ? themeColor.white : themeColor.dark}
           />
                   }
                     // text="Mode"
-                    color="white"
+                    color={isDarkmode ? themeColor.dark : themeColor.white}
                   />
                   
                 </View>
@@ -313,8 +313,8 @@ export default function ({ navigation }) {
                       setisMenuVisible(false);
                     }}
                     text={
-                    <Ionicons name="ios-close" size={24} color="black" />}
-                    color="white"
+                    <Ionicons name="ios-close" size={24}  color={isDarkmode ? themeColor.white : themeColor.dark} />}
+                    color={isDarkmode ? themeColor.dark : themeColor.white}
                   />
                   
                 </View>
