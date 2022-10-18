@@ -65,7 +65,7 @@ export default function ({ navigation }) {
   };
 
   let savePhoto = () => {
-    saveImageFB(photo.uri).then(() => {
+    saveImageFB(photo.uri, auth.userID).then(() => {
       setIsPhotoSaved(true);
     });
   };
