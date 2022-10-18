@@ -212,7 +212,48 @@ export default function ({ navigation }) {
                 navigation.navigate("ReportFire");
               }}
             />
-         
+         {auth.user === true &&    
+         <View
+         style={{
+           flexDirection: "row",
+           alignItems: "center",
+           marginTop: 25,
+           justifyContent: "center",
+         }}
+       >
+         <TouchableOpacity
+        //   onPress={() => {
+        //    navigation.navigate('Auth', {screen: 'Register'});
+        //  }}
+         >
+           <Text
+             fontWeight="bold"
+             style={{
+               marginLeft: 5,
+               color: isDarkmode ? themeColor.white : themeColor.dark,
+               fontSize: 20
+             }}
+           >
+             Fire Map <FontAwesome5 name="map" size={24} color={isDarkmode ? themeColor.white : themeColor.dark} />
+           </Text>
+         </TouchableOpacity>
+       </View>}
+        {/* //  <Button
+        //       style={{
+        //         marginTop: 20,
+        //       }}
+        //       text={"Fire Map"}
+        //       rightContent={
+        //         <FontAwesome5 name="map" size={24} color={isDarkmode ? themeColor.white : themeColor.dark} />
+        //     }
+        //       // status="danger"
+        //       color={isDarkmode ? themeColor.dark : themeColor.white}
+        //       size="lg"
+        //       onPress={() => {
+        //         navigation.navigate("ReportFire");
+        //       }}
+        //     /> */}
+        
             {auth.user !== true && <View
               style={{
                 // flexDirection: "row",
