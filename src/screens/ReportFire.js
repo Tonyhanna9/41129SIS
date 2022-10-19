@@ -162,12 +162,8 @@ export default function ({ navigation }) {
         </View>
       );
     } else if (!isPhotoSaved) {
-      {
-        savePhoto();
-      } // Photo is saved automatically. User interaction is no longer required,
-      // so we can remove the below buttons.
+      { savePhoto(); }
       return (
-        
         <SafeAreaView
           style={isDarkmode ? styles.containerDark : styles.containerLight}
         >
@@ -175,11 +171,6 @@ export default function ({ navigation }) {
             style={styles.preview}
             source={{ uri: "data:image/jpg;base64," + photo.base64 }}
           />
-          {hasMediaLibraryPermission ? (
-            <Button color="#FF4500" title="Send" onPress={savePhoto} />
-          ) : undefined}
-
-          <Button title="Retry" onPress={() => setPhoto(undefined)} />
         </SafeAreaView>
       );
     }
