@@ -33,6 +33,7 @@ export default function ({ navigation }) {
   const [isPhotoSaved, setIsPhotoSaved] = useState(false);
   const [isModalVisible, setisModalVisible] = useState(false);
   const [isMenuVisible, setisMenuVisible] = useState(false);
+  let prefix = ''
   const auth = useContext(AuthContext);
 
   useEffect(() => {
@@ -67,7 +68,13 @@ export default function ({ navigation }) {
     let resultAsArray = JSON.parse(result);
     let prediction = resultAsArray["predicted_label"]; // Value is either 'fire_images' or 'non_fire_images'
     console.log("Prediction: " + prediction);
-
+    
+    if(prediction === "fire_images") {
+    prefix = '';  // Set prefix to 'No' if prediction is 'non_fire_images') ;
+    } else {
+    prefix = 'No';
+    }
+    console.log( 'prefix' , prefix);
     setPhoto(newPhoto);
   };
 
@@ -105,6 +112,7 @@ export default function ({ navigation }) {
                   size="h2"
                   fontWeight="medium"
                 >
+                  <Text>  {prefix} </Text>
                   FIRE DETECTED!
                 </Text>
 
