@@ -83,7 +83,7 @@ export default function ({ navigation }) {
   return (
     <Layout>
       <TopNav
-        middleContent="Report Fire 🔥"
+        middleContent="Report Fire"
         leftContent={
           <Ionicons
             name="chevron-back"

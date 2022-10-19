@@ -301,7 +301,7 @@ export default function ({ navigation }) {
             >
               Register
             </Text>
-            <Text>Full name</Text>
+            <Text>Full Name</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
               placeholder="Enter your full name"
@@ -389,7 +389,7 @@ export default function ({ navigation }) {
                 paddingTop: 30,
               }}
             >
-              Emergency contact
+              Emergency Contact
             </Text>
 
             <Text style={{ marginTop: 15 }}>Name</Text>
@@ -442,7 +442,7 @@ export default function ({ navigation }) {
             !userInfo.emergency_name == "" &&
             !userInfo.emergency_phone == "" ? (
               <Button
-                text={loading ? "Loading" : "Create an account"}
+                text={loading ? "Loading" : "Create an Account"}
                 status="danger"
                 onPress={() => {
                   register();
@@ -453,7 +453,7 @@ export default function ({ navigation }) {
               />
             ) : (
               <Button
-                text={loading ? "Loading" : "Create an account"}
+                text={loading ? "Loading" : "Create an Account"}
                 status="danger"
                 disabled="true"
                 onPress={() => {
@@ -511,7 +511,7 @@ export default function ({ navigation }) {
                     marginLeft: 5,
                   }}
                 >
-                  {isDarkmode ? "☀️ light theme" : "🌑 dark theme"}
+                  {isDarkmode ? "☀️ Light Theme" : "🌑 Dark Theme"}
                 </Text>
               </TouchableOpacity>
             </View>

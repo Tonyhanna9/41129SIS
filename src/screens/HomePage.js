@@ -145,7 +145,7 @@ export default function ({ navigation }) {
                     color: "#ff4500",
                   }}
                 >
-                  Create an account
+                  Create an Account
                 </Text>
               </TouchableOpacity>
             </View>
@@ -195,7 +195,7 @@ export default function ({ navigation }) {
                     marginLeft: 5,
                   }}
                 >
-                  {isDarkmode ? "☀️ light theme" : "🌑 dark theme"}
+                  {isDarkmode ? "☀️ Light Theme" : "🌑 Dark Theme"}
                 </Text>
               </TouchableOpacity>
             </View>

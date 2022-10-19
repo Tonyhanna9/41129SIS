@@ -76,24 +76,24 @@ export default function ({ navigation }) {
       setLoading(false);
       switch (error.code) {
         case "auth/invalid-email":
-          Alert.alert("Login failed ⚠️", "Invalid email, try again!");
+          Alert.alert("Login Failed", "Invalid email, try again.");
           break;
 
         case "auth/invalid-password":
-          Alert.alert("Login failed ⚠️", "Incorrect password, try again!");
+          Alert.alert("Login Failed", "Incorrect password, try again.");
           break;
 
         case "auth/invalid-credential":
           Alert.alert(
-            "Login failed ⚠️",
-            "Incorrect username or password, try again!"
+            "Login Failed",
+            "Incorrect username or password, try again."
           );
           break;
 
         default:
           Alert.alert(
-            "Login failed ⚠️",
-            "Please use an existing email and password"
+            "Login Failed",
+            "Email and password combination does not match."
           );
       }
     });
@@ -270,7 +270,7 @@ export default function ({ navigation }) {
                     marginLeft: 5,
                   }}
                 >
-                  {isDarkmode ? "☀️ light theme" : "🌑 dark theme"}
+                  {isDarkmode ? "☀️ Light Theme" : "🌑 Dark Theme"}
                 </Text>
               </TouchableOpacity>
             </View>
