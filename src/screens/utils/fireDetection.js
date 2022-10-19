@@ -1,6 +1,6 @@
 import {Buffer } from 'buffer';
 
-export function getImageLabel(base64_string) {
+export async function getImageLabel(base64_string) {
 
 	let img = Buffer.from(base64_string.base64 , 'base64');
 
@@ -21,8 +21,8 @@ export function getImageLabel(base64_string) {
 		redirect: 'follow'
 	};
 
-	return  fetch('https://ddrnncb6s7.execute-api.ap-southeast-2.amazonaws.com/fire/fireclassification', requestOptions)
-			.then(response => response.text())
-			.then(result => { return result})
-			.catch(error => console.log('error', error));
-	}
+	return fetch('https://ddrnncb6s7.execute-api.ap-southeast-2.amazonaws.com/fire/fireclassification', requestOptions)
+		.then(response => response.text())
+		.then(result => { return result})
+		.catch(error => console.log('error', error));
+}
