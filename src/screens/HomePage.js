@@ -161,7 +161,6 @@ export default function ({ navigation }) {
           }}
         >
           <Header title="Report Fire 🔥" showBackButton={false}></Header>
-           <View
           <Text
             fontWeight="bold"
             style={{
@@ -181,27 +180,28 @@ export default function ({ navigation }) {
             }}
           >
             Click below to take a snapshot & 
-            </Text>
-            <Text
-              style={{
-                alignSelf: "center",
-              }}
-            >
-              report to authorities instantly
-            </Text>
-            <Text></Text>
-            <Text></Text>
-            <Button
-              text={"REPORT NOW"}
-              rightContent={
-                <MaterialIcons name="report" size={24} color={themeColor.white} />
-              }
-              color={themeColor.danger600}
-              size="lg"
-              onPress={() => {
-                navigation.navigate("ReportFire");
-              }}
-            />
+          </Text>
+          <Text
+            style={{
+              alignSelf: "center",
+            }}
+          >
+            report to authorities instantly
+          </Text>
+          <Text></Text>
+          <Text></Text>
+          <Button
+            text={"REPORT NOW"}
+            rightContent={
+              <MaterialIcons name="report" size={24} color={themeColor.white} />
+            }
+            color={themeColor.danger600}
+            size="lg"
+            onPress={() => {
+              navigation.navigate("ReportFire");
+            }}
+          />
+
          {auth.user === true &&    
           <View
             style={{
@@ -273,11 +273,26 @@ export default function ({ navigation }) {
                 color: "#ff4500",
               }}
             >
-              Create an account
+              <TouchableOpacity
+               onPress={() => {
+                navigation.navigate('Auth', {screen: 'Register'});
+              }}
+              >
+                <Text
+                  size="md"
+                  fontWeight="bold"
+                  style={{
+                    marginLeft: 5,
+                    color: "#ff4500",
+                  }}
+                >
+                  Create an Account
+                </Text>
+              </TouchableOpacity>
             </Text>
           </TouchableOpacity>
         </View>}
-
+            
             {auth.user !== true && <View
               style={{
                 flexDirection: "row",
@@ -325,7 +340,7 @@ export default function ({ navigation }) {
                     marginLeft: 5,
                   }}
                 >
-                  {isDarkmode ? "☀️ light theme" : "🌑 dark theme"}
+                  {isDarkmode ? "☀️ Light Theme" : "🌑 Dark Theme"}
                 </Text>
               </TouchableOpacity>
             </View>

@@ -62,8 +62,8 @@ export default function ({ navigation }) {
     };
 
     let newPhoto = await cameraRef.current.takePictureAsync(options);
-        result = await getImageLabel(newPhoto);
-        console.log('result ', result );
+    result = await getImageLabel(newPhoto);
+    console.log('result ', result );
     setPhoto(newPhoto);
   };
 
@@ -184,7 +184,7 @@ export default function ({ navigation }) {
   return (
     <Layout>
        {auth.user === true &&  <TopNav
-        middleContent="Report Fire 🔥"
+        middleContent="Report Fire"
         leftContent={
           <Ionicons
             name="chevron-back"
@@ -202,7 +202,7 @@ export default function ({ navigation }) {
       />
         }
         {auth.user !== true &&  <TopNav
-        middleContent="Report Fire 🔥"
+        middleContent="Report Fire"
         leftContent={
           <Ionicons
             name="chevron-back"
