@@ -62,8 +62,8 @@ export default function ({ navigation }) {
     };
 
     let newPhoto = await cameraRef.current.takePictureAsync(options);
-        result = await getImageLabel(newPhoto);
-        console.log('result ', result );
+    result = await getImageLabel(newPhoto);
+    console.log('result ', result );
     setPhoto(newPhoto);
   };
 

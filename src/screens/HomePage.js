@@ -161,7 +161,6 @@ export default function ({ navigation }) {
           }}
         >
           <Header title="Report Fire 🔥" showBackButton={false}></Header>
-           <View
           <Text
             fontWeight="bold"
             style={{
@@ -181,27 +180,28 @@ export default function ({ navigation }) {
             }}
           >
             Click below to take a snapshot & 
-            </Text>
-            <Text
-              style={{
-                alignSelf: "center",
-              }}
-            >
-              report to authorities instantly
-            </Text>
-            <Text></Text>
-            <Text></Text>
-            <Button
-              text={"REPORT NOW"}
-              rightContent={
-                <MaterialIcons name="report" size={24} color={themeColor.white} />
-              }
-              color={themeColor.danger600}
-              size="lg"
-              onPress={() => {
-                navigation.navigate("ReportFire");
-              }}
-            />
+          </Text>
+          <Text
+            style={{
+              alignSelf: "center",
+            }}
+          >
+            report to authorities instantly
+          </Text>
+          <Text></Text>
+          <Text></Text>
+          <Button
+            text={"REPORT NOW"}
+            rightContent={
+              <MaterialIcons name="report" size={24} color={themeColor.white} />
+            }
+            color={themeColor.danger600}
+            size="lg"
+            onPress={() => {
+              navigation.navigate("ReportFire");
+            }}
+          />
+
          {auth.user === true &&    
           <View
             style={{
@@ -289,7 +289,9 @@ export default function ({ navigation }) {
                   Create an Account
                 </Text>
               </TouchableOpacity>
-            </View>
+            </Text>
+          </TouchableOpacity>
+        </View>}
             
             {auth.user !== true && <View
               style={{
