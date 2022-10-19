@@ -33,6 +33,7 @@ export default function ({ navigation }) {
   const [isPhotoSaved, setIsPhotoSaved] = useState(false);
   const [isModalVisible, setisModalVisible] = useState(false);
   const [isMenuVisible, setisMenuVisible] = useState(false);
+  const [isFire, setIsFire] = useState(true); // Assume worst-case scenario
   const auth = useContext(AuthContext);
 
   useEffect(() => {
@@ -68,12 +69,14 @@ export default function ({ navigation }) {
     let prediction = resultAsArray["predicted_label"]; // Value is either 'fire_images' or 'non_fire_images'
     console.log("Prediction: " + prediction);
 
+    setIsFire(prediction === "fire_images");
     setPhoto(newPhoto);
   };
 
   let savePhoto = () => {
     saveImageFB(photo.uri, auth.userID).then(() => {
       setIsPhotoSaved(true);
+      setisModalVisible(true);
     });
   };
 
@@ -105,7 +108,7 @@ export default function ({ navigation }) {
                   size="h2"
                   fontWeight="medium"
                 >
-                  FIRE DETECTED!
+                  {isFire ? "FIRE DETECTED!" : "No Fire Detected"}
                 </Text>
 
                 <Text
