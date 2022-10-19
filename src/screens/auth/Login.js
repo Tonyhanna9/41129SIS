@@ -70,9 +70,7 @@ export default function ({ navigation }) {
   async function login() {
     setcheckPassword(checkPasswordValidity(password));
     setLoading(true);
-    await signInWithEmailAndPassword(auth, email, password).catch(function (
-      error
-    ) {
+    await signInWithEmailAndPassword(auth, email, password).catch((error) => {
       setLoading(false);
       switch (error.code) {
         case "auth/invalid-email":
@@ -95,6 +93,12 @@ export default function ({ navigation }) {
             "Login Failed",
             "Email and password combination does not match."
           );
+      }
+    }).then((userCredential) => {
+      setLoading(false);
+      
+      if (userCredential !== undefined) {
+        navigation.navigate('App', {screen: 'HomePage'});
       }
     });
   }
