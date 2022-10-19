@@ -30,253 +30,144 @@ export default function ({ navigation }) {
   return (
     <KeyboardAvoidingView behavior="height" enabled style={{ flex: 1 }}>
       <Layout>
-        {auth.user === true &&  <TopNav
-          middleContent="Home Page"
-          leftAction={() => navigation.goBack()}
-          rightContent={
-            <Feather name="more-vertical" size={24} color={isDarkmode ? themeColor.white100 : themeColor.dark} />
-          }
-          rightAction={() => {
-            setisMenuVisible(true);
-          }}
-      />
-        }
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={isMenuVisible}
-      >
-        <View style={styles.centeredView}>
-          <View
-            style={
-            isDarkmode ? styles.modalViewDark : styles.modalViewLight
-            }
-          >
-            <View
-              style={{
-                paddingBottom: 9,
-                width: 140
-              }}
-            >
-              <RapiButton
-                onPress={() => {
-                  navigation.navigate("Auth", {screen: "EditProfile",});
-                  setisMenuVisible(false);
-                }}
-                text="Edit Profile"
-                leftContent={
-                  <FontAwesome5 name="user" size={24} color="white" />
-                }
-                color= {themeColor.danger600}
-              />
-            </View>
-            <View
-              style={{
-                paddingBottom: 9,
-                width: 140
-              }}
-            >
-              <RapiButton
-                onPress={() => {
-                  navigation.navigate("App", {screen: "SubmissionConfirm",});
-                  setisMenuVisible(false);
-                }}
-                leftContent={
-                  <MaterialIcons name="logout" size={24} color="white" />
-                }
-                text="Logout"
-                color= {themeColor.danger600}
-              />
-            </View>
-            <View
-              style={{
-                paddingBottom: 9,
-              }}
-            >
-              <RapiButton
-                onPress={() => {
-                  if (isDarkmode) {
-                    setTheme("light");
-                  } else {
-                    setTheme("dark");
-                  }
-                }}
-                leftContent={
-                  <Ionicons name={isDarkmode ? "sunny" : "moon"} size={20} color={isDarkmode ? themeColor.white : themeColor.dark}/>
-                }
-                color={isDarkmode ? themeColor.dark : themeColor.white}
-              /> 
-            </View>
-            <View
-              style={{
-                paddingBottom: 9,
-              }}
-            >
-              <RapiButton
-                onPress={() => {
-                  setisMenuVisible(false);
-                }}
-                text={
-                  <Ionicons name="ios-close" size={24}  color={isDarkmode ? themeColor.white : themeColor.dark} />
-                }
-                color={isDarkmode ? themeColor.dark : themeColor.white}
-              /> 
-            </View>
-          </View>
-        </View>
-      </Modal>
-      <ScrollView
-        contentContainerStyle={{
-          flexGrow: 1,
-          backgroundColor: isDarkmode ? "#17171E" : themeColor.danger600,
-        }}
-      >
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: isDarkmode ? "#17171E" : themeColor.white,
+        <Header navigation={navigation} showBackButton={false}></Header>
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            backgroundColor: isDarkmode ? "#17171E" : themeColor.danger600,
           }}
         >
-          <Image
-            resizeMode="cover"
-            style={{
-              height: 220,
-              width: 220,
-            }}
-            source={require("../../assets/firelogo.png")}
-          />
-        </View>
-        <View
-          style={{
-            flex: 3,
-            paddingHorizontal: 20,
-            backgroundColor: isDarkmode ? themeColor.dark : themeColor.white,
-            borderRadius: 25,
-            marginLeft: 25,
-            marginRight: 25,
-            marginBottom: 25,
-            marginTop: 25 
-          }}
-        >
-          <Header title="Report Fire 🔥" showBackButton={false}></Header>
-          <Text
-            fontWeight="bold"
-            style={{
-              alignSelf: "center",
-              paddingLeft: 30,
-              paddingRight: 30,
-              paddingTop: 30,
-              paddingBottom: 20
-            }}
-            size="h2"
-          >
-            Fire Emergency?
-          </Text>
-          <Text
-            style={{
-              alignSelf: "center",
-            }}
-          >
-            Click below to take a snapshot & 
-          </Text>
-          <Text
-            style={{
-              alignSelf: "center",
-            }}
-          >
-            report to authorities instantly
-          </Text>
-          <Text></Text>
-          <Text></Text>
-          <Button
-            text={"REPORT NOW"}
-            rightContent={
-              <MaterialIcons name="report" size={24} color={themeColor.white} />
-            }
-            color={themeColor.danger600}
-            size="lg"
-            onPress={() => {
-              navigation.navigate("ReportFire");
-            }}
-          />
-
-         {auth.user === true &&    
           <View
             style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginTop: 25,
+              flex: 1,
               justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: isDarkmode ? "#17171E" : themeColor.white,
             }}
           >
-          <TouchableOpacity
-        //   onPress={() => {
-        //    navigation.navigate('Auth', {screen: 'Register'});
-        //  }}
-          >
-           <Text
-             fontWeight="bold"
-             style={{
-               marginLeft: 5,
-               color: isDarkmode ? themeColor.white : themeColor.dark,
-               fontSize: 20
-             }}
-           >
-             Fire Map <FontAwesome5 name="map" size={24} color={isDarkmode ? themeColor.white : themeColor.dark} />
-           </Text>
-         </TouchableOpacity>
-        </View>}
-        {auth.user !== true && <View
-          style={{
-            alignItems: "center",
-            marginTop: 30,
-            justifyContent: "center",
-          }}
-        >
-          <Text size="md"
+            <Image
+              resizeMode="cover"
+              style={{
+                height: 220,
+                width: 220,
+              }}
+              source={require("../../assets/firelogo.png")}
+            />
+          </View>
+          <View
             style={{
-              alignSelf: "center",
-            }}
-          >Create an account to send your details along</Text>
-          <Text size="md"
-            style={{
-              alignSelf: "center",
-            }}
-          >with the report & see real-time updates</Text>
-          <Text size="md"
-            style={{
-              alignSelf: "center",
-            }}
-          >on fires near you</Text>
-        </View>}
-
-        {auth.user !== true && <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            marginTop: 15,
-            justifyContent: "center",
-          }}
-        >
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('Auth', {screen: 'Register'});
+              flex: 3,
+              paddingHorizontal: 20,
+              backgroundColor: isDarkmode ? themeColor.dark : themeColor.white,
+              borderRadius: 25,
+              marginLeft: 25,
+              marginRight: 25,
+              marginBottom: 25,
+              marginTop: 25 
             }}
           >
             <Text
-              size="md"
               fontWeight="bold"
               style={{
-                marginLeft: 5,
-                color: "#ff4500",
+                alignSelf: "center",
+                paddingLeft: 30,
+                paddingRight: 30,
+                paddingTop: 30,
+                paddingBottom: 20
+              }}
+              size="h2"
+            >
+              Fire Emergency?
+            </Text>
+            <Text
+              style={{
+                alignSelf: "center",
+              }}
+            >
+              Click below to take a snapshot & 
+            </Text>
+            <Text
+              style={{
+                alignSelf: "center",
+              }}
+            >
+              report to authorities instantly
+            </Text>
+            <Text></Text>
+            <Text></Text>
+            <Button
+              text={"REPORT NOW"}
+              rightContent={
+                <MaterialIcons name="report" size={24} color={themeColor.white} />
+              }
+              color={themeColor.danger600}
+              size="lg"
+              onPress={() => {
+                navigation.navigate("ReportFire");
+              }}
+            />
+
+            {auth.user === true && <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                marginTop: 25,
+                justifyContent: "center",
+              }}
+            >
+              <TouchableOpacity>
+                <Text
+                  fontWeight="bold"
+                  style={{
+                    marginLeft: 5,
+                    color: isDarkmode ? themeColor.white : themeColor.dark,
+                    fontSize: 20
+                  }}
+                  onPress={() => {
+                    navigation.navigate("FireMap");
+                  }}
+                >
+                  Fire Map <FontAwesome5 name="map" size={24} color={isDarkmode ? themeColor.white : themeColor.dark} />
+                </Text>
+              </TouchableOpacity>
+            </View>}
+
+            {auth.user !== true && <View
+              style={{
+                alignItems: "center",
+                marginTop: 30,
+                justifyContent: "center",
+              }}
+            >
+              <Text size="md"
+                style={{
+                  alignSelf: "center",
+                }}
+              >Create an account to send your details along</Text>
+              <Text size="md"
+                style={{
+                  alignSelf: "center",
+                }}
+              >with the report & see real-time updates</Text>
+              <Text size="md"
+                style={{
+                  alignSelf: "center",
+                }}
+              >on fires near you</Text>
+            </View>}
+
+            {auth.user !== true && <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                marginTop: 15,
+                justifyContent: "center",
               }}
             >
               <TouchableOpacity
-               onPress={() => {
-                navigation.navigate('Auth', {screen: 'Register'});
-              }}
+                onPress={() => {
+                  navigation.navigate('Auth', {screen: 'Register'});
+                }}
               >
                 <Text
                   size="md"
@@ -286,12 +177,25 @@ export default function ({ navigation }) {
                     color: "#ff4500",
                   }}
                 >
-                  Create an Account
+                  <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('Auth', {screen: 'Register'});
+                  }}
+                  >
+                    <Text
+                      size="md"
+                      fontWeight="bold"
+                      style={{
+                        marginLeft: 5,
+                        color: "#ff4500",
+                      }}
+                    >
+                      Create an Account
+                    </Text>
+                  </TouchableOpacity>
                 </Text>
               </TouchableOpacity>
-            </Text>
-          </TouchableOpacity>
-        </View>}
+            </View>}
             
             {auth.user !== true && <View
               style={{
@@ -319,31 +223,6 @@ export default function ({ navigation }) {
                 </Text>
               </TouchableOpacity>
             </View>}
-            
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginTop: 30,
-                justifyContent: "center",
-              }}
-            >
-              <TouchableOpacity
-                onPress={() => {
-                  isDarkmode ? setTheme("light") : setTheme("dark");
-                }}
-              >
-                <Text
-                  size="md"
-                  fontWeight="bold"
-                  style={{
-                    marginLeft: 5,
-                  }}
-                >
-                  {isDarkmode ? "☀️ Light Theme" : "🌑 Dark Theme"}
-                </Text>
-              </TouchableOpacity>
-            </View>
           </View>
         </ScrollView>
       </Layout>

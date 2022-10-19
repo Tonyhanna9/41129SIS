@@ -22,6 +22,7 @@ import * as MediaLibrary from "expo-media-library";
 import { saveImageFB } from "./utils/FBStorage";
 import { getImageLabel } from "./utils/fireDetection";
 import { AuthContext } from "../provider/AuthProvider";
+import Header from "../screens/Header";
 
 export default function ({ navigation }) {
   const { isDarkmode, setTheme } = useTheme();
@@ -62,8 +63,11 @@ export default function ({ navigation }) {
     };
 
     let newPhoto = await cameraRef.current.takePictureAsync(options);
-    result = await getImageLabel(newPhoto);
-    console.log('result ', result );
+    let result = await getImageLabel(newPhoto); // Return value is a string NOT an array
+    let resultAsArray = JSON.parse(result);
+    let prediction = resultAsArray["predicted_label"]; // Value is either 'fire_images' or 'non_fire_images'
+    console.log("Prediction: " + prediction);
+
     setPhoto(newPhoto);
   };
 
@@ -183,133 +187,7 @@ export default function ({ navigation }) {
 
   return (
     <Layout>
-       {auth.user === true &&  <TopNav
-        middleContent="Report Fire"
-        leftContent={
-          <Ionicons
-            name="chevron-back"
-            size={20}
-            color={isDarkmode ? themeColor.white100 : themeColor.dark}
-          />
-        }
-        leftAction={() => navigation.goBack()}
-        rightContent={
-          <Feather name="more-vertical" size={24} color={isDarkmode ? themeColor.white100 : themeColor.dark} />
-        }
-        rightAction={() => {
-          setisMenuVisible(true);
-        }}
-      />
-        }
-        {auth.user !== true &&  <TopNav
-        middleContent="Report Fire"
-        leftContent={
-          <Ionicons
-            name="chevron-back"
-            size={20}
-            color={isDarkmode ? themeColor.white100 : themeColor.dark}
-          />
-        }
-        leftAction={() => navigation.goBack()}
-        rightContent={
-          <Ionicons
-            name={isDarkmode ? "sunny" : "moon"}
-            size={20}
-            color={isDarkmode ? themeColor.white100 : themeColor.dark}
-          />
-        }
-        rightAction={() => {
-          if (isDarkmode) {
-            setTheme("light");
-          } else {
-            setTheme("dark");
-          }
-        }}
-      />
-        }
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={isMenuVisible}
-      >
-        <View style={styles.centeredView}>
-          <View
-            style={
-            isDarkmode ? styles.modalViewDark : styles.modalViewLight
-            }
-          >
-            <View
-              style={{
-                paddingBottom: 9,
-                width: 140
-              }}
-            >
-              <RapiButton
-                onPress={() => {
-                  navigation.navigate("Auth", {screen: "EditProfile",});
-                  setisMenuVisible(false);
-                }}
-                text="Edit Profile"
-                leftContent={
-                  <FontAwesome5 name="user" size={24} color="white" />
-                }
-                color= {themeColor.danger600}
-              />
-            </View>
-            <View
-              style={{
-                paddingBottom: 9,
-                width: 140
-              }}
-            >
-              <RapiButton
-                onPress={() => {
-                  navigation.navigate("App", {screen: "SubmissionConfirm",});
-                  setisMenuVisible(false);
-                }}
-                leftContent={
-                  <MaterialIcons name="logout" size={24} color="white" />
-                }
-                text="Logout"
-                color= {themeColor.danger600}
-              />
-            </View>
-            <View
-              style={{
-                paddingBottom: 9,
-              }}
-            >
-              <RapiButton
-                onPress={() => {
-                  if (isDarkmode) {
-                    setTheme("light");
-                  } else {
-                    setTheme("dark");
-                  }
-                }}
-                leftContent={
-                  <Ionicons name={isDarkmode ? "sunny" : "moon"} size={20} color={isDarkmode ? themeColor.white : themeColor.dark}/>
-                }
-                color={isDarkmode ? themeColor.dark : themeColor.white}
-              />
-            </View>   
-            <View
-              style={{
-                paddingBottom: 9,
-              }}
-            >
-              <RapiButton
-                onPress={() => {
-                  setisMenuVisible(false);
-                }}
-                text={
-                  <Ionicons name="ios-close" size={24}  color={isDarkmode ? themeColor.white : themeColor.dark} />}
-                color={isDarkmode ? themeColor.dark : themeColor.white}
-              />      
-            </View>
-          </View>
-        </View>
-      </Modal>
+      <Header navigation={navigation} title="Report Fire"></Header>
       <Camera style={styles.containerLight} ref={cameraRef}>
         <TouchableOpacity onPress={takePic}>
           <View style={styles.buttonContainer}>
