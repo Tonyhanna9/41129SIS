@@ -44,9 +44,12 @@ if (getApps().length === 0) {
 const AuthStack = createNativeStackNavigator();
 function AuthStackScreen() {
   return (
-    <AuthStack.Navigator headerMode="none">
+    <AuthStack.Navigator  screenOptions={{
+      headerShown: false,
+    }}>
       <AuthStack.Screen name="Login" component={Login} />
       <AuthStack.Screen name="Register" component={Register} />
+      <AuthStack.Screen name="EditProfile" component={EditProfile} />
     </AuthStack.Navigator>
   );
 }
