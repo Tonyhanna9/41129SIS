@@ -30,7 +30,7 @@ export default function ({ navigation }) {
   return (
     <KeyboardAvoidingView behavior="height" enabled style={{ flex: 1 }}>
       <Layout>
-        <Header showBackButton={false}></Header>
+        <Header navigation={navigation} showBackButton={false}></Header>
         <ScrollView
           contentContainerStyle={{
             flexGrow: 1,
