@@ -1,4 +1,5 @@
 import { React, useEffect, useRef, useState, useContext } from "react";
+import { FontAwesome5, MaterialIcons, Ionicons, Feather } from '@expo/vector-icons';
 import {
   StyleSheet,
   View,
@@ -16,7 +17,6 @@ import {
   useTheme,
   Button as RapiButton,
 } from "react-native-rapi-ui";
-import { Ionicons } from "@expo/vector-icons";
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import { saveImageFB } from "./utils/FBStorage";
@@ -30,7 +30,8 @@ export default function ({ navigation }) {
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [photo, setPhoto] = useState();
   const [isPhotoSaved, setIsPhotoSaved] = useState(false);
-  const [isModalVisible, setisModalVisible] = useState(true);
+  const [isModalVisible, setisModalVisible] = useState(false);
+  const [isMenuVisible, setisMenuVisible] = useState(false);
   const auth = useContext(AuthContext);
 
   useEffect(() => {
@@ -124,7 +125,7 @@ export default function ({ navigation }) {
                       setisModalVisible(false);
                     }}
                     text="Connect to 000"
-                    color="#ff4500"
+                    color= {themeColor.danger600}
                   />
                 </View>
 
@@ -162,6 +163,7 @@ export default function ({ navigation }) {
       } // Photo is saved automatically. User interaction is no longer required,
       // so we can remove the below buttons.
       return (
+        
         <SafeAreaView
           style={isDarkmode ? styles.containerDark : styles.containerLight}
         >
@@ -181,7 +183,25 @@ export default function ({ navigation }) {
 
   return (
     <Layout>
-      <TopNav
+       {auth.user === true &&  <TopNav
+        middleContent="Report Fire 🔥"
+        leftContent={
+          <Ionicons
+            name="chevron-back"
+            size={20}
+            color={isDarkmode ? themeColor.white100 : themeColor.dark}
+          />
+        }
+        leftAction={() => navigation.goBack()}
+        rightContent={
+          <Feather name="more-vertical" size={24} color={isDarkmode ? themeColor.white100 : themeColor.dark} />
+        }
+        rightAction={() => {
+          setisMenuVisible(true);
+        }}
+      />
+        }
+        {auth.user !== true &&  <TopNav
         middleContent="Report Fire 🔥"
         leftContent={
           <Ionicons
@@ -206,7 +226,90 @@ export default function ({ navigation }) {
           }
         }}
       />
-
+        }
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isMenuVisible}
+      >
+        <View style={styles.centeredView}>
+          <View
+            style={
+            isDarkmode ? styles.modalViewDark : styles.modalViewLight
+            }
+          >
+            <View
+              style={{
+                paddingBottom: 9,
+                width: 140
+              }}
+            >
+              <RapiButton
+                onPress={() => {
+                  navigation.navigate("Auth", {screen: "EditProfile",});
+                  setisMenuVisible(false);
+                }}
+                text="Edit Profile"
+                leftContent={
+                  <FontAwesome5 name="user" size={24} color="white" />
+                }
+                color= {themeColor.danger600}
+              />
+            </View>
+            <View
+              style={{
+                paddingBottom: 9,
+                width: 140
+              }}
+            >
+              <RapiButton
+                onPress={() => {
+                  navigation.navigate("App", {screen: "SubmissionConfirm",});
+                  setisMenuVisible(false);
+                }}
+                leftContent={
+                  <MaterialIcons name="logout" size={24} color="white" />
+                }
+                text="Logout"
+                color= {themeColor.danger600}
+              />
+            </View>
+            <View
+              style={{
+                paddingBottom: 9,
+              }}
+            >
+              <RapiButton
+                onPress={() => {
+                  if (isDarkmode) {
+                    setTheme("light");
+                  } else {
+                    setTheme("dark");
+                  }
+                }}
+                leftContent={
+                  <Ionicons name={isDarkmode ? "sunny" : "moon"} size={20} color={isDarkmode ? themeColor.white : themeColor.dark}/>
+                }
+                color={isDarkmode ? themeColor.dark : themeColor.white}
+              />
+            </View>   
+            <View
+              style={{
+                paddingBottom: 9,
+              }}
+            >
+              <RapiButton
+                onPress={() => {
+                  setisMenuVisible(false);
+                }}
+                text={
+                  <Ionicons name="ios-close" size={24}  color={isDarkmode ? themeColor.white : themeColor.dark} />}
+                color={isDarkmode ? themeColor.dark : themeColor.white}
+              />      
+            </View>
+          </View>
+        </View>
+      </Modal>
       <Camera style={styles.containerLight} ref={cameraRef}>
         <TouchableOpacity onPress={takePic}>
           <View style={styles.buttonContainer}>
