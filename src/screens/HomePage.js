@@ -20,6 +20,7 @@ import {
   Section,
 } from "react-native-rapi-ui";
 import { AuthContext } from "../provider/AuthProvider";
+import Header from "../screens/Header";
 
 export default function ({ navigation }) {
   const { isDarkmode, setTheme } = useTheme();
@@ -159,6 +160,8 @@ export default function ({ navigation }) {
             marginTop: 25 
           }}
         >
+          <Header title="Report Fire 🔥" showBackButton={false}></Header>
+           <View
           <Text
             fontWeight="bold"
             style={{
