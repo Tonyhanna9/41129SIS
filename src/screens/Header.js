@@ -13,7 +13,7 @@ import {
 } from "react-native-rapi-ui";
 import { AuthContext } from "../provider/AuthProvider";
 
-export default function ({ title, showBackButton=true }) {
+export default function ({ navigation, title=null, showBackButton=true }) {
   const { isDarkmode, setTheme } = useTheme();
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const auth = useContext(AuthContext);
