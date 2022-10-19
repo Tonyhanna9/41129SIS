@@ -220,31 +220,6 @@ export default function ({ navigation }) {
                 </Text>
               </TouchableOpacity>
             </View>}
-              
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginTop: 30,
-                justifyContent: "center",
-              }}
-            >
-              <TouchableOpacity
-                onPress={() => {
-                  isDarkmode ? setTheme("light") : setTheme("dark");
-                }}
-              >
-                <Text
-                  size="md"
-                  fontWeight="bold"
-                  style={{
-                    marginLeft: 5,
-                  }}
-                >
-                  {isDarkmode ? "☀️ Light Theme" : "🌑 Dark Theme"}
-                </Text>
-              </TouchableOpacity>
-            </View>
           </View>
         </ScrollView>
       </Layout>
