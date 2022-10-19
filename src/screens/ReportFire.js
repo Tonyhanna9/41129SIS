@@ -184,7 +184,7 @@ export default function ({ navigation }) {
   return (
     <Layout>
        {auth.user === true &&  <TopNav
-        middleContent="Report Fire 🔥"
+        middleContent="Report Fire"
         leftContent={
           <Ionicons
             name="chevron-back"
@@ -202,7 +202,7 @@ export default function ({ navigation }) {
       />
         }
         {auth.user !== true &&  <TopNav
-        middleContent="Report Fire 🔥"
+        middleContent="Report Fire"
         leftContent={
           <Ionicons
             name="chevron-back"

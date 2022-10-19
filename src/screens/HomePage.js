@@ -273,11 +273,24 @@ export default function ({ navigation }) {
                 color: "#ff4500",
               }}
             >
-              Create an account
-            </Text>
-          </TouchableOpacity>
-        </View>}
-
+              <TouchableOpacity
+               onPress={() => {
+                navigation.navigate('Auth', {screen: 'Register'});
+              }}
+              >
+                <Text
+                  size="md"
+                  fontWeight="bold"
+                  style={{
+                    marginLeft: 5,
+                    color: "#ff4500",
+                  }}
+                >
+                  Create an Account
+                </Text>
+              </TouchableOpacity>
+            </View>
+            
             {auth.user !== true && <View
               style={{
                 flexDirection: "row",
@@ -325,7 +338,7 @@ export default function ({ navigation }) {
                     marginLeft: 5,
                   }}
                 >
-                  {isDarkmode ? "☀️ light theme" : "🌑 dark theme"}
+                  {isDarkmode ? "☀️ Light Theme" : "🌑 Dark Theme"}
                 </Text>
               </TouchableOpacity>
             </View>
