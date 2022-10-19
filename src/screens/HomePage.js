@@ -123,6 +123,9 @@ export default function ({ navigation }) {
                     color: isDarkmode ? themeColor.white : themeColor.dark,
                     fontSize: 20
                   }}
+                  onPress={() => {
+                    navigation.navigate("FireMap");
+                  }}
                 >
                   Fire Map <FontAwesome5 name="map" size={24} color={isDarkmode ? themeColor.white : themeColor.dark} />
                 </Text>
