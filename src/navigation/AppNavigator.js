@@ -8,6 +8,7 @@ import { AuthContext } from "../provider/AuthProvider";
 import ReportFire from "../screens/ReportFire";
 import HomePage from "../screens/HomePage";
 import SubmissionConfirm from "../screens/SubmissionConfirm";
+import FireMap from "../screens/map";
 
 // Auth screens
 import Login from "../screens/auth/Login";
@@ -64,6 +65,7 @@ function AppStackScreen() {
       <AppStack.Screen name="HomePage" component={HomePage} />
       <AppStack.Screen name="ReportFire" component={ReportFire} />
       <AppStack.Screen name="SubmissionConfirm" component={SubmissionConfirm} />
+      <AppStack.Screen name="FireMap" component={FireMap} />
     </AppStack.Navigator>
   );
 }
