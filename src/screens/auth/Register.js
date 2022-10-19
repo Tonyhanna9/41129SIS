@@ -5,6 +5,7 @@ import {
   View,
   KeyboardAvoidingView,
   Image,
+  Alert,
 } from "react-native";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import {
@@ -230,35 +231,28 @@ export default function ({ navigation }) {
           .catch((error) => {
             console.log("error...", error.message);
             setLoading(false);
-            alert(error.message);
           });
       });
     } catch (error) {
       setLoading(false);
       switch (error.code) {
         case "auth/email-already-in-use":
-          Alert.alert("hehe");
-          break;
-
-        case "auth/invalid-password":
-          Alert.alert("Login failed", "Incorrect password, try again!");
-          break;
-
-        case "auth/invalid-credential":
           Alert.alert(
-            "Login failed",
-            "Incorrect username or password, try again!"
+            "Registration Failed",
+            "An account already exists with provided email"
           );
+          break;
+
+        case "auth/weak-password":
+          Alert.alert("Registration Failed", "Provided password is too weak");
           break;
 
         default:
           Alert.alert(
-            "Login failed",
-            "Please use an existing email and password"
+            "Registration Failed",
+            "Please double check the entered details are valid"
           );
       }
-      console.log("error...", error.message);
-      alert(error.message);
     }
   }
 
@@ -338,7 +332,7 @@ export default function ({ navigation }) {
               onChangeText={(value) => handleInput("phone", value)}
             />
             {isValiduserInfo.phone ? (
-              <Text ></Text>
+              <Text></Text>
             ) : (
               <Text status="danger" size="sm" style={{ marginTop: 10 }}>
                 {" "}
@@ -398,8 +392,6 @@ export default function ({ navigation }) {
               Emergency contact
             </Text>
 
-
-
             <Text style={{ marginTop: 15 }}>Name</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
@@ -411,7 +403,7 @@ export default function ({ navigation }) {
               onChangeText={(value) => handleInput("emergency_name", value)}
             />
             {isValiduserInfo.emergency_name ? (
-              <Text ></Text>
+              <Text></Text>
             ) : (
               <Text status="danger" size="sm" style={{ marginTop: 10 }}>
                 {" "}
