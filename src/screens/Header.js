@@ -1,10 +1,12 @@
 import { React, useState, useContext } from "react";
-import { FontAwesome5, MaterialIcons, Ionicons, Feather } from '@expo/vector-icons';
 import {
-  StyleSheet,
-  View,
-  Modal,
-} from "react-native";
+  FontAwesome5,
+  MaterialIcons,
+  Ionicons,
+  Feather,
+} from "@expo/vector-icons";
+import { StyleSheet, View, Modal } from "react-native";
+import { firebase } from "../config/firebase";
 import {
   TopNav,
   themeColor,
@@ -13,7 +15,7 @@ import {
 } from "react-native-rapi-ui";
 import { AuthContext } from "../provider/AuthProvider";
 
-export default function ({ navigation, title=null, showBackButton=true }) {
+export default function ({ navigation, title = null, showBackButton = true }) {
   const { isDarkmode, setTheme } = useTheme();
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const auth = useContext(AuthContext);
@@ -39,7 +41,11 @@ export default function ({ navigation, title=null, showBackButton=true }) {
   function RightContent() {
     if (auth.user === true) {
       return (
-        <Feather name="more-vertical" size={24} color={isDarkmode ? themeColor.white100 : themeColor.dark} />
+        <Feather
+          name="more-vertical"
+          size={24}
+          color={isDarkmode ? themeColor.white100 : themeColor.dark}
+        />
       );
     } else {
       return (
@@ -68,31 +74,21 @@ export default function ({ navigation, title=null, showBackButton=true }) {
     <>
       <TopNav
         middleContent={title}
-        leftContent={
-          LeftContent()
-        }
+        leftContent={LeftContent()}
         leftAction={LeftAction}
-        rightContent={
-          RightContent()
-        }
+        rightContent={RightContent()}
         rightAction={RightAction}
       />
 
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={isMenuVisible}
-      >
+      <Modal animationType="slide" transparent={true} visible={isMenuVisible}>
         <View style={styles.centeredView}>
           <View
-            style={
-            isDarkmode ? styles.modalViewDark : styles.modalViewLight
-            }
+            style={isDarkmode ? styles.modalViewDark : styles.modalViewLight}
           >
             <View
               style={{
                 paddingBottom: 9,
-                width: 140
+                width: 140,
               }}
             >
               <RapiButton
@@ -105,22 +101,20 @@ export default function ({ navigation, title=null, showBackButton=true }) {
                 text="Edit Profile"
                 leftContent={
                   <FontAwesome5 name="user" size={24} color="white" />
-              }
+                }
                 color="#ff4500"
               />
             </View>
             <View
               style={{
                 paddingBottom: 9,
-                width: 140
+                width: 140,
               }}
             >
               <RapiButton
-              
                 onPress={() => {
-                  navigation.navigate("App", {
-                    screen: "SubmissionConfirm",
-                  });
+                  firebase.auth().signOut();
+                  navigation.navigate("Auth", { screen: "Login" });
                   setIsMenuVisible(false);
                 }}
                 leftContent={
@@ -162,9 +156,7 @@ export default function ({ navigation, title=null, showBackButton=true }) {
                 onPress={() => {
                   setIsMenuVisible(false);
                 }}
-                text={
-                  <Ionicons name="ios-close" size={24} color="black" />
-                }
+                text={<Ionicons name="ios-close" size={24} color="black" />}
                 color="white"
               />
             </View>
