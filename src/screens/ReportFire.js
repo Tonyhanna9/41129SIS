@@ -1,4 +1,4 @@
-import { React, useEffect, useRef, useState } from "react";
+import { React, useEffect, useRef, useState, useContext } from "react";
 import {
   StyleSheet,
   View,
@@ -20,6 +20,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import { saveImageFB } from "./utils/FBStorage";
+import { getImageLabel } from "./utils/fireDetection";
+import { AuthContext } from "../provider/AuthProvider";
 
 export default function ({ navigation }) {
   const { isDarkmode, setTheme } = useTheme();
@@ -29,6 +31,7 @@ export default function ({ navigation }) {
   const [photo, setPhoto] = useState();
   const [isPhotoSaved, setIsPhotoSaved] = useState(false);
   const [isModalVisible, setisModalVisible] = useState(true);
+  const auth = useContext(AuthContext);
 
   useEffect(() => {
     (async () => {
@@ -58,11 +61,13 @@ export default function ({ navigation }) {
     };
 
     let newPhoto = await cameraRef.current.takePictureAsync(options);
+        result = await getImageLabel(newPhoto);
+        console.log('result ', result );
     setPhoto(newPhoto);
   };
 
   let savePhoto = () => {
-    saveImageFB(photo.uri).then(() => {
+    saveImageFB(photo.uri, auth.userID).then(() => {
       setIsPhotoSaved(true);
     });
   };
