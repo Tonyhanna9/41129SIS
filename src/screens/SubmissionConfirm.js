@@ -21,6 +21,7 @@ import {
   TopNav,
 } from "react-native-rapi-ui";
 import { firebase } from "../config/firebase";
+import Header from "../screens/Header";
 
 export default function ({ navigation }) {
   const { isDarkmode, setTheme } = useTheme();
@@ -34,7 +35,8 @@ export default function ({ navigation }) {
             backgroundColor: isDarkmode ? "#17171E" : themeColor.danger600,
           }}
         >
-          <TopNav
+          <Header navigation={navigation} showBackButton={false}></Header>
+          {/* <TopNav
             leftContent={
               <Ionicons name="chevron-back" size={24} color="black" />
             }
@@ -56,7 +58,7 @@ export default function ({ navigation }) {
             middleContent="Submission Confirmation"
             backgroundColor={themeColor.white}
             borderColor={themeColor.black}
-          />
+          /> */}
           <View
             style={{
               flex: 1,
@@ -194,18 +196,6 @@ export default function ({ navigation }) {
               size="lg"
               onPress={() => {
                 navigation.navigate("HomePage");
-              }}
-            />
-            <Button
-              text={"Logout"}
-              color={themeColor.danger600}
-              size="lg"
-              onPress={() => {
-                firebase.auth().signOut();
-                navigation.navigate("Auth", { screen: "Login" });
-              }}
-              style={{
-                marginTop: 10,
               }}
             />
 
