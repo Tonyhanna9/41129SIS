@@ -1,4 +1,5 @@
 import { React, useEffect, useRef, useState, useContext } from "react";
+import { FontAwesome5, MaterialIcons, Ionicons, Feather } from '@expo/vector-icons';
 import {
   StyleSheet,
   View,
@@ -16,12 +17,12 @@ import {
   useTheme,
   Button as RapiButton,
 } from "react-native-rapi-ui";
-import { Ionicons } from "@expo/vector-icons";
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import { saveImageFB } from "./utils/FBStorage";
 import { getImageLabel } from "./utils/fireDetection";
 import { AuthContext } from "../provider/AuthProvider";
+import Header from "../screens/Header";
 
 export default function ({ navigation }) {
   const { isDarkmode, setTheme } = useTheme();
@@ -30,7 +31,9 @@ export default function ({ navigation }) {
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [photo, setPhoto] = useState();
   const [isPhotoSaved, setIsPhotoSaved] = useState(false);
-  const [isModalVisible, setisModalVisible] = useState(true);
+  const [isModalVisible, setisModalVisible] = useState(false);
+  const [isMenuVisible, setisMenuVisible] = useState(false);
+  const [isFire, setIsFire] = useState(true); // Assume worst-case scenario
   const auth = useContext(AuthContext);
 
   useEffect(() => {
@@ -61,14 +64,19 @@ export default function ({ navigation }) {
     };
 
     let newPhoto = await cameraRef.current.takePictureAsync(options);
-        result = await getImageLabel(newPhoto);
-        console.log('result ', result );
+    let result = await getImageLabel(newPhoto); // Return value is a string NOT an array
+    let resultAsArray = JSON.parse(result);
+    let prediction = resultAsArray["predicted_label"]; // Value is either 'fire_images' or 'non_fire_images'
+    console.log("Prediction: " + prediction);
+
+    setIsFire(prediction === "fire_images");
     setPhoto(newPhoto);
   };
 
   let savePhoto = () => {
     saveImageFB(photo.uri, auth.userID).then(() => {
       setIsPhotoSaved(true);
+      setisModalVisible(true);
     });
   };
 
@@ -100,7 +108,7 @@ export default function ({ navigation }) {
                   size="h2"
                   fontWeight="medium"
                 >
-                  FIRE DETECTED!
+                  {isFire ? "FIRE DETECTED!" : "No Fire Detected"}
                 </Text>
 
                 <Text
@@ -124,7 +132,7 @@ export default function ({ navigation }) {
                       setisModalVisible(false);
                     }}
                     text="Connect to 000"
-                    color="#ff4500"
+                    color= {themeColor.danger600}
                   />
                 </View>
 
@@ -157,10 +165,7 @@ export default function ({ navigation }) {
         </View>
       );
     } else if (!isPhotoSaved) {
-      {
-        savePhoto();
-      } // Photo is saved automatically. User interaction is no longer required,
-      // so we can remove the below buttons.
+      { savePhoto(); }
       return (
         <SafeAreaView
           style={isDarkmode ? styles.containerDark : styles.containerLight}
@@ -169,11 +174,6 @@ export default function ({ navigation }) {
             style={styles.preview}
             source={{ uri: "data:image/jpg;base64," + photo.base64 }}
           />
-          {hasMediaLibraryPermission ? (
-            <Button color="#FF4500" title="Send" onPress={savePhoto} />
-          ) : undefined}
-
-          <Button title="Retry" onPress={() => setPhoto(undefined)} />
         </SafeAreaView>
       );
     }
@@ -181,32 +181,7 @@ export default function ({ navigation }) {
 
   return (
     <Layout>
-      <TopNav
-        middleContent="Report Fire 🔥"
-        leftContent={
-          <Ionicons
-            name="chevron-back"
-            size={20}
-            color={isDarkmode ? themeColor.white100 : themeColor.dark}
-          />
-        }
-        leftAction={() => navigation.goBack()}
-        rightContent={
-          <Ionicons
-            name={isDarkmode ? "sunny" : "moon"}
-            size={20}
-            color={isDarkmode ? themeColor.white100 : themeColor.dark}
-          />
-        }
-        rightAction={() => {
-          if (isDarkmode) {
-            setTheme("light");
-          } else {
-            setTheme("dark");
-          }
-        }}
-      />
-
+      <Header navigation={navigation} title="Report Fire"></Header>
       <Camera style={styles.containerLight} ref={cameraRef}>
         <TouchableOpacity onPress={takePic}>
           <View style={styles.buttonContainer}>

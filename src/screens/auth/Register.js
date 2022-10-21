@@ -5,6 +5,7 @@ import {
   View,
   KeyboardAvoidingView,
   Image,
+  Alert,
 } from "react-native";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import {
@@ -31,8 +32,180 @@ export default function ({ navigation }) {
     emergency_phone: "",
   });
 
+  const [isValiduserInfo, setIsValidUserInfo] = useState({
+    full_name: Boolean,
+    phone: Boolean,
+    email: Boolean,
+    password: Boolean,
+    emergency_name: Boolean,
+    emergency_phone: Boolean,
+  });
   const handleInput = (name, value) => {
     setUserInfo({ ...userInfo, [name]: value });
+    handleValidation(name);
+  };
+
+  const handleValidation = (ref) => {
+    //Fullname check
+    if (ref == "full_name") {
+      let Nregex = /^[a-zA-Z]+ [a-zA-Z]+$/;
+      if (Nregex.test(userInfo.full_name)) {
+        setIsValidUserInfo({
+          full_name: true,
+          phone: true,
+          email: true,
+          password: true,
+          emergency_name: true,
+          emergency_phone: true,
+        });
+      } else {
+        setIsValidUserInfo({
+          full_name: false,
+          phone: true,
+          email: true,
+          password: true,
+          emergency_name: true,
+          emergency_phone: true,
+        });
+      }
+    }
+
+    //Phone check
+    if (ref == "phone") {
+      let Pregex = /04[\d]{8}/g;
+      if (Pregex.test(userInfo.phone)) {
+        setIsValidUserInfo({
+          full_name: true,
+          phone: true,
+          email: true,
+          password: true,
+          emergency_name: true,
+          emergency_phone: true,
+        });
+      } else {
+        setIsValidUserInfo({
+          full_name: true,
+          phone: false,
+          email: true,
+          password: true,
+          emergency_name: true,
+          emergency_phone: true,
+        });
+      }
+    }
+
+    //Email check
+    if (ref == "email") {
+      console.log("ooi");
+      let re = /\S+@\S+\.\S+/;
+      let regex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+
+      if (re.test(userInfo.email) || regex.test(userInfo.email)) {
+        setIsValidUserInfo({
+          full_name: true,
+          phone: true,
+          email: true,
+          password: true,
+          emergency_name: true,
+          emergency_phone: true,
+        });
+      } else {
+        setIsValidUserInfo({
+          full_name: true,
+          phone: true,
+          email: false,
+          password: true,
+          emergency_name: true,
+          emergency_phone: true,
+        });
+      }
+    }
+
+    //Password check
+    if (ref == "password") {
+      const isNonWhiteSpace = /^\S*$/;
+
+      const isContainsUppercase = /^(?=.*[A-Z]).*$/;
+
+      const isContainsLowercase = /^(?=.*[a-z]).*$/;
+
+      const isContainsNumber = /^(?=.*[0-9]).*$/;
+
+      const isValidLength = /^.{6,16}$/;
+      if (
+        isNonWhiteSpace.test(userInfo.password) &&
+        isContainsUppercase.test(userInfo.password) &&
+        isContainsLowercase.test(userInfo.password) &&
+        isContainsNumber.test(userInfo.password) &&
+        isValidLength.test(userInfo.password)
+      ) {
+        setIsValidUserInfo({
+          full_name: true,
+          phone: true,
+          email: true,
+          password: true,
+          emergency_name: true,
+          emergency_phone: true,
+        });
+      } else {
+        setIsValidUserInfo({
+          full_name: true,
+          phone: true,
+          email: true,
+          password: false,
+          emergency_name: true,
+          emergency_phone: true,
+        });
+      }
+    }
+
+    //Emergency name check
+    if (ref == "emergency_name") {
+      let Nregex = /^[a-zA-Z]+ [a-zA-Z]+$/;
+      if (Nregex.test(userInfo.emergency_name)) {
+        setIsValidUserInfo({
+          full_name: true,
+          phone: true,
+          email: true,
+          password: true,
+          emergency_name: true,
+          emergency_phone: true,
+        });
+      } else {
+        setIsValidUserInfo({
+          full_name: true,
+          phone: true,
+          email: true,
+          password: true,
+          emergency_name: false,
+          emergency_phone: true,
+        });
+      }
+    }
+
+    //Emergency phone check
+    if (ref == "emergency_phone") {
+      let Pregex = /04[\d]{8}/g;
+      if (Pregex.test(userInfo.emergency_phone)) {
+        setIsValidUserInfo({
+          full_name: true,
+          phone: true,
+          email: true,
+          password: true,
+          emergency_name: true,
+          emergency_phone: true,
+        });
+      } else {
+        setIsValidUserInfo({
+          full_name: true,
+          phone: true,
+          email: true,
+          password: true,
+          emergency_name: true,
+          emergency_phone: false,
+        });
+      }
+    }
   };
 
   async function register() {
@@ -59,13 +232,28 @@ export default function ({ navigation }) {
           .catch((error) => {
             console.log("error...", error.message);
             setLoading(false);
-            alert(error.message);
           });
       });
     } catch (error) {
       setLoading(false);
-      console.log("error...", error.message);
-      alert(error.message);
+      switch (error.code) {
+        case "auth/email-already-in-use":
+          Alert.alert(
+            "Registration Failed",
+            "An account already exists with provided email"
+          );
+          break;
+
+        case "auth/weak-password":
+          Alert.alert("Registration Failed", "Provided password is too weak");
+          break;
+
+        default:
+          Alert.alert(
+            "Registration Failed",
+            "Please double check the entered details are valid"
+          );
+      }
     }
   }
 
@@ -114,7 +302,7 @@ export default function ({ navigation }) {
             >
               Register
             </Text>
-            <Text>Full name</Text>
+            <Text>Full Name</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
               placeholder="Enter your full name"
@@ -125,6 +313,14 @@ export default function ({ navigation }) {
               value={userInfo.full_name}
               onChangeText={(value) => handleInput("full_name", value)}
             />
+            {isValiduserInfo.full_name ? (
+              <Text></Text>
+            ) : (
+              <Text status="danger" size="sm" style={{ marginTop: 10 }}>
+                {" "}
+                Please enter first name and last name.
+              </Text>
+            )}
 
             <Text style={{ marginTop: 15 }}>Phone</Text>
             <TextInput
@@ -136,7 +332,14 @@ export default function ({ navigation }) {
               value={userInfo.phone}
               onChangeText={(value) => handleInput("phone", value)}
             />
-
+            {isValiduserInfo.phone ? (
+              <Text></Text>
+            ) : (
+              <Text status="danger" size="sm" style={{ marginTop: 10 }}>
+                {" "}
+                Please enter a valid phone number starting with 04.
+              </Text>
+            )}
             <Text style={{ marginTop: 15 }}>Email</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
@@ -149,6 +352,14 @@ export default function ({ navigation }) {
               value={userInfo.email}
               onChangeText={(value) => handleInput("email", value)}
             />
+            {isValiduserInfo.email ? (
+              <Text status="danger" size="sm" style={{ marginTop: 10 }}></Text>
+            ) : (
+              <Text status="danger" size="sm" style={{ marginTop: 10 }}>
+                {" "}
+                Please enter a valid email.
+              </Text>
+            )}
 
             <Text style={{ marginTop: 15 }}>Password</Text>
             <TextInput
@@ -162,6 +373,15 @@ export default function ({ navigation }) {
               onChangeText={(value) => handleInput("password", value)}
             />
 
+            {isValiduserInfo.password ? (
+              <Text status="danger" size="sm" style={{ marginTop: 10 }}></Text>
+            ) : (
+              <Text status="danger" size="sm" style={{ marginTop: 10 }}>
+                Must have at least 6 Characters with 1 uppercase, lowercase and
+                a digit.
+              </Text>
+            )}
+
             <Text
               fontWeight="bold"
               size="h3"
@@ -170,7 +390,7 @@ export default function ({ navigation }) {
                 paddingTop: 30,
               }}
             >
-              Emergency contact
+              Emergency Contact
             </Text>
 
             <Text style={{ marginTop: 15 }}>Name</Text>
@@ -183,7 +403,14 @@ export default function ({ navigation }) {
               value={userInfo.emergency_name}
               onChangeText={(value) => handleInput("emergency_name", value)}
             />
-
+            {isValiduserInfo.emergency_name ? (
+              <Text></Text>
+            ) : (
+              <Text status="danger" size="sm" style={{ marginTop: 10 }}>
+                {" "}
+                Please enter first name and last time.
+              </Text>
+            )}
             <Text style={{ marginTop: 15 }}>Phone</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
@@ -194,18 +421,50 @@ export default function ({ navigation }) {
               value={userInfo.emergency_phone}
               onChangeText={(value) => handleInput("emergency_phone", value)}
             />
+            {isValiduserInfo.emergency_phone ? (
+              <Text status="danger" size="sm" style={{ marginTop: 10 }}></Text>
+            ) : (
+              <Text status="danger" size="sm" style={{ marginTop: 10 }}>
+                {" "}
+                Please enter a valid phone number staring with 04.
+              </Text>
+            )}
 
-            <Button
-              text={loading ? "Loading" : "Create an account"}
-              status="danger"
-              onPress={() => {
-                register();
-              }}
-              style={{
-                marginTop: 20,
-              }}
-              disabled={loading}
-            />
+            {isValiduserInfo.full_name &&
+            isValiduserInfo.phone == true &&
+            isValiduserInfo.email == true &&
+            isValiduserInfo.password == true &&
+            isValiduserInfo.emergency_name == true &&
+            isValiduserInfo.emergency_phone == true &&
+            !userInfo.full_name == "" &&
+            !userInfo.phone == "" &&
+            !userInfo.email == "" &&
+            !userInfo.password == "" &&
+            !userInfo.emergency_name == "" &&
+            !userInfo.emergency_phone == "" ? (
+              <Button
+                text={loading ? "Loading" : "Create an Account"}
+                status="danger"
+                onPress={() => {
+                  register();
+                }}
+                style={{
+                  marginTop: 20,
+                }}
+              />
+            ) : (
+              <Button
+                text={loading ? "Loading" : "Create an Account"}
+                status="danger"
+                disabled="true"
+                onPress={() => {
+                  register();
+                }}
+                style={{
+                  marginTop: 20,
+                }}
+              />
+            )}
 
             <View
               style={{
@@ -253,7 +512,7 @@ export default function ({ navigation }) {
                     marginLeft: 5,
                   }}
                 >
-                  {isDarkmode ? "☀️ light theme" : "🌑 dark theme"}
+                  {isDarkmode ? "☀️ Light Theme" : "🌑 Dark Theme"}
                 </Text>
               </TouchableOpacity>
             </View>
