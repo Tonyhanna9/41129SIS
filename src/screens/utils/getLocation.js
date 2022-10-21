@@ -10,20 +10,26 @@ export default function getLocation() {
       }
       console.log("status is", status);
       let { coords } = await Location.getCurrentPositionAsync();
-      console.log("coords is", coords);
+      // console.log("coords is", coords);
       if (coords) {
         let { longitude, latitude } = coords;
         let regionName = await Location.reverseGeocodeAsync({
           longitude,
           latitude,
         });
-        console.log("regionName is", regionName[0]);
-        if (regionName[0]) {
+        // console.log("regionName is", regionName[0]);
+        let data = {
+          longitude: longitude,
+          latitude: latitude,
+          ...regionName[0],
+        };
+        // console.log("data..........", data);
+        if (Object.keys(data).length > 0) {
           try {
             await db
               .collection("locations")
               .doc()
-              .set(regionName[0], { merge: true })
+              .set(data, { merge: true })
               .then(() => {})
               .catch((error) => {
                 console.log("error...", error.message);

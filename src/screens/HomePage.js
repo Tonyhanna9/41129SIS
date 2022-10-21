@@ -1,5 +1,10 @@
 import React, { useContext, useState } from "react";
-import { FontAwesome5, MaterialIcons, Ionicons, Feather } from '@expo/vector-icons';
+import {
+  FontAwesome5,
+  MaterialIcons,
+  Ionicons,
+  Feather,
+} from "@expo/vector-icons";
 import {
   ScrollView,
   StyleSheet,
@@ -21,6 +26,7 @@ import {
 } from "react-native-rapi-ui";
 import { AuthContext } from "../provider/AuthProvider";
 import Header from "../screens/Header";
+import { firebase } from "../config/firebase";
 
 export default function ({ navigation }) {
   const { isDarkmode, setTheme } = useTheme();
@@ -63,7 +69,7 @@ export default function ({ navigation }) {
               marginLeft: 25,
               marginRight: 25,
               marginBottom: 25,
-              marginTop: 25 
+              marginTop: 25,
             }}
           >
             <Text
@@ -73,7 +79,7 @@ export default function ({ navigation }) {
                 paddingLeft: 30,
                 paddingRight: 30,
                 paddingTop: 30,
-                paddingBottom: 20
+                paddingBottom: 20,
               }}
               size="h2"
             >
@@ -84,7 +90,7 @@ export default function ({ navigation }) {
                 alignSelf: "center",
               }}
             >
-              Click below to take a snapshot & 
+              Click below to take a snapshot &
             </Text>
             <Text
               style={{
@@ -98,7 +104,11 @@ export default function ({ navigation }) {
             <Button
               text={"REPORT NOW"}
               rightContent={
-                <MaterialIcons name="report" size={24} color={themeColor.white} />
+                <MaterialIcons
+                  name="report"
+                  size={24}
+                  color={themeColor.white}
+                />
               }
               color={themeColor.danger600}
               size="lg"
@@ -107,122 +117,167 @@ export default function ({ navigation }) {
               }}
             />
 
-            {auth.user === true && <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginTop: 25,
-                justifyContent: "center",
-              }}
-            >
-              <TouchableOpacity>
-                <Text
-                  fontWeight="bold"
-                  style={{
-                    marginLeft: 5,
-                    color: isDarkmode ? themeColor.white : themeColor.dark,
-                    fontSize: 20
-                  }}
-                  onPress={() => {
-                    navigation.navigate("FireMap");
-                  }}
-                >
-                  Fire Map <FontAwesome5 name="map" size={24} color={isDarkmode ? themeColor.white : themeColor.dark} />
-                </Text>
-              </TouchableOpacity>
-            </View>}
-
-            {auth.user !== true && <View
-              style={{
-                alignItems: "center",
-                marginTop: 30,
-                justifyContent: "center",
-              }}
-            >
-              <Text size="md"
-                style={{
-                  alignSelf: "center",
-                }}
-              >Create an account to send your details along</Text>
-              <Text size="md"
-                style={{
-                  alignSelf: "center",
-                }}
-              >with the report & see real-time updates</Text>
-              <Text size="md"
-                style={{
-                  alignSelf: "center",
-                }}
-              >on fires near you</Text>
-            </View>}
-
-            {auth.user !== true && <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginTop: 15,
-                justifyContent: "center",
-              }}
-            >
-              <TouchableOpacity
+            {/* {auth.user === true && (
+              <Button
+                text={"LOGOUT"}
+                rightContent={
+                  <MaterialIcons
+                    name="logout"
+                    size={24}
+                    color={themeColor.white}
+                  />
+                }
+                // status="danger"
+                color={themeColor.danger600}
+                size="lg"
                 onPress={() => {
-                  navigation.navigate('Auth', {screen: 'Register'});
+                  firebase.auth().signOut();
+                  navigation.navigate("Auth", { screen: "Login" });
+                }}
+                style={{
+                  marginTop: 10,
+                }}
+              />
+            )} */}
+
+            {auth.user === true && (
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginTop: 25,
+                  justifyContent: "center",
+                }}
+              >
+                <TouchableOpacity>
+                  <Text
+                    fontWeight="bold"
+                    style={{
+                      marginLeft: 5,
+                      color: isDarkmode ? themeColor.white : themeColor.dark,
+                      fontSize: 20,
+                    }}
+                    onPress={() => {
+                      navigation.navigate("FireMap");
+                    }}
+                  >
+                    Fire Map{" "}
+                    <FontAwesome5
+                      name="map"
+                      size={24}
+                      color={isDarkmode ? themeColor.white : themeColor.dark}
+                    />
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
+
+            {auth.user !== true && (
+              <View
+                style={{
+                  alignItems: "center",
+                  marginTop: 30,
+                  justifyContent: "center",
                 }}
               >
                 <Text
                   size="md"
-                  fontWeight="bold"
                   style={{
-                    marginLeft: 5,
-                    color: "#ff4500",
+                    alignSelf: "center",
                   }}
                 >
-                  <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate('Auth', {screen: 'Register'});
+                  Create an account to send your details along
+                </Text>
+                <Text
+                  size="md"
+                  style={{
+                    alignSelf: "center",
                   }}
+                >
+                  with the report & see real-time updates
+                </Text>
+                <Text
+                  size="md"
+                  style={{
+                    alignSelf: "center",
+                  }}
+                >
+                  on fires near you
+                </Text>
+              </View>
+            )}
+
+            {auth.user !== true && (
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginTop: 15,
+                  justifyContent: "center",
+                }}
+              >
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate("Auth", { screen: "Register" });
+                  }}
+                >
+                  <Text
+                    size="md"
+                    fontWeight="bold"
+                    style={{
+                      marginLeft: 5,
+                      color: "#ff4500",
+                    }}
                   >
-                    <Text
-                      size="md"
-                      fontWeight="bold"
-                      style={{
-                        marginLeft: 5,
-                        color: "#ff4500",
+                    <TouchableOpacity
+                      onPress={() => {
+                        navigation.navigate("Auth", { screen: "Register" });
                       }}
                     >
-                      Create an Account
-                    </Text>
-                  </TouchableOpacity>
-                </Text>
-              </TouchableOpacity>
-            </View>}
-            
-            {auth.user !== true && <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginTop: 15,
-                justifyContent: "center",
-              }}
-            >
-              <Text size="md">Already have an account?</Text>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('Auth', {screen: 'Login'});
+                      <Text
+                        size="md"
+                        fontWeight="bold"
+                        style={{
+                          marginLeft: 5,
+                          color: "#ff4500",
+                        }}
+                      >
+                        Create an Account
+                      </Text>
+                    </TouchableOpacity>
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
+
+            {auth.user !== true && (
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginTop: 15,
+                  justifyContent: "center",
                 }}
               >
-                <Text
-                  size="md"
-                  fontWeight="bold"
-                  style={{
-                    marginLeft: 5,
-                    color: "#ff4500",
+                <Text size="md">Already have an account?</Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate("Auth", { screen: "Login" });
                   }}
                 >
-                  Login
-                </Text>
-              </TouchableOpacity>
-            </View>}
+                  <Text
+                    size="md"
+                    fontWeight="bold"
+                    style={{
+                      marginLeft: 5,
+                      color: "#ff4500",
+                    }}
+                  >
+                    Login
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
           </View>
         </ScrollView>
       </Layout>
