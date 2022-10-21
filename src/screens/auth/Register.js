@@ -72,7 +72,7 @@ export default function ({ navigation }) {
 
     //Phone check
     if (ref == "phone") {
-      let Pregex = /04[\d]{8}/g;
+      let Pregex = /^04[0-9]{7}$/;
       if (Pregex.test(userInfo.phone)) {
         setIsValidUserInfo({
           full_name: true,
@@ -96,7 +96,6 @@ export default function ({ navigation }) {
 
     //Email check
     if (ref == "email") {
-      console.log("ooi");
       let re = /\S+@\S+\.\S+/;
       let regex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
 
@@ -185,7 +184,7 @@ export default function ({ navigation }) {
 
     //Emergency phone check
     if (ref == "emergency_phone") {
-      let Pregex = /04[\d]{8}/g;
+      let Pregex = /^04[0-9]{7}$/
       if (Pregex.test(userInfo.emergency_phone)) {
         setIsValidUserInfo({
           full_name: true,
