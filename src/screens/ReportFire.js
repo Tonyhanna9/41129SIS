@@ -66,10 +66,13 @@ export default function ({ navigation }) {
     let newPhoto = await cameraRef.current.takePictureAsync(options);
     let result = await getImageLabel(newPhoto); // Return value is a string NOT an array
     let resultAsArray = JSON.parse(result);
-    let prediction = resultAsArray["predicted_label"]; // Value is either 'fire_images' or 'non_fire_images'
-    console.log("Prediction: " + prediction);
-
-    setIsFire(prediction === "fire_images");
+    let probabilties = resultAsArray["probabilities"]; 
+    console.log(probabilties[0]);
+    if (probabilties[0] > 0.7) {  // If the probability of fire is greater than 70%
+      setIsFire(true);
+    } else {
+      setIsFire(false);
+    }
     setPhoto(newPhoto);
   };
 
