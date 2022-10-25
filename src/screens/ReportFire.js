@@ -1,5 +1,10 @@
 import { React, useEffect, useRef, useState, useContext } from "react";
-import { FontAwesome5, MaterialIcons, Ionicons, Feather } from '@expo/vector-icons';
+import {
+  FontAwesome5,
+  MaterialIcons,
+  Ionicons,
+  Feather,
+} from "@expo/vector-icons";
 import {
   StyleSheet,
   View,
@@ -102,26 +107,52 @@ export default function ({ navigation }) {
                   isDarkmode ? styles.modalViewDark : styles.modalViewLight
                 }
               >
-                <Text
-                  style={{
-                    alignSelf: "center",
-                    paddingBottom: 15,
-                    color: "#ff4500",
-                  }}
-                  size="h2"
-                  fontWeight="medium"
-                >
-                  {isFire ? "FIRE DETECTED!" : "No Fire Detected"}
-                </Text>
+                {isFire ? (
+                  <Text
+                    style={{
+                      alignSelf: "center",
+                      paddingBottom: 15,
+                      color: "#FF1414",
+                    }}
+                    size="h2"
+                    fontWeight="medium"
+                  >
+                    FIRE DETECTED!
+                  </Text>
+                ) : (
+                  <Text
+                    style={{
+                      alignSelf: "center",
+                      paddingBottom: 15,
+                      color: "#4BAD4F",
+                    }}
+                    size="h2"
+                    fontWeight="medium"
+                  >
+                    NO FIRE DETECTED!
+                  </Text>
+                )}
 
-                <Text
-                  size="md"
-                  style={
-                    isDarkmode ? styles.modelTextDark : styles.modelTextLight
-                  }
-                >
-                  Click below to connect with a 000 call operator.
-                </Text>
+                {isFire ? (
+                  <Text
+                    size="md"
+                    style={
+                      isDarkmode ? styles.modelTextDark : styles.modelTextLight
+                    }
+                  >
+                    Click below to connect with a 000 call operator.
+                  </Text>
+                ) : (
+                  <Text
+                    size="md"
+                    style={
+                      isDarkmode ? styles.modelTextDark : styles.modelTextLight
+                    }
+                  >
+                    You’re in no immediate danger. Click below to send a report
+                    to 000 call operator
+                  </Text>
+                )}
                 <View
                   style={{
                     paddingBottom: 9,
@@ -135,7 +166,7 @@ export default function ({ navigation }) {
                       setisModalVisible(false);
                     }}
                     text="Connect to 000"
-                    color= {themeColor.danger600}
+                    color={themeColor.danger600}
                   />
                 </View>
 
@@ -168,7 +199,9 @@ export default function ({ navigation }) {
         </View>
       );
     } else if (!isPhotoSaved) {
-      { savePhoto(); }
+      {
+        savePhoto();
+      }
       return (
         <SafeAreaView
           style={isDarkmode ? styles.containerDark : styles.containerLight}
@@ -268,10 +301,12 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     color: "white",
     opacity: 0.5,
+    textAlign: "center",
   },
   modelTextLight: {
     paddingBottom: 15,
     color: "#000000",
     opacity: 0.5,
+    textAlign: "center",
   },
 });
